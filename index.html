@@ -1,0 +1,1556 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Flashback 5 · Matemáticas ESO</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<script>
+  /* ⚠️ ÚNICO CAMBIO NECESARIO: pega aquí la URL de tu aplicación web de Apps Script (termina en /exec).
+     Mientras esté vacía, la web funciona en modo prueba: genera los ejercicios pero no guarda nada. */
+  window.SCRIPT_URL_FLASH = 'https://script.google.com/macros/s/AKfycbxKXpfNzqv_ClYxSqHB42DlvVUllxRJcQPxz3fhvyWmQy4f6va7PTzTsehMOfwR2ODG/exec';
+</script>
+<script>
+  window.MathJax = { tex: { inlineMath: [['\\(', '\\)']] }, startup: { typeset: false }, options: { enableMenu: false } };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-chtml.js" async></script>
+<style>
+  :root { --azul:#1a3a6e; --azul-med:#2358a8; --azul-cl:#e6eef8; --verde:#2a7d4f; --verde-cl:#e6f5ec; --rojo:#bf2626; --rojo-cl:#fdecea;
+    --ambar:#b7860b; --ambar-cl:#fef6e0; --gris:#5a6a7a; --linea:#dde3ec; --fondo:#f4f6f9; --texto:#1c2b3a; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; min-height: 100%; }
+  body { background: var(--fondo); color: var(--texto); font-family: 'Nunito', system-ui, sans-serif; font-size: 16px; }
+  header { background: var(--azul); color: #fff; display: flex; align-items: center; gap: 18px; padding: 10px 20px; flex-wrap: wrap;
+    padding-top: max(10px, env(safe-area-inset-top)); }
+  header h1 { font-weight: 900; font-size: 18px; margin: 0 auto 0 0; }
+  .toggle { display: flex; background: rgba(255,255,255,.12); border-radius: 999px; padding: 4px; }
+  .toggle button { font: 800 14px 'Nunito', sans-serif; border: 0; border-radius: 999px; padding: 7px 16px; cursor: pointer; background: transparent; color: #fff; }
+  .toggle button[aria-pressed="true"] { background: #fff; color: var(--azul); }
+  button:focus-visible, input:focus-visible, select:focus-visible, label:focus-within { outline: 3px solid #f0b400; outline-offset: 2px; }
+  .oculto { display: none !important; }
+  .vista { min-height: 80vh; }
+  .bienvenida { background: linear-gradient(145deg, var(--azul), var(--azul-med)); color: #fff; padding: 44px 24px 50px; text-align: center; }
+  .bienvenida .etq { color: #ffd166; font-weight: 800; font-size: 13px; letter-spacing: .04em; margin: 0 0 10px; }
+  .bienvenida h2 { font-size: clamp(34px, 6vw, 56px); font-weight: 900; margin: 0 0 12px; }
+  .bienvenida .lead { max-width: 660px; margin: 0 auto 24px; color: #d6e2f5; font-size: 17px; line-height: 1.6; }
+  button.grande { font: 900 18px 'Nunito', sans-serif; border: 0; border-radius: 12px; padding: 14px 30px; cursor: pointer; background: #ffd166; color: var(--azul); }
+  button.grande:hover { filter: brightness(1.05); }
+  button.btn { font: 800 15px 'Nunito', sans-serif; border: 0; border-radius: 10px; padding: 11px 20px; cursor: pointer; background: var(--azul-med); color: #fff; }
+  button.btn.sec { background: var(--azul-cl); color: var(--azul); }
+  button.btn:disabled { opacity: .55; cursor: default; }
+  .cont { max-width: 980px; margin: 0 auto; padding: 28px 18px 40px; }
+  .cont h3 { font-size: 23px; font-weight: 900; color: var(--azul); margin: 0 0 14px; }
+  .pasos { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; margin-bottom: 30px; }
+  .paso { background: #fff; border-radius: 16px; padding: 18px; box-shadow: 0 2px 10px rgba(26,58,110,.08); border-top: 5px solid; }
+  .paso h4 { margin: 0 0 6px; font-size: 18px; font-weight: 900; }
+  .paso p { margin: 0; color: var(--gris); line-height: 1.5; font-size: 15px; }
+  .n1 { border-color: var(--azul-med); } .n1 h4 { color: var(--azul-med); }
+  .n2 { border-color: var(--ambar); } .n2 h4 { color: var(--ambar); }
+  .n3 { border-color: var(--verde); } .n3 h4 { color: var(--verde); }
+  details.curso { background: #fff; border-radius: 14px; padding: 12px 18px; margin-bottom: 10px; box-shadow: 0 1px 6px rgba(26,58,110,.06); }
+  details.curso summary { font-weight: 900; color: var(--azul); cursor: pointer; font-size: 17px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0 4px; }
+  .chips span { font-size: 13px; font-weight: 700; border-radius: 99px; padding: 3px 11px; background: var(--azul-cl); color: var(--azul); }
+  .pie { text-align: center; color: #8a97a6; font-size: 13px; padding: 20px 10px 34px; }
+  .tarjeta { background: #fff; border-radius: 16px; padding: 22px; box-shadow: 0 2px 10px rgba(26,58,110,.08); }
+  .form { max-width: 460px; margin: 30px auto; }
+  .form h3 { margin-bottom: 6px; }
+  .form p.ayuda { color: var(--gris); margin: 0 0 16px; line-height: 1.5; }
+  .campo { margin-bottom: 14px; }
+  .campo label { display: block; font-weight: 800; font-size: 14px; color: var(--azul); margin-bottom: 5px; }
+  .campo input, .campo select { width: 100%; font: 600 16px 'Nunito', sans-serif; border: 2px solid var(--linea); border-radius: 10px; padding: 10px 12px; background: #fff; color: var(--texto); }
+  label.check { display: flex; gap: 8px; align-items: center; font-size: 14.5px; color: var(--gris); margin: 2px 0 14px; cursor: pointer; }
+  label.check input { accent-color: var(--azul-med); width: 17px; height: 17px; }
+  p.enlace { text-align: center; margin: 14px 0 0; font-size: 14.5px; color: var(--gris); }
+  p.enlace a { color: var(--azul-med); font-weight: 800; }
+  button.mini { font: 800 13px 'Nunito', sans-serif; border: 0; border-radius: 8px; padding: 6px 11px; cursor: pointer; background: var(--azul-cl); color: var(--azul); white-space: nowrap; }
+  .aviso { border-radius: 10px; padding: 10px 14px; background: var(--azul-cl); color: var(--azul); font-weight: 700; font-size: 14px; margin-top: 12px; line-height: 1.45; }
+  .aviso.error { background: var(--rojo-cl); color: var(--rojo); }
+  .aviso.ok { background: var(--verde-cl); color: var(--verde); }
+  .aviso.ambar { background: var(--ambar-cl); color: #7a5a06; }
+  .barraSesion { position: sticky; top: 0; z-index: 5; background: var(--fondo); padding: 12px 0 10px; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+  .barraSesion .hola { font-weight: 900; font-size: 19px; color: var(--azul); margin-right: auto; }
+  .reloj { font: 900 24px 'Nunito', sans-serif; color: var(--azul); background: #fff; border-radius: 12px; padding: 6px 16px; box-shadow: 0 1px 6px rgba(26,58,110,.1); min-width: 98px; text-align: center; }
+  .reloj.poco { color: #fff; background: var(--ambar); } .reloj.fin { color: #fff; background: var(--rojo); }
+  .progreso { width: 100%; height: 6px; border-radius: 99px; background: var(--linea); overflow: hidden; }
+  .progreso div { height: 100%; background: var(--azul-med); transition: width 1s linear; }
+  .ej { background: #fff; border-radius: 16px; padding: 20px 22px; margin-bottom: 16px; box-shadow: 0 2px 10px rgba(26,58,110,.08); border-left: 6px solid; }
+  .ej.n1 { border-color: var(--azul-med); } .ej.n2 { border-color: var(--ambar); } .ej.n3 { border-color: var(--verde); }
+  .ej .cab { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 10px; }
+  .badge { font-size: 13px; font-weight: 900; border-radius: 99px; padding: 3px 12px; color: #fff; }
+  .n1 .badge { background: var(--azul-med); } .n2 .badge { background: var(--ambar); } .n3 .badge { background: var(--verde); }
+  .ej .tema { font-size: 13.5px; font-weight: 700; color: var(--gris); }
+  .ej .enun { font-size: 18px; line-height: 1.6; margin: 4px 0 14px; }
+  .ej input.resp { font: 700 18px 'Nunito', sans-serif; border: 2px solid var(--linea); border-radius: 10px; padding: 10px 12px; width: min(100%, 260px); }
+  .ej .formato { display: block; font-size: 13px; color: var(--gris); margin-top: 6px; }
+  .opciones { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 8px; }
+  .opciones label { display: flex; align-items: center; gap: 10px; border: 2px solid var(--linea); border-radius: 10px; padding: 10px 12px; cursor: pointer; font-size: 17px; }
+  .opciones label:has(input:checked) { border-color: var(--azul-med); background: var(--azul-cl); }
+  .opciones.largo { grid-template-columns: 1fr; }
+  ol.pasosEj { margin: 10px 0 12px; padding-left: 26px; } ol.pasosEj li { margin: 4px 0; padding-left: 4px; }
+  .ej .sub { font-size: 12.5px; color: var(--gris); font-weight: 700; }
+  .formatos { display: flex; gap: 10px; flex-wrap: wrap; }
+  .formatos label { display: flex; gap: 8px; align-items: center; border: 2px solid var(--linea); border-radius: 10px; padding: 8px 12px; cursor: pointer; font-weight: 700; color: var(--texto); font-size: 14.5px; }
+  .formatos label:has(input:checked) { border-color: var(--azul-med); background: var(--azul-cl); }
+  .formatos label small { color: var(--gris); font-weight: 600; }
+  .formatos input { accent-color: var(--azul-med); }
+  .arbol { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; margin: 6px 0 4px; }
+  .temaP { background: var(--fondo); border-radius: 12px; padding: 10px 12px; }
+  .temaP > label { font-weight: 900; color: var(--azul); }
+  .temaP label { display: flex; gap: 8px; align-items: flex-start; padding: 3px 0; cursor: pointer; font-size: 14.5px; line-height: 1.35; }
+  .temaP .bls { padding-left: 24px; }
+  .temaP input { accent-color: var(--azul-med); margin-top: 2px; width: 16px; height: 16px; flex: none; }
+  details.repaso { margin-top: 12px; } details.repaso summary { font-weight: 900; color: var(--azul-med); cursor: pointer; padding: 6px 0; }
+  .opciones input { accent-color: var(--azul-med); width: 18px; height: 18px; flex: none; }
+  .ej.bien { background: var(--verde-cl); } .ej.mal { background: #fff; }
+  .veredicto { font-weight: 900; font-size: 16px; margin: 4px 0 8px; }
+  .bien .veredicto { color: var(--verde); } .mal .veredicto { color: var(--rojo); }
+  .solucion { background: var(--fondo); border-radius: 10px; padding: 10px 14px; margin-top: 10px; line-height: 1.7; font-size: 16px; }
+  .solucion b { color: var(--azul); }
+  .acciones { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 8px; }
+  .resumen { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; margin-bottom: 18px; }
+  .resumen .gran { font: 900 46px 'Nunito', sans-serif; color: var(--azul); line-height: 1; }
+  .resumen p { margin: 0; color: var(--gris); font-size: 16px; line-height: 1.5; max-width: 560px; }
+  .resumen p b { color: var(--texto); }
+  /* Profesora */
+  .tabs { display: flex; gap: 8px; margin: 6px 0 18px; flex-wrap: wrap; }
+  .tabs button { font: 800 15px 'Nunito', sans-serif; border: 2px solid var(--azul-med); background: #fff; color: var(--azul-med); border-radius: 99px; padding: 7px 18px; cursor: pointer; }
+  .tabs button[aria-pressed="true"] { background: var(--azul-med); color: #fff; }
+  .fila { display: flex; gap: 12px; align-items: end; flex-wrap: wrap; margin-bottom: 14px; }
+  .fila .campo { margin: 0; min-width: 200px; }
+  .cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 14px; }
+  .col { background: #fff; border-radius: 14px; padding: 16px; border-top: 5px solid; box-shadow: 0 1px 6px rgba(26,58,110,.06); }
+  .col h4 { margin: 0 0 4px; font-size: 17px; font-weight: 900; }
+  .col p.nota { margin: 0 0 10px; font-size: 13px; color: var(--gris); }
+  .col .sub { font-size: 12.5px; font-weight: 900; color: var(--gris); text-transform: uppercase; letter-spacing: .04em; margin: 10px 0 4px; }
+  .col label { display: flex; gap: 8px; align-items: flex-start; font-size: 14.5px; padding: 4px 0; cursor: pointer; line-height: 1.35; }
+  .col input { accent-color: var(--azul-med); margin-top: 2px; }
+  select.selTema { width: 100%; font: 700 15px 'Nunito', sans-serif; border: 2px solid var(--linea); border-radius: 10px; padding: 9px 10px; background: #fff; color: var(--texto); }
+  input[type=date] { font: 700 16px 'Nunito', sans-serif; border: 2px solid var(--linea); border-radius: 10px; padding: 8px 10px; }
+  tr.pasado td { color: var(--gris); } tr.hoy td { background: var(--ambar-cl); }
+  .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-bottom: 18px; }
+  .kpi { background: #fff; border-radius: 14px; padding: 14px 16px; box-shadow: 0 1px 6px rgba(26,58,110,.06); }
+  .kpi .v { font: 900 28px 'Nunito', sans-serif; color: var(--azul); }
+  .kpi .l { font-size: 13px; color: var(--gris); font-weight: 700; }
+  table.datos { width: 100%; border-collapse: collapse; background: #fff; border-radius: 14px; overflow: hidden; box-shadow: 0 1px 6px rgba(26,58,110,.06); margin-bottom: 22px; font-size: 14.5px; }
+  table.datos th { background: var(--azul); color: #fff; text-align: left; padding: 9px 12px; font-weight: 800; }
+  table.datos td { padding: 8px 12px; border-top: 1px solid var(--linea); vertical-align: middle; }
+  td.num { text-align: right; white-space: nowrap; }
+  .barra { display: flex; align-items: center; gap: 8px; min-width: 150px; }
+  .barra .b { flex: 1; height: 10px; background: var(--linea); border-radius: 99px; overflow: hidden; }
+  .barra .b div { height: 100%; border-radius: 99px; }
+  .barra span { font-weight: 800; width: 44px; text-align: right; }
+  .pill { font-size: 12px; font-weight: 800; border-radius: 99px; padding: 2px 9px; white-space: nowrap; }
+  .pill.n1 { background: var(--azul-cl); color: var(--azul-med); } .pill.n2 { background: var(--ambar-cl); color: #7a5a06; } .pill.n3 { background: var(--verde-cl); color: var(--verde); }
+  h4.titulo { font-size: 18px; font-weight: 900; color: var(--azul); margin: 6px 0 10px; }
+  .mapa { overflow-x: auto; margin-bottom: 22px; background: #fff; border-radius: 14px; box-shadow: 0 1px 6px rgba(26,58,110,.06); }
+  .mapa table { border-collapse: collapse; font-size: 13.5px; }
+  .mapa th, .mapa td { border-bottom: 1px solid var(--linea); padding: 6px 8px; text-align: center; white-space: nowrap; }
+  .mapa th.v { writing-mode: vertical-rl; transform: rotate(180deg); text-align: left; vertical-align: bottom; font-weight: 800; color: var(--azul); max-height: 190px; padding: 10px 4px; font-size: 12.5px; white-space: normal; line-height: 1.2; }
+  .mapa th.v small { color: var(--gris); font-weight: 700; }
+  .mapa .nom { position: sticky; left: 0; background: #fff; text-align: left; font-weight: 700; z-index: 1; border-right: 1px solid var(--linea); }
+  .mapa .nom a { color: var(--azul-med); text-decoration: none; } .mapa .nom a:hover { text-decoration: underline; }
+  .mapa td.c { font-weight: 800; min-width: 44px; }
+  .c.r { background: var(--rojo-cl); color: var(--rojo); } .c.a { background: var(--ambar-cl); color: #7a5a06; } .c.g { background: var(--verde-cl); color: var(--verde); } .c.x { color: #c3ccd8; }
+  .leyenda { display: flex; gap: 14px; flex-wrap: wrap; font-size: 13px; color: var(--gris); margin: -4px 0 10px; }
+  .leyenda span b { display: inline-block; width: 14px; height: 14px; border-radius: 4px; vertical-align: -2px; margin-right: 5px; }
+  .evo { display: inline-flex; gap: 3px; flex-wrap: wrap; } .evo i { width: 13px; height: 13px; border-radius: 3px; display: inline-block; }
+  .evo i.s { background: var(--verde); } .evo i.n { background: var(--rojo); }
+  .estado { font-size: 12.5px; font-weight: 900; border-radius: 99px; padding: 3px 10px; white-space: nowrap; }
+  .estado.lag { background: var(--rojo-cl); color: var(--rojo); } .estado.pro { background: var(--ambar-cl); color: #7a5a06; } .estado.dom { background: var(--verde-cl); color: var(--verde); } .estado.poc { background: var(--fondo); color: var(--gris); }
+  .lagunas { background: var(--rojo-cl); border-radius: 12px; padding: 12px 16px; margin: 0 0 18px; color: var(--rojo); }
+  .lagunas.no { background: var(--verde-cl); color: var(--verde); }
+  .lagunas b { display: block; margin-bottom: 4px; } .lagunas ul { margin: 4px 0 0; padding-left: 20px; color: var(--texto); }
+  @media print {
+    body { background: #fff; } * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    body * { visibility: hidden; } #informe, #informe * { visibility: visible; }
+    #informe { position: absolute; left: 0; top: 0; width: 100%; } .noimp { display: none !important; }
+  }
+  @media (max-width: 560px) { header h1 { width: 100%; } .toggle button { padding: 7px 12px; } .ej .enun { font-size: 17px; } table.datos { font-size: 13px; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>Flashback 5 · Matemáticas ESO</h1>
+  <div class="toggle" role="group" aria-label="Cambiar de sección">
+    <button id="bInicio" aria-pressed="true">Inicio</button>
+    <button id="bAlumna" aria-pressed="false">Mi Flashback</button>
+    <button id="bProfe" aria-pressed="false">Profesora</button>
+  </div>
+</header>
+
+<!-- ===================== INICIO ===================== -->
+<main id="vInicio" class="vista">
+  <section class="bienvenida">
+    <p class="etq">LAS CHAPAS ECOS · DEPARTAMENTO DE MATEMÁTICAS</p>
+    <h2>Flashback 5</h2>
+    <p class="lead">Cinco minutos al empezar la clase para no olvidar lo que ya sabes: tres ejercicios de los temas que elige tu profesora, uno de teoría y dos de aplicación. No cuenta para la nota: sirve para entrenar la memoria.</p>
+    <button class="grande" id="irFlash">Empezar mi Flashback →</button>
+  </section>
+  <section class="cont">
+    <h3>Cómo funciona</h3>
+    <div class="pasos">
+      <div class="paso n1"><h4>1 · Teoría</h4><p>Encontrar el error en una resolución o elegir la afirmación verdadera o la falsa.</p></div>
+      <div class="paso n2"><h4>2 · Sin calculadora</h4><p>Un cálculo exacto a mano: fracciones, potencias, radicales, ecuaciones…</p></div>
+      <div class="paso n3"><h4>3 · Con calculadora</h4><p>Un problema con números menos redondos o en un contexto real.</p></div>
+    </div>
+    <p style="color:var(--gris);line-height:1.6;margin:-12px 0 28px">Cada día hay un formato de 5 a 7 minutos: unos días <b>teoría y cálculo sin calculadora</b> y otros <b>un problema con calculadora</b>. Al terminar verás las soluciones y las corregimos juntas en voz alta. Los números cambian cada vez, así que cada Flashback es distinto.</p>
+    <h3>Contenidos de cada curso</h3>
+    <div id="indiceCursos"></div>
+  </section>
+  <footer class="pie">Las Chapas ECOS · Departamento de Matemáticas · Criterio E del PAI</footer>
+</main>
+
+<!-- ===================== ALUMNA ===================== -->
+<main id="vAlumna" class="vista oculto">
+  <section class="cont">
+    <form id="formAcceso" class="tarjeta form" autocomplete="on">
+      <h3>Entra en tu Flashback</h3>
+      <p class="ayuda">Escribe tu nombre y tu contraseña. Si es la primera vez, crea antes tu cuenta.</p>
+      <div class="campo"><label for="aApellidos">Apellidos</label><input id="aApellidos" required maxlength="60" autocomplete="family-name"></div>
+      <div class="campo"><label for="aNombre">Nombre</label><input id="aNombre" required maxlength="40" autocomplete="given-name"></div>
+      <div class="campo"><label for="aClave">Contraseña</label><input id="aClave" type="password" required maxlength="40" autocomplete="current-password" autocapitalize="off" autocorrect="off" spellcheck="false"></div>
+      <label class="check"><input type="checkbox" id="aRecordar"> Recordarme en este dispositivo (solo si es tuyo)</label>
+      <button class="btn" type="submit" style="width:100%">Entrar</button>
+      <p class="enlace">¿Es tu primera vez? <a href="#" id="irRegistro">Crea tu cuenta</a></p>
+      <div id="msgAcceso"></div>
+    </form>
+
+    <form id="formRegistro" class="tarjeta form oculto" autocomplete="on">
+      <h3>Crea tu cuenta</h3>
+      <p class="ayuda">Escribe tu nombre como aparece en la lista de clase y elige una contraseña que puedas recordar. Solo tienes que hacerlo una vez. Tu profesora podrá ver tu contraseña: no uses la de otras cuentas.</p>
+      <div class="campo"><label for="rNombre">Nombre</label><input id="rNombre" required maxlength="40" autocomplete="given-name"></div>
+      <div class="campo"><label for="rApellidos">Apellidos</label><input id="rApellidos" required maxlength="60" autocomplete="family-name"></div>
+      <div class="campo"><label for="rGrupo">Grupo</label><select id="rGrupo" required></select></div>
+      <div class="campo"><label for="rClave">Contraseña (mínimo 4 caracteres)</label><input id="rClave" type="password" required minlength="4" maxlength="40" autocomplete="new-password" autocapitalize="off" autocorrect="off" spellcheck="false"></div>
+      <div class="campo"><label for="rClave2">Repite la contraseña</label><input id="rClave2" type="password" required minlength="4" maxlength="40" autocomplete="new-password" autocapitalize="off" autocorrect="off" spellcheck="false"></div>
+      <div class="campo oculto" id="campoCodigo"><label for="rCodigo">Código de clase (te lo da tu profesora)</label><input id="rCodigo" maxlength="30" autocomplete="off"></div>
+      <button class="btn" type="submit" style="width:100%">Crear mi cuenta y entrar</button>
+      <p class="enlace"><a href="#" id="volverLogin">← Ya tengo cuenta</a></p>
+      <div id="msgRegistro"></div>
+    </form>
+
+    <form id="formPrueba" class="tarjeta form oculto">
+      <h3>Modo prueba</h3>
+      <p class="ayuda">La web todavía no está conectada a Google Sheets, así que no hay cuentas. Elige un curso para probar los ejercicios.</p>
+      <div class="campo"><label for="aGrupo">Grupo</label><select id="aGrupo" required></select></div>
+      <button class="btn" type="submit" style="width:100%">Probar el Flashback</button>
+    </form>
+
+    <div id="portada" class="tarjeta form oculto" style="text-align:center">
+      <h3 id="portadaHola"></h3>
+      <p class="ayuda" id="portadaGrupo"></p>
+      <button class="btn" id="btnEmpezar" style="width:100%">Empezar el Flashback</button>
+      <p class="enlace"><a href="#" id="btnSalir">Cerrar sesión</a></p>
+      <div id="msgPortada"></div>
+    </div>
+
+    <div id="sesion" class="oculto">
+      <div class="barraSesion">
+        <span class="hola" id="hola"></span>
+        <span class="reloj" id="reloj" aria-live="off">5:00</span>
+        <div class="progreso" aria-hidden="true"><div id="progreso" style="width:100%"></div></div>
+      </div>
+      <div id="ejercicios"></div>
+      <div class="acciones"><button class="btn" id="btnEntregar">Entregar y ver soluciones</button></div>
+    </div>
+
+    <div id="resultado" class="oculto">
+      <div class="resumen tarjeta">
+        <div class="gran" id="resNota"></div>
+        <p id="resTexto"></p>
+      </div>
+      <div id="resEjercicios" style="margin-top:16px"></div>
+      <div id="msgEnvio"></div>
+      <div class="acciones" style="margin-top:16px">
+        <button class="btn" id="btnOtro">Hacer otro Flashback para practicar</button>
+        <button class="btn sec" id="btnCambiar">Cerrar sesión</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ===================== PROFESORA ===================== -->
+<main id="vProfe" class="vista oculto">
+  <section class="cont">
+    <form id="formProfe" class="tarjeta form">
+      <h3>Panel de la profesora</h3>
+      <p class="ayuda">Entra con tu contraseña de profesora. Verás solo tus grupos: podrás preparar su Flashback y consultar qué contenidos se olvidan más.</p>
+      <div class="campo"><label for="pClave">Contraseña</label><input id="pClave" type="password" required autocomplete="current-password" autocapitalize="off" autocorrect="off" spellcheck="false"></div>
+      <button class="btn" type="submit" style="width:100%">Entrar</button>
+      <div id="msgProfe"></div>
+    </form>
+
+    <div id="panelProfe" class="oculto">
+      <p style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:0 0 10px"><b id="profNombre" style="color:var(--azul);font-size:19px;font-weight:900"></b><a href="#" id="profSalir" style="color:var(--azul-med);font-weight:800;font-size:14.5px">Cerrar sesión</a></p>
+      <div class="fila">
+        <div class="campo"><label for="pGrupo">Grupo</label><select id="pGrupo"></select></div>
+        <div class="tabs" role="group" aria-label="Secciones del panel">
+          <button id="tPrep" aria-pressed="true">Preparar el Flashback</button>
+          <button id="tRes" aria-pressed="false">Resultados</button>
+          <button id="tAlu" aria-pressed="false">Alumnas</button>
+        </div>
+      </div>
+
+      <div id="secPrep">
+        <p style="color:var(--gris);margin:0 0 14px;line-height:1.55">Elige el día, el formato y los bloques que pueden salir. Cada alumna recibe ejercicios al azar de esos bloques, con números distintos a los de sus compañeras. Lo recomendado es alternar: un día «Cálculo» (teoría y sin calculadora) y otro «Calculadora».</p>
+        <div class="tarjeta">
+          <div class="fila"><div class="campo"><label for="plFecha">Día</label><input type="date" id="plFecha"></div><span id="plEstado" style="font-weight:800;color:var(--gris);padding-bottom:10px"></span></div>
+          <div class="campo" style="margin:0 0 12px"><label>Formato del día</label><div id="plFormato" class="formatos"></div></div>
+          <div id="arbol"></div>
+          <p id="plCuenta" style="font-weight:800;color:var(--azul);margin:12px 0 0"></p>
+          <div class="acciones" style="margin-top:10px"><button class="btn" id="btnGuardar">Guardar el Flashback de este día</button><button class="btn sec" id="btnEjemplo">Ver ejercicios de ejemplo</button><button class="btn sec" id="btnLimpiar">Desmarcar todo</button><button class="btn sec oculto" id="btnBorrar">Borrar este día</button></div>
+          <div id="msgGuardar"></div>
+        </div>
+        <div id="ejemplo" style="margin-top:16px"></div>
+        <h4 class="titulo" style="margin-top:22px">Flashbacks programados</h4>
+        <div id="listaPlanes"></div>
+      </div>
+
+      <div id="secAlu" class="oculto">
+        <p style="color:var(--gris);margin:0 0 14px;line-height:1.55">Cuentas creadas en este grupo, con su contraseña. Si una alumna la olvida, díselo o ponle otra con «Cambiar». También puedes cambiarla directamente en la columna «Contraseña» de la pestaña Alumnas de la hoja.</p>
+        <div id="listaAlumnas"></div>
+      </div>
+
+      <div id="secRes" class="oculto">
+        <div class="fila">
+          <div class="campo"><label for="pDias">Periodo</label>
+            <select id="pDias"><option value="0" selected>Todo el curso</option><option value="30">Últimos 30 días</option><option value="7">Últimos 7 días</option><option value="1">Hoy</option></select></div>
+          <button class="btn sec" id="btnRefrescar">Actualizar</button>
+        </div>
+        <div id="resultadosProfe"></div>
+        <div id="informe" class="oculto"></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script>
+/* ============================================================
+   BANCO DE EJERCICIOS DEL FLASHBACK 5
+   Cada tema tiene un generador que devuelve un ejercicio nuevo
+   (números aleatorios) con su respuesta y su solución.
+   Para añadir un tema: añade una entrada en TEMAS con su generador.
+   ============================================================ */
+const ri = (a, b) => Math.floor(Math.random() * (b - a + 1)) + a;
+const riNZ = (a, b) => { let x = 0; while (x === 0) x = ri(a, b); return x; };
+const pick = a => a[ri(0, a.length - 1)];
+const gcd = (a, b) => { a = Math.abs(a); b = Math.abs(b); while (b) { [a, b] = [b, a % b]; } return a; };
+const lcm = (a, b) => Math.abs(a * b) / gcd(a, b);
+const fr = (n, d) => { if (d < 0) { n = -n; d = -d; } const g = gcd(n, d) || 1; return [n / g, d / g]; };
+const texFr = ([n, d]) => d === 1 ? `${n}` : (n < 0 ? `-\\frac{${-n}}{${d}}` : `\\frac{${n}}{${d}}`);
+const ft = x => String(+(+x).toFixed(4)).replace('.', '{,}');          // número en TeX con coma decimal
+const P = n => n < 0 ? `(${n})` : `${n}`;                                // paréntesis si es negativo
+const sg = n => n < 0 ? `- ${-n}` : `+ ${n}`;                             // " + 3" / " - 3"
+const shuffle = a => { for (let i = a.length - 1; i > 0; i--) { const j = ri(0, i); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const fact = n => n <= 1 ? 1 : n * fact(n - 1);
+function poly(cs, v = 'x') {
+  const n = cs.length - 1; let s = '';
+  cs.forEach((c, i) => {
+    if (c === 0) return;
+    const e = n - i, abs = Math.abs(c);
+    let t = (abs === 1 && e > 0) ? '' : String(abs);
+    if (e > 0) t += v + (e > 1 ? `^{${e}}` : '');
+    s += s === '' ? (c < 0 ? '-' : '') + t : (c < 0 ? ' - ' : ' + ') + t;
+  });
+  return s || '0';
+}
+function lin2(a, b) { return poly([a, 0]) + (b < 0 ? ' - ' : ' + ') + (Math.abs(b) === 1 ? '' : Math.abs(b)) + 'y'; }
+const xMenos = r => r === 0 ? 'x' : (r > 0 ? `(x - ${r})` : `(x + ${-r})`);
+function factorTex(n) {
+  const f = []; let m = n;
+  for (let p = 2; p * p <= m; p++) { let e = 0; while (m % p === 0) { m /= p; e++; } if (e) f.push(e > 1 ? `${p}^{${e}}` : `${p}`); }
+  if (m > 1) f.push(`${m}`);
+  return f.join(' \\cdot ');
+}
+const num = (v, tex, formato = 'entero', tol = 1e-6) => ({ tipo: 'num', resp: v, respTex: tex, formato, tol });
+const fracR = f => num(f[0] / f[1], texFr(f), f[1] === 1 ? 'entero' : 'fraccion');
+function opc(correcta, distractores) {
+  const set = [correcta];
+  for (const d of distractores) { if (set.length >= 4) break; if (!set.includes(d)) set.push(d); }
+  const ord = shuffle(set.slice());
+  return { tipo: 'opc', opciones: ord, correcta: ord.indexOf(correcta), respTex: correcta };
+}
+const M = s => `\\(${s}\\)`;
+const cx = n => n === 1 ? '' : n === -1 ? '-' : `${n}`;                // coeficiente sin 1
+const fi = (nmax, dmin, dmax) => { let n, d; do { d = ri(dmin, dmax); n = ri(1, nmax); } while (gcd(n, d) !== 1 || n === d); return [n, d]; };
+const pw = (b, e) => e === 1 ? `${b}` : `${b}^{${e}}`;
+
+const G = {};
+
+/* ---------- 6.º Primaria (repaso para 1.º ESO) · nivel alto ---------- */
+G.p6_dec = () => { const a = ri(12, 99) / 10, b = pick([0.5, 1.5, 2.5, 0.4, 1.2]), e = pick([0.2, 0.4, 0.5, 0.6, 0.8]), q = ri(2, 15), d = +(e * q).toFixed(2), pr = +(a * b).toFixed(3), r = +(pr - q).toFixed(3);
+  return { enun: `Calcula ${M(`${ft(a)} \\cdot ${ft(b)} - ${ft(d)} : ${ft(e)}`)}.`, sol: `Primero el producto y la división: ${M(`${ft(a)} \\cdot ${ft(b)} = ${ft(pr)}`)} y ${M(`${ft(d)} : ${ft(e)} = ${q}`)}. Después la resta: ${M(`${ft(pr)} - ${q} = ${ft(r)}`)}.`, ...num(r, ft(r), 'decimal', 1e-6) }; };
+G.p6_frac = () => { const d1 = pick([3, 4, 5, 6]), d2 = pick([2, 3, 4, 5]), n1 = ri(1, d1 - 1), n2 = ri(1, d2 - 1), N = d1 * d2 * ri(2, 8), g1 = N * n1 / d1, q1 = N - g1, g2 = q1 * n2 / d2, r = q1 - g2;
+  return { enun: `Un depósito tiene ${N} litros. El lunes se gastan ${M(`\\frac{${n1}}{${d1}}`)} del depósito y el martes ${M(`\\frac{${n2}}{${d2}}`)} de lo que quedaba. ¿Cuántos litros quedan?`,
+    sol: `Lunes: ${M(`\\frac{${n1}}{${d1}} \\cdot ${N} = ${g1}`)} L, quedan ${q1} L. Martes: ${M(`\\frac{${n2}}{${d2}} \\cdot ${q1} = ${g2}`)} L. Quedan ${M(`${q1} - ${g2} = ${r}`)} litros.`, ...num(r, `${r}`) }; };
+G.p6_porc = () => { const p = pick([10, 20, 25, 40, 15]), k = { 10: 10, 20: 5, 25: 4, 40: 5, 15: 20 }[p], Pz = k * ri(3, 30), X = Pz * (100 - p) / 100;
+  return { enun: `Con un descuento del ${p} %, un artículo cuesta ${ft(X).replace('{,}', ',')} €. ¿Cuánto costaba antes del descuento?`,
+    sol: `Pagamos el ${100 - p} % del precio: ${M(`P = ${ft(X)} : ${ft((100 - p) / 100)} = ${Pz}`)} €.`, ...num(Pz, `${Pz}`) }; };
+
+/* ---------- 1.º ESO · nivel alto ---------- */
+G.c1_div = () => { const g = ri(2, 9); let x = ri(2, 7), y = ri(2, 7); while (x === y || gcd(x, y) !== 1) { x = ri(2, 7); y = ri(2, 7); } const a = g * x, b = g * y;
+  if (ri(0, 1)) { const m = g * x * y;
+    return { enun: `Dos autobuses salen de la misma parada a las 8:00. Uno pasa cada ${a} minutos y el otro cada ${b} minutos. ¿Cuántos minutos después volverán a coincidir por primera vez?`,
+      sol: `Buscamos el m.c.m.: ${M(`${a} = ${factorTex(a)},\\ ${b} = ${factorTex(b)} \\Rightarrow \\text{m.c.m.} = ${m}`)}. Coinciden a los ${m} minutos.`, ...num(m, `${m}`) }; }
+  const t = x + y;
+  return { enun: `Tenemos dos cintas de ${a} cm y ${b} cm. Queremos cortarlas en trozos iguales, lo más largos posible y sin que sobre nada. ¿Cuántos trozos obtendremos en total?`,
+    sol: `El trozo mide el m.c.d.: ${M(`${a} = ${factorTex(a)},\\ ${b} = ${factorTex(b)} \\Rightarrow \\text{m.c.d.} = ${g}`)} cm. Trozos: ${M(`${a} : ${g} + ${b} : ${g} = ${x} + ${y} = ${t}`)}.`, ...num(t, `${t}`) }; };
+G.c1_ent = () => { const a = riNZ(-12, 12), b = riNZ(-9, 9), c = riNZ(-9, 9), d = riNZ(-9, 9), e = riNZ(-5, 5), f = riNZ(-6, 6), g = riNZ(-9, 9), h = riNZ(-9, 9);
+  const p1 = c - d, p2 = p1 * e, cor = b - p2, p3 = g - h, p4 = f * p3, v = a - cor + p4;
+  return { enun: `Calcula ${M(`${a} - [${b} - (${c} - ${P(d)}) \\cdot ${P(e)}] + ${P(f)} \\cdot (${g} - ${P(h)})`)}.`,
+    sol: `Paréntesis: ${M(`${c} - ${P(d)} = ${p1}`)} y ${M(`${g} - ${P(h)} = ${p3}`)}. Corchete: ${M(`${b} - ${P(p1)} \\cdot ${P(e)} = ${b} - ${P(p2)} = ${cor}`)}. Producto: ${M(`${P(f)} \\cdot ${P(p3)} = ${p4}`)}. Resultado: ${M(`${a} - ${P(cor)} + ${P(p4)} = ${v}`)}.`, ...num(v, `${v}`) }; };
+G.c1_frac = () => { const [a, b] = fi(7, 2, 6), [c, d] = fi(4, 2, 5), [e, f] = fi(4, 2, 5), [g, h] = fi(5, 2, 6);
+  const pr = fr(c * e, d * f), s1 = fr(a * pr[1] - pr[0] * b, b * pr[1]), r = fr(s1[0] * h + g * s1[1], s1[1] * h);
+  return { enun: `Calcula y simplifica ${M(`\\frac{${a}}{${b}} - \\frac{${c}}{${d}} \\cdot \\frac{${e}}{${f}} + \\frac{${g}}{${h}}`)}.`,
+    sol: `Primero el producto: ${M(`\\frac{${c}}{${d}} \\cdot \\frac{${e}}{${f}} = ${texFr(pr)}`)}. Después, de izquierda a derecha: ${M(`\\frac{${a}}{${b}} - ${texFr(pr)} = ${texFr(s1)}`)}; ${M(`${texFr(s1)} + \\frac{${g}}{${h}} = ${texFr(r)}`)}.`, ...fracR(r) }; };
+G.c1_pot = () => { const b = pick([2, 3]), q = b === 2 ? ri(2, 5) : ri(1, 3), p = ri(1, 3), m = ri(1, q + p - 1), n = q + p - m, k = ri(2, 6), s = ri(4, 15), v = b ** q * k * k - s;
+  return { enun: `Calcula ${M(`${pw(b, m)} \\cdot ${pw(b, n)} : ${pw(b, p)} \\cdot ${k}^2 - \\sqrt{${s * s}}`)}.`,
+    sol: M(`${b}^{${m} + ${n} - ${p}} \\cdot ${k * k} - ${s} = ${b ** q} \\cdot ${k * k} - ${s} = ${v}`), ...num(v, `${v}`) }; };
+G.c1_prop = () => { const q = pick([250, 400, 500, 750]), pk = ri(4, 20), c = pk * q / 1000, kg = pick([1.5, 2, 2.5, 3, 3.5]), r = +(pk * kg).toFixed(2);
+  return { enun: `${q} g de queso cuestan ${ft(c).replace('{,}', ',')} €. ¿Cuánto cuestan ${ft(kg).replace('{,}', ',')} kg del mismo queso (en euros)?`,
+    sol: `Precio de 1 kg (1000 g): ${M(`${ft(c)} \\cdot \\frac{1000}{${q}} = ${pk}`)} €. Entonces ${M(`${pk} \\cdot ${ft(kg)} = ${ft(r)}`)} €.`, ...num(r, ft(r), Number.isInteger(r) ? 'entero' : 'decimal', 0.006) }; };
+G.c1_ecu = () => { const x = riNZ(-8, 8); let a = ri(2, 6), d = ri(2, 6); while (d === a) d = ri(2, 6); const b = riNZ(-6, 6), e = riNZ(-6, 6), c = riNZ(-9, 9), f = a * (x - b) - c - d * (x + e);
+  return { enun: `Resuelve: ${M(`${a}(x ${sg(-b)}) - ${P(c)} = ${d}(x ${sg(e)}) ${sg(f)}`)}`,
+    sol: M(`${a}x ${sg(-a * b)} ${sg(-c)} = ${d}x ${sg(d * e)} ${sg(f)} \\Rightarrow ${cx(a - d)}x = ${d * e + f + a * b + c} \\Rightarrow x = ${x}`), ...num(x, `x = ${x}`) }; };
+G.c1_geo = () => { if (ri(0, 1)) { const B = ri(8, 20), b = ri(3, B - 2), h = ri(3, 12), A = (B + b) * h / 2;
+    return { enun: `Calcula el área de un trapecio de bases ${B} cm y ${b} cm, y altura ${h} cm (en cm²).`, sol: M(`A = \\frac{(B + b) \\cdot h}{2} = \\frac{(${B} + ${b}) \\cdot ${h}}{2} = ${ft(A)}`) + ' cm².', ...num(A, ft(A), Number.isInteger(A) ? 'entero' : 'decimal') }; }
+  const l = ri(8, 20), w = ri(6, 14), c1 = ri(2, w - 2), c2 = ri(2, l - 2), A = l * w - c1 * c2 / 2;
+  return { enun: `A un rectángulo de ${l} cm × ${w} cm se le recorta en una esquina un triángulo rectángulo de catetos ${c2} cm y ${c1} cm. ¿Qué área queda (en cm²)?`,
+    sol: M(`${l} \\cdot ${w} - \\frac{${c2} \\cdot ${c1}}{2} = ${l * w} - ${ft(c1 * c2 / 2)} = ${ft(A)}`) + ' cm².', ...num(A, ft(A), Number.isInteger(A) ? 'entero' : 'decimal') }; };
+G.c1_est = () => { const d = Array.from({ length: 4 }, () => ri(3, 10)), s = d.reduce((x, y) => x + y, 0); let m = ri(5, 8); let x = 5 * m - s; while (x < 0 || x > 10) { m = ri(4, 9); x = 5 * m - s; }
+  return { enun: `La media de las notas de cinco exámenes es ${m}. Cuatro de las notas son ${d.join(', ')}. ¿Cuál es la quinta nota?`,
+    sol: `La suma de las cinco notas es ${M(`5 \\cdot ${m} = ${5 * m}`)}. La quinta nota es ${M(`${5 * m} - (${d.join(' + ')}) = ${5 * m} - ${s} = ${x}`)}.`, ...num(x, `${x}`) }; };
+
+/* ---------- 2.º ESO · nivel alto ---------- */
+G.c2_frac = () => { const [a, b] = fi(5, 2, 6), [c, d] = fi(3, 2, 4), [e, f] = fi(4, 2, 6), [g, h] = fi(4, 2, 6);
+  const cu = fr(c * c, d * d), t1 = fr(a * cu[1] - cu[0] * b, b * cu[1]), t2 = fr(e * h + g * f, f * h);
+  if (t1[0] === 0) return G.c2_frac(); const r = fr(t1[0] * t2[1], t1[1] * t2[0]);
+  return { enun: `Calcula y simplifica ${M(`\\left[\\frac{${a}}{${b}} - \\left(\\frac{${c}}{${d}}\\right)^2\\right] : \\left(\\frac{${e}}{${f}} + \\frac{${g}}{${h}}\\right)`)}.`,
+    sol: `Corchete: ${M(`\\frac{${a}}{${b}} - ${texFr(cu)} = ${texFr(t1)}`)}. Paréntesis: ${M(`\\frac{${e}}{${f}} + \\frac{${g}}{${h}} = ${texFr(t2)}`)}. División: ${M(`${texFr(t1)} : ${texFr(t2)} = ${texFr(r)}`)}.`, ...fracR(r) }; };
+G.c2_pot = () => { if (ri(0, 1)) { const a = ri(2, 5), b = ri(1, 4), c = ri(1, 3), E = 2 * a + 3 * b - 4 * c; if (E < 1) return G.c2_pot();
+    return { enun: `Escribe como una sola potencia de base 2 e indica el exponente: ${M(`\\frac{${pw(4, a)} \\cdot ${pw(8, b)}}{${pw(16, c)}}`)}`,
+      sol: M(`\\frac{2^{${2 * a}} \\cdot 2^{${3 * b}}}{2^{${4 * c}}} = 2^{${2 * a} + ${3 * b} - ${4 * c}} = 2^{${E}}`), ...num(E, `${E}`) }; }
+  const a = ri(2, 5), b = ri(1, 3), c = ri(1, 4), E = 2 * a + 3 * b - c; if (E < 1) return G.c2_pot();
+  return { enun: `Escribe como una sola potencia de base 3 e indica el exponente: ${M(`${pw(9, a)} \\cdot ${pw(27, b)} : ${pw(3, c)}`)}`,
+    sol: M(`3^{${2 * a}} \\cdot 3^{${3 * b}} : 3^{${c}} = 3^{${2 * a} + ${3 * b} - ${c}} = 3^{${E}}`), ...num(E, `${E}`) }; };
+G.c2_porc = () => { const p1 = pick([10, 20, 25, 30, 40, 50]), p2 = pick([10, 20, 25, 30, 40]), k = (1 + p1 / 100) * (1 - p2 / 100), v = +((k - 1) * 100).toFixed(2);
+  return { enun: `El precio de un móvil sube un ${p1} % y, un mes después, baja un ${p2} %. ¿Cuál es la variación total en porcentaje? (Escribe un número negativo si en total ha bajado.)`,
+    sol: `Índices: ${M(`${ft(1 + p1 / 100)} \\cdot ${ft(1 - p2 / 100)} = ${ft(k)}`)}. Variación: ${M(`(${ft(k)} - 1) \\cdot 100 = ${ft(v)}`)} %. ${v < 0 ? 'Ha bajado.' : v > 0 ? 'Ha subido.' : 'No cambia.'}`, ...num(v, ft(v), Number.isInteger(v) ? 'entero' : 'decimal', 0.01) }; };
+G.c2_inv = () => { const w = ri(3, 8), h = pick([6, 8]), d = ri(4, 12), T = w * h * d, ops = [];
+  for (let w2 = 2; w2 <= 12; w2++) for (const h2 of [4, 5, 6, 8, 10]) if (T % (w2 * h2) === 0 && w2 * h2 !== w * h) ops.push([w2, h2]);
+  if (!ops.length) return G.c2_inv(); const [w2, h2] = pick(ops), r = T / (w2 * h2);
+  return { enun: `${w} pintoras, trabajando ${h} horas al día, tardan ${d} días en pintar un edificio. ¿Cuántos días tardarían ${w2} pintoras trabajando ${h2} horas al día?`,
+    sol: `Total de horas de trabajo: ${M(`${w} \\cdot ${h} \\cdot ${d} = ${T}`)}. Días: ${M(`${T} : (${w2} \\cdot ${h2}) = ${r}`)}.`, ...num(r, `${r}`) }; };
+G.c2_pol = () => { const a = riNZ(-3, 3), b = riNZ(-5, 5), c = riNZ(-3, 3), d = riNZ(-5, 5), e = ri(2, 3), f = riNZ(-4, 4), co = a * d + b * c - 2 * e * f;
+  return { enun: `Desarrolla y simplifica ${M(`(${poly([a, b])})(${poly([c, d])}) - ${e}(x ${sg(f)})^2`)}. ¿Cuál es el coeficiente de ${M('x')}?`,
+    sol: `${M(`(${poly([a, b])})(${poly([c, d])}) = ${poly([a * c, a * d + b * c, b * d])}`)}; ${M(`${e}(x ${sg(f)})^2 = ${poly([e, 2 * e * f, e * f * f])}`)}. Resta: ${M(poly([a * c - e, co, b * d - e * f * f]))}. Coeficiente de ${M('x')}: ${co}.`, ...num(co, `${co}`) }; };
+G.c2_ident = () => { const b = pick([2, 3, 4, 5]), a = ri(1, 9); if (gcd(a, b) !== 1) return G.c2_ident(); const bx = `${b}x`;
+  if (ri(0, 1)) { const s = pick([1, -1]), e = poly([b * b, 2 * a * b * s, a * a]), c = M(`(${bx} ${s > 0 ? '+' : '-'} ${a})^2`);
+    return { enun: `Factoriza ${M(e)}.`, sol: `Es el cuadrado de una ${s > 0 ? 'suma' : 'diferencia'}: ${M(`(${bx})^2 ${s > 0 ? '+' : '-'} 2 \\cdot ${bx} \\cdot ${a} + ${a}^2`)} = ${c}.`,
+      ...opc(c, [M(`(${bx} ${s > 0 ? '-' : '+'} ${a})^2`), M(`(${bx} + ${a})(${bx} - ${a})`), M(`(${b * b}x ${s > 0 ? '+' : '-'} ${a})^2`), M(`(${bx} ${s > 0 ? '+' : '-'} ${a * a})^2`)]) }; }
+  const e = poly([b * b, 0, -a * a]), c = M(`(${bx} + ${a})(${bx} - ${a})`);
+  return { enun: `Factoriza ${M(e)}.`, sol: `Diferencia de cuadrados: ${M(`(${bx})^2 - ${a}^2`)} = ${c}.`,
+    ...opc(c, [M(`(${bx} - ${a})^2`), M(`(${bx} + ${a})^2`), M(`(${b * b}x + ${a})(${b * b}x - ${a})`), M(`(${bx} + ${a * a})(${bx} - ${a * a})`)]) }; };
+G.c2_ecu2 = () => { const q = pick([2, 3]); let p = riNZ(-7, 7); while (gcd(p, q) !== 1) p = riNZ(-7, 7); const r1 = riNZ(-6, 6);
+  const A = q, B = -(p + q * r1), C = p * r1, lhs = `${poly([A, B])}x`.replace(/^(.*)x$/, (m0, s) => `x(${poly([A, B])})`), menor = Math.min(r1, p / q), D = B * B - 4 * A * C;
+  const sols = [fr(r1, 1), fr(p, q)].sort((u, v) => u[0] / u[1] - v[0] / v[1]);
+  return { enun: `Resuelve ${M(`x(${poly([A, B])}) = ${-C}`)} y escribe la solución menor.`,
+    sol: `Pasamos todo a un miembro: ${M(`${poly([A, B, C])} = 0`)}. ${M(`\\Delta = ${P(B)}^2 - 4 \\cdot ${A} \\cdot ${P(C)} = ${D}`)}; ${M(`x = \\frac{${-B} \\pm ${Math.sqrt(D)}}{${2 * A}}`)} ${M(`\\Rightarrow x_1 = ${texFr(sols[1])},\\ x_2 = ${texFr(sols[0])}`)}.`, ...fracR(sols[0]) }; };
+G.c2_sist = () => { const a = ri(2, 5), b = ri(2, 5), x = a * riNZ(-4, 4), y = b * riNZ(-4, 4), c1 = x / a + y / b, p = riNZ(-4, 4), q = riNZ(-4, 4), c2 = p * x - q * y, qx = ri(0, 1) === 1;
+  if (p * (-q) * 0 === 0 && (1 / a) * (-q) - (1 / b) * p === 0) return G.c2_sist();
+  return { enun: `Resuelve el sistema y escribe el valor de ${M(qx ? 'x' : 'y')}: ${M(`\\begin{cases} \\frac{x}{${a}} + \\frac{y}{${b}} = ${c1} \\\\ ${poly([p, 0])} ${q > 0 ? '-' : '+'} ${Math.abs(q) === 1 ? '' : Math.abs(q)}y = ${c2} \\end{cases}`)}`,
+    sol: `Multiplicamos la primera por ${lcm(a, b)}: ${M(`${lcm(a, b) / a}x + ${lcm(a, b) / b}y = ${c1 * lcm(a, b)}`)}. Resolviendo: ${M(`x = ${x},\\ y = ${y}`)}.`, ...num(qx ? x : y, `${qx ? x : y}`) }; };
+G.c2_pita = () => { const [p, q, h] = pick([[3, 4, 5], [6, 8, 10], [5, 12, 13], [8, 15, 17], [9, 12, 15]]);
+  if (ri(0, 1)) { const D = 2 * p, d = 2 * q, Pm = 4 * h;
+    return { enun: `Las diagonales de un rombo miden ${D} cm y ${d} cm. Calcula su perímetro (en cm).`, sol: `Cada lado es la hipotenusa de un triángulo de catetos ${p} y ${q}: ${M(`l = \\sqrt{${p}^2 + ${q}^2} = ${h}`)} cm. Perímetro: ${M(`4 \\cdot ${h} = ${Pm}`)} cm.`, ...num(Pm, `${Pm}`) }; }
+  const k = pick([1, 2]), esc = h * k / 1, dist = p * k, alt = q * k, A = alt * dist / 2;
+  return { enun: `Una escalera de ${esc} m está apoyada en una pared y su pie está a ${dist} m de la pared. Calcula el área (en m²) del triángulo que forman la escalera, la pared y el suelo.`,
+    sol: `Altura: ${M(`\\sqrt{${esc}^2 - ${dist}^2} = \\sqrt{${esc * esc - dist * dist}} = ${alt}`)} m. Área: ${M(`\\frac{${dist} \\cdot ${alt}}{2} = ${A}`)} m².`, ...num(A, `${A}`) }; };
+G.c2_func = () => { const x0 = ri(-5, 5), y0 = ri(-6, 6); let m1 = riNZ(-4, 4), m2 = riNZ(-4, 4); while (m2 === m1) m2 = riNZ(-4, 4); const n1 = y0 - m1 * x0, n2 = y0 - m2 * x0, qx = ri(0, 1) === 1;
+  const r = (m, n) => `y = ${poly([m, n])}`;
+  return { enun: `Halla el punto de corte de las rectas ${M(r(m1, n1))} y ${M(r(m2, n2))}. Escribe su coordenada ${M(qx ? 'x' : 'y')}.`,
+    sol: `Igualamos: ${M(`${poly([m1, n1])} = ${poly([m2, n2])} \\Rightarrow ${cx(m1 - m2)}x = ${n2 - n1} \\Rightarrow x = ${x0}`)}; ${M(`y = ${m1} \\cdot ${P(x0)} ${sg(n1)} = ${y0}`)}. Punto: ${M(`(${x0}, ${y0})`)}.`, ...num(qx ? x0 : y0, `${qx ? x0 : y0}`) }; };
+
+/* ---------- 3.º ESO · nivel alto ---------- */
+function generatriz() { const t = ri(0, 2), e = ri(0, 2);
+  if (t === 0) { const q = ri(1, 8); return { tex: `${e}{,}\\overline{${q}}`, f: fr(9 * e + q, 9) }; }
+  if (t === 1) { let Q = ri(10, 98); while (Q % 11 === 0) Q = ri(10, 98); return { tex: `${e}{,}\\overline{${Q}}`, f: fr(99 * e + Q, 99) }; }
+  const p = ri(0, 9); let q = ri(1, 8); while (q === p) q = ri(1, 8); return { tex: `${e}{,}${p}\\overline{${q}}`, f: fr(90 * e + 9 * p + q, 90) }; }
+G.c3_gen = () => { const A = generatriz(), B = generatriz(), op = pick(['+', '-', '\\cdot']);
+  const r = op === '+' ? fr(A.f[0] * B.f[1] + B.f[0] * A.f[1], A.f[1] * B.f[1]) : op === '-' ? fr(A.f[0] * B.f[1] - B.f[0] * A.f[1], A.f[1] * B.f[1]) : fr(A.f[0] * B.f[0], A.f[1] * B.f[1]);
+  return { enun: `Calcula usando fracciones generatrices y da el resultado como fracción irreducible: ${M(`${A.tex} ${op} ${B.tex}`)}`,
+    sol: `${M(`${A.tex} = ${texFr(A.f)}`)} y ${M(`${B.tex} = ${texFr(B.f)}`)}. ${M(`${texFr(A.f)} ${op} ${texFr(B.f)} = ${texFr(r)}`)}.`, ...fracR(r) }; };
+G.c3_pot = () => { const [a, b] = pick([[2, 3], [3, 2], [2, 5], [5, 2], [3, 4], [4, 3]]), m = ri(1, 3), n = ri(1, 3), k = ri(1, 2), e = m + n - 2 * k;
+  const r = e >= 0 ? fr(b ** e, a ** e) : fr(a ** -e, b ** -e);
+  return { enun: `Calcula ${M(`\\left(\\frac{${a}}{${b}}\\right)^{-${m}} \\cdot \\left(\\frac{${b}}{${a}}\\right)^{${n}} : \\left(\\frac{${a * a}}{${b * b}}\\right)^{-${k}}`)}.`,
+    sol: `Todo con base ${M(`\\frac{${b}}{${a}}`)}: ${M(`\\left(\\frac{${b}}{${a}}\\right)^{${m}} \\cdot \\left(\\frac{${b}}{${a}}\\right)^{${n}} : \\left(\\frac{${b}}{${a}}\\right)^{${2 * k}} = \\left(\\frac{${b}}{${a}}\\right)^{${e}} = ${texFr(r)}`)}.`, ...fracR(r) }; };
+G.c3_cien = () => { const m1 = ri(2, 9), m2 = ri(2, 9), ds = [2, 3, 4, 5, 6, 8].filter(d => (m1 * m2) % d === 0 && d !== m1 && d !== m2); if (!ds.length) return G.c3_cien();
+  const m3 = pick(ds), e1 = riNZ(-8, 9), e2 = riNZ(-8, 9), e3 = riNZ(-6, 6), p = m1 * m2 / m3, sh = p >= 10 ? 1 : 0, mant = sh ? p / 10 : p, ex = e1 + e2 - e3 + sh, c = `${ft(mant)} \\cdot 10^{${ex}}`;
+  return { enun: `Calcula y escribe en notación científica: ${M(`\\frac{(${m1} \\cdot 10^{${e1}}) \\cdot (${m2} \\cdot 10^{${e2}})}{${m3} \\cdot 10^{${e3}}}`)}`,
+    sol: M(`\\frac{${m1 * m2}}{${m3}} \\cdot 10^{${e1} + ${P(e2)} - ${P(e3)}} = ${ft(p)} \\cdot 10^{${e1 + e2 - e3}}${sh ? ` = ${c}` : ''}`),
+    ...opc(M(c), [M(`${ft(mant)} \\cdot 10^{${ex - 1}}`), M(`${ft(mant)} \\cdot 10^{${e1 + e2 + e3 + sh}}`), M(`${ft(mant)} \\cdot 10^{${ex + 1}}`), M(`${ft(mant)} \\cdot 10^{${-ex}}`)]) }; };
+G.c3_rad = () => { const m = pick([2, 3, 5]), ss = [], cs = []; while (ss.length < 3) { const s = ri(1, 5); if (!ss.includes(s)) { ss.push(s); cs.push(riNZ(-4, 4)); } }
+  const k = cs.reduce((t, c, i) => t + c * ss[i], 0); if (k === 0) return G.c3_rad();
+  const term = (c, s, i) => `${i === 0 ? (c < 0 ? '-' : '') : (c < 0 ? ' - ' : ' + ')}${Math.abs(c) === 1 ? '' : Math.abs(c)}\\sqrt{${s * s * m}}`;
+  const res = k === 1 ? `\\sqrt{${m}}` : k === -1 ? `-\\sqrt{${m}}` : `${k}\\sqrt{${m}}`;
+  return { enun: `Simplifica ${M(cs.map((c, i) => term(c, ss[i], i)).join(''))}.`,
+    sol: `Extraemos factores: ${M(cs.map((c, i) => `${i === 0 ? (c < 0 ? '-' : '') : (c < 0 ? ' - ' : ' + ')}${Math.abs(c * ss[i]) === 1 ? '' : Math.abs(c * ss[i])}\\sqrt{${m}}`).join(''))} ${M(`= ${res}`)}.`,
+    ...opc(M(res), [M(`${-k}\\sqrt{${m}}`), M(`${cs.reduce((t, c) => t + c, 0)}\\sqrt{${m}}`), M(`${2 * k}\\sqrt{${m}}`), M(`${k}\\sqrt{${3 * m}}`)]) }; };
+G.c3_pol = () => { const a = ri(-4, 4), k = ri(-8, 8), r = riNZ(-3, 3), c = -(r ** 3 + a * r * r + k * r); if (Math.abs(c) > 40) return G.c3_pol();
+  return { enun: `Halla el valor de ${M('k')} para que ${M(`x^3 ${a ? (a < 0 ? '- ' : '+ ') + (Math.abs(a) === 1 ? '' : Math.abs(a)) + 'x^2' : ''} + kx ${c ? sg(c) : ''}`)} sea divisible entre ${M(xMenos(r).replace(/[()]/g, ''))}.`,
+    sol: `Por el teorema del resto, ${M(`P(${r}) = 0`)}: ${M(`${P(r)}^3 + ${P(a)} \\cdot ${P(r)}^2 + k \\cdot ${P(r)} + ${P(c)} = 0 \\Rightarrow ${r ** 3 + a * r * r + c} + ${P(r)}k = 0 \\Rightarrow k = ${k}`)}.`, ...num(k, `k = ${k}`) }; };
+G.c3_ecu = () => { let b = ri(2, 6), d = ri(2, 6); while (d === b) d = ri(2, 6); const x = riNZ(-9, 9), a = riNZ(-6, 6), c = riNZ(-6, 6), e = fr((x - a) * d - (x + c) * b, b * d), L = lcm(lcm(b, d), e[1]);
+  return { enun: `Resuelve: ${M(`\\frac{x ${sg(-a)}}{${b}} - \\frac{x ${sg(c)}}{${d}} = ${texFr(e)}`)}`,
+    sol: `Multiplicamos por ${L}: ${M(`${cx(L / b)}(x ${sg(-a)}) - ${cx(L / d)}(x ${sg(c)}) = ${e[0] * L / e[1]}`)} ${M(`\\Rightarrow ${cx(L / b - L / d)}x = ${e[0] * L / e[1] + L / b * a + L / d * c} \\Rightarrow x = ${x}`)}.`, ...num(x, `x = ${x}`) }; };
+G.c3_suc = () => { if (ri(0, 1)) { const d = riNZ(-5, 5), a1 = ri(-10, 10), m = ri(2, 4), n = m + ri(3, 6), am = a1 + (m - 1) * d, an = a1 + (n - 1) * d, N = ri(10, 20), S = N * (2 * a1 + (N - 1) * d) / 2;
+    return { enun: `En una progresión aritmética, ${M(`a_{${m}} = ${am}`)} y ${M(`a_{${n}} = ${an}`)}. Calcula la suma de los ${N} primeros términos.`,
+      sol: `${M(`d = \\frac{${an} - ${P(am)}}{${n} - ${m}} = ${d}`)}, ${M(`a_1 = ${am} - ${m - 1} \\cdot ${P(d)} = ${a1}`)}, ${M(`a_{${N}} = ${a1 + (N - 1) * d}`)}. ${M(`S_{${N}} = \\frac{(${a1} + ${P(a1 + (N - 1) * d)}) \\cdot ${N}}{2} = ${S}`)}.`, ...num(S, `${S}`) }; }
+  const r = pick([2, 3, -2]), a1 = pick([1, 2, 3, -1, -2]), a2 = a1 * r, a5 = a1 * r ** 4, a6 = a1 * r ** 5;
+  return { enun: `En una progresión geométrica, ${M(`a_2 = ${a2}`)} y ${M(`a_5 = ${a5}`)}. Calcula ${M('a_6')}.`,
+    sol: `${M(`r^3 = \\frac{${a5}}{${a2}} = ${r ** 3} \\Rightarrow r = ${r}`)}. ${M(`a_6 = a_5 \\cdot r = ${a5} \\cdot ${P(r)} = ${a6}`)}.`, ...num(a6, `${a6}`) }; };
+G.c3_rect = () => { const m = pick([1, -1, 2, -2, 3, -3]), x1 = m * ri(-3, 3), y1 = ri(-6, 6), n0 = riNZ(-5, 5), mp = fr(-1, m), n = y1 - mp[0] * x1 / mp[1];
+  return { enun: `Halla la ordenada en el origen de la recta perpendicular a ${M(`y = ${poly([m, n0])}`)} que pasa por ${M(`P(${x1}, ${y1})`)}.`,
+    sol: `Pendiente perpendicular: ${M(`m' = ${texFr(mp)}`)}. ${M(`${y1} = ${texFr(mp)} \\cdot ${P(x1)} + n \\Rightarrow n = ${n}`)}.`, ...num(n, `n = ${n}`) }; };
+G.c3_tales = () => { if (ri(0, 1)) { const h1 = pick([1.5, 2, 2.5]), s1 = pick([1, 2, 3, 4]), k = ri(3, 12), s2 = s1 * k, h2 = h1 * k;
+    return { enun: `A la misma hora, un poste de ${ft(h1).replace('{,}', ',')} m proyecta una sombra de ${s1} m y un edificio proyecta una sombra de ${s2} m. ¿Cuánto mide el edificio (en m)?`,
+      sol: `Por el teorema de Tales: ${M(`\\frac{h}{${s2}} = \\frac{${ft(h1)}}{${s1}} \\Rightarrow h = ${ft(h2)}`)} m.`, ...num(h2, ft(h2), Number.isInteger(h2) ? 'entero' : 'decimal') }; }
+  const k = pick([2, 3, 1.5, 2.5]), A = ri(4, 30) * (k % 1 ? 4 : 1), A2 = A * k * k;
+  return { enun: `Dos polígonos son semejantes con razón de semejanza ${ft(k).replace('{,}', ',')}. Si el área del pequeño es ${A} cm², ¿cuál es el área del grande (en cm²)?`,
+    sol: `Las áreas están en razón ${M(`k^2`)}: ${M(`${A} \\cdot ${ft(k)}^2 = ${A} \\cdot ${ft(k * k)} = ${ft(A2)}`)} cm².`, ...num(A2, ft(A2), Number.isInteger(A2) ? 'entero' : 'decimal') }; };
+G.c3_prob = () => { const t = ri(0, 2);
+  if (t === 0) { const s = ri(3, 11), n = 6 - Math.abs(7 - s), p = fr(n, 36);
+    return { enun: `Se lanzan dos dados. ¿Cuál es la probabilidad de que la suma sea ${s}?`, sol: `Hay 36 casos posibles y ${n} favorables: ${M(`P = \\frac{${n}}{36}${p[1] !== 36 ? ' = ' + texFr(p) : ''}`)}.`, ...fracR(p) }; }
+  if (t === 1) { const k = ri(6, 9); let n = 0; for (let i = 1; i <= 6; i++) for (let j = 1; j <= 6; j++) if (i + j > k) n++; const p = fr(n, 36);
+    return { enun: `Se lanzan dos dados. ¿Cuál es la probabilidad de que la suma sea mayor que ${k}?`, sol: `Casos favorables: ${n} de 36. ${M(`P = \\frac{${n}}{36}${p[1] !== 36 ? ' = ' + texFr(p) : ''}`)}.`, ...fracR(p) }; }
+  const p = fr(11, 36);
+  return { enun: `Se lanzan dos dados. ¿Cuál es la probabilidad de obtener al menos un 6?`, sol: `Suceso contrario: ningún 6, ${M(`\\frac{25}{36}`)}. ${M(`P = 1 - \\frac{25}{36} = \\frac{11}{36}`)}.`, ...fracR(p) }; };
+
+/* ---------- 4.º ESO · nivel alto ---------- */
+G.c4_racio = () => { const b = pick([2, 3, 5, 6, 7, 10, 11]), c = ri(1, 3); if (c * c === b) return G.c4_racio(); const a = ri(1, 6) * pick([1, 2]), D = b - c * c, s = pick(['-', '+']);
+  const den = s === '-' ? D : D, signo = s === '-' ? '+' : '-';
+  const fmt = (nu, de, sgn) => { let n2 = nu, d2 = de; if (d2 < 0) { n2 = -n2; d2 = -d2; } const g = gcd(n2, d2); n2 /= g; d2 /= g;
+    const inner = `\\sqrt{${b}} ${sgn} ${c}`, coef = n2 === 1 ? '' : n2 === -1 ? '-' : `${n2}`;
+    return d2 === 1 ? `${coef}(${inner})` : `\\frac{${coef}(${inner})}{${d2}}`; };
+  const cor = fmt(a, den, signo);
+  return { enun: `Racionaliza y simplifica ${M(`\\frac{${a}}{\\sqrt{${b}} ${s} ${c}}`)}.`,
+    sol: `Multiplicamos por el conjugado ${M(`\\sqrt{${b}} ${signo} ${c}`)}: el denominador queda ${M(`(\\sqrt{${b}})^2 - ${c}^2 = ${D}`)}. Resultado: ${M(cor)}.`,
+    ...opc(M(cor), [M(fmt(a, den, s)), M(fmt(a, b + c * c, signo)), M(fmt(a, -den, signo)), M(fmt(a * 2, den, signo))]) }; };
+G.c4_log = () => { const b = pick([2, 3, 5]), lim = { 2: 4, 3: 2, 5: 2 }[b], k1 = ri(0, lim), k2 = ri(1, lim), u = pick([3, 5, 6, 7].filter(x => x % b)), v = pick([3, 7, 9, 11].filter(x => x % b)), A = b ** k1 * u, B = b ** k2 * v, C = u * v, r = k1 + k2;
+  return { enun: `Calcula ${M(`\\log_{${b}} ${A} + \\log_{${b}} ${B} - \\log_{${b}} ${C}`)}.`,
+    sol: `Propiedades de los logaritmos: ${M(`\\log_{${b}} \\frac{${A} \\cdot ${B}}{${C}} = \\log_{${b}} ${b ** r} = ${r}`)}.`, ...num(r, `${r}`) }; };
+G.c4_fact = () => { const rs = []; while (rs.length < 3) { const r = ri(-4, 4); if (!rs.includes(r)) rs.push(r); } const k = pick([1, 2, 3, -1]), [p, q, s] = rs;
+  const cs = [k, -k * (p + q + s), k * (p * q + p * s + q * s), -k * p * q * s], K = k === 1 ? '' : k === -1 ? '-' : `${k}`;
+  const f = arr => M(K + arr.map(xMenos).join(''));
+  return { enun: `Factoriza ${M(poly(cs))}.`, sol: `Sacamos factor común ${k} y buscamos raíces con Ruffini: ${M(`x = ${p},\\ ${q},\\ ${s}`)}. Factorización: ${f(rs)}.`,
+    ...opc(f(rs), [f(rs.map(r => -r)), f([-p, q, s]), f([p, -q, s]), f([p, q, -s])]) }; };
+G.c4_bicu = () => { if (ri(0, 1)) { const a = ri(1, 6), b = ri(1, 9), B = b - a * a, C = -a * a * b;
+    return { enun: `Resuelve ${M(`x^4 ${B ? sg(B) + 'x^2' : ''} ${sg(C)} = 0`)} y escribe la mayor solución real.`,
+      sol: `Cambio ${M('z = x^2')}: ${M(`z^2 ${B ? sg(B) + 'z' : ''} ${sg(C)} = 0 \\Rightarrow z = ${a * a},\\ z = ${-b}`)}. ${M(`z = ${-b}`)} no da soluciones reales; ${M(`x^2 = ${a * a} \\Rightarrow x = \\pm ${a}`)}.`, ...num(a, `${a}`) }; }
+  const t = ri(1, 6), aa = ri(-5, 8), x0 = t * t - aa, bb = x0 + t, otra = bb + t + 1;
+  return { enun: `Resuelve la ecuación irracional ${M(`x + \\sqrt{x ${sg(aa)}} = ${bb}`)} y escribe su solución válida.`,
+    sol: `Aislamos y elevamos al cuadrado: ${M(`x ${sg(aa)} = (${bb} - x)^2`)}. Las raíces son ${M(`x = ${x0}`)} y ${M(`x = ${otra}`)}; al comprobar, solo ${M(`x = ${x0}`)} cumple la ecuación.`, ...num(x0, `x = ${x0}`) }; };
+G.c4_ineq = () => { let r1 = ri(-6, 6), r2 = ri(-6, 6); while (r2 === r1) r2 = ri(-6, 6); const a = Math.min(r1, r2), b = Math.max(r1, r2);
+  if (ri(0, 1)) { const menor = ri(0, 1) === 1, rel = menor ? '<' : '\\geq', E = poly([1, -(a + b), a * b]);
+    const I = { dentro: `(${a},\\ ${b})`, fuera: `(-\\infty,\\ ${a}] \\cup [${b},\\ +\\infty)`, dentroC: `[${a},\\ ${b}]`, fueraA: `(-\\infty,\\ ${a}) \\cup (${b},\\ +\\infty)` }, cor = menor ? I.dentro : I.fuera;
+    return { enun: `Resuelve la inecuación ${M(`${E} ${rel} 0`)}.`, sol: `Raíces: ${M(`x = ${a},\\ x = ${b}`)}. La parábola es negativa entre las raíces${menor ? '' : ' y positiva fuera'}. Solución: ${M(cor)}.`,
+      ...opc(M(cor), [M(I.dentro), M(I.fuera), M(I.dentroC), M(I.fueraA)].filter(o => o !== M(cor))) }; }
+  const cor = `[${a},\\ ${b})`;
+  return { enun: `Resuelve la inecuación ${M(`\\frac{${xMenos(a).replace(/[()]/g, '')}}{${xMenos(b).replace(/[()]/g, '')}} \\leq 0`)}.`,
+    sol: `El numerador se anula en ${M(`x = ${a}`)} (se incluye) y el denominador en ${M(`x = ${b}`)} (se excluye). El cociente es negativo entre ellos: ${M(cor)}.`,
+    ...opc(M(cor), [M(`[${a},\\ ${b}]`), M(`(${a},\\ ${b}]`), M(`(-\\infty,\\ ${a}] \\cup (${b},\\ +\\infty)`), M(`(${a},\\ ${b})`)]) }; };
+G.c4_trig = () => { const [a, b, c] = pick([[3, 4, 5], [4, 3, 5], [5, 12, 13], [12, 5, 13], [8, 15, 17], [15, 8, 17]]), cuad = pick([2, 3, 4]), sS = cuad === 2 ? 1 : -1, sC = cuad === 4 ? 1 : -1;
+  const dato = pick(['sen', 'cos']), pide = dato === 'sen' ? pick(['cos', 'tan']) : pick(['sen', 'tan']);
+  const val = { sen: fr(sS * a, c), cos: fr(sC * b, c), tan: fr(sS * sC * a, b) }, nom = { 2: 'segundo', 3: 'tercer', 4: 'cuarto' }[cuad];
+  return { enun: `Sabiendo que ${M(`\\operatorname{${dato}} \\alpha = ${texFr(val[dato])}`)} y que ${M('\\alpha')} está en el ${nom} cuadrante, calcula ${M(`\\operatorname{${pide}} \\alpha`)}.`,
+    sol: `Con ${M(`\\operatorname{sen}^2 \\alpha + \\cos^2 \\alpha = 1`)}: ${M(`\\operatorname{${dato === 'sen' ? 'cos' : 'sen'}} \\alpha = \\pm \\frac{${dato === 'sen' ? b : a}}{${c}}`)}. En el ${nom} cuadrante el signo es ${dato === 'sen' ? (sC > 0 ? 'positivo' : 'negativo') : (sS > 0 ? 'positivo' : 'negativo')}. Por tanto ${M(`\\operatorname{${pide}} \\alpha = ${texFr(val[pide])}`)}.`, ...fracR(val[pide]) }; };
+G.c4_vec = () => { const [p, q, d] = pick([[3, 4, 5], [4, 3, 5], [6, 8, 10], [5, 12, 13], [12, 5, 13], [8, 6, 10]]), x1 = ri(-5, 5), y1 = ri(-5, 5), y2 = y1 + pick([q, -q]), mx = x1 + p;
+  return { enun: `Los puntos ${M(`A(${x1}, ${y1})`)} y ${M(`B(k, ${y2})`)} están a distancia ${d}. Halla el mayor valor posible de ${M('k')}.`,
+    sol: M(`(k - ${P(x1)})^2 + ${P(y2 - y1)}^2 = ${d}^2 \\Rightarrow (k - ${P(x1)})^2 = ${p * p} \\Rightarrow k = ${x1} \\pm ${p}`) + `. El mayor es ${M(`k = ${mx}`)}.`, ...num(mx, `k = ${mx}`) }; };
+G.c4_comb = () => { const t = ri(0, 2);
+  if (t === 0) { const [w, n, rep] = pick([['PAPEL', 5, [2]], ['BANANA', 6, [3, 2]], ['AMAPOLA', 7, [3]], ['CASCADA', 7, [3, 2]], ['RAQUETA', 7, [2]], ['PATATA', 6, [3, 2]]]);
+    const v = fact(n) / rep.reduce((s, r) => s * fact(r), 1);
+    return { enun: `¿Cuántas ordenaciones distintas (tengan sentido o no) se pueden formar con todas las letras de la palabra ${w}?`, sol: `Permutaciones con repetición: ${M(`\\frac{${n}!}{${rep.map(r => r + '!').join(' \\cdot ')}} = ${v}`)}.`, ...num(v, `${v}`) }; }
+  if (t === 1) { const a = ri(4, 7), b = ri(3, 6), C = (n, k) => fact(n) / (fact(k) * fact(n - k)), v = C(a + b, 3) - C(a, 3);
+    return { enun: `En un club hay ${a} alumnas de 3.º y ${b} de 4.º. ¿Cuántos equipos de 3 alumnas se pueden formar con al menos una de 4.º?`, sol: `Total menos los equipos solo de 3.º: ${M(`\\binom{${a + b}}{3} - \\binom{${a}}{3} = ${C(a + b, 3)} - ${C(a, 3)} = ${v}`)}.`, ...num(v, `${v}`) }; }
+  const n = ri(5, 8), v = fact(n - 1) * 2 / 1;
+  return { enun: `¿De cuántas formas se pueden sentar ${n} amigas en una fila si dos de ellas, Ana y Eva, quieren estar juntas?`, sol: `Tratamos a Ana y Eva como un bloque: ${M(`P_{${n - 1}} \\cdot 2 = ${fact(n - 1)} \\cdot 2 = ${v}`)}.`, ...num(v, `${v}`) }; };
+G.c4_prob = () => { if (ri(0, 1)) { const r1 = ri(2, 5), b1 = ri(2, 5), r2 = ri(2, 5), b2 = ri(2, 5), N1 = r1 + b1, N2 = r2 + b2, p = fr(r1 * N2 + r2 * N1, 2 * N1 * N2);
+    return { enun: `La urna A tiene ${r1} bolas rojas y ${b1} blancas; la urna B tiene ${r2} rojas y ${b2} blancas. Se lanza una moneda: si sale cara se saca una bola de A y si sale cruz, de B. ¿Cuál es la probabilidad de sacar bola roja?`,
+      sol: `Probabilidad total: ${M(`\\frac{1}{2} \\cdot \\frac{${r1}}{${N1}} + \\frac{1}{2} \\cdot \\frac{${r2}}{${N2}} = ${texFr(p)}`)}.`, ...fracR(p) }; }
+  const r = ri(2, 6), b = ri(2, 6), N = r + b, p0 = fr(b * (b - 1), N * (N - 1)), p = fr(p0[1] - p0[0], p0[1]);
+  return { enun: `Una urna tiene ${r} bolas rojas y ${b} blancas. Se sacan dos bolas sin reemplazamiento. ¿Cuál es la probabilidad de que al menos una sea roja?`,
+    sol: `Suceso contrario: las dos blancas, ${M(`\\frac{${b}}{${N}} \\cdot \\frac{${b - 1}}{${N - 1}} = ${texFr(p0)}`)}. ${M(`P = 1 - ${texFr(p0)} = ${texFr(p)}`)}.`, ...fracR(p) }; };
+G.c4_exp = () => { if (ri(0, 1)) { const b = pick([2, 3]), a = pick([1, 2]), x = ri(0, b === 2 ? 5 : 3), N = b ** x * (b ** a + 1);
+    return { enun: `Resuelve ${M(`${b}^{x + ${a}} + ${b}^{x} = ${N}`)}`, sol: `Sacamos factor común ${M(`${b}^x`)}: ${M(`${b}^x(${b}^{${a}} + 1) = ${N} \\Rightarrow ${b}^x = ${b ** x} \\Rightarrow x = ${x}`)}.`, ...num(x, `x = ${x}`) }; }
+  let p = ri(0, 4), q = ri(0, 4); while (q === p) q = ri(0, 4); const t1 = 2 ** p, t2 = 2 ** q, S = t1 + t2, Pr = t1 * t2, mx = Math.max(p, q);
+  return { enun: `Resuelve ${M(`4^x - ${S} \\cdot 2^x + ${Pr} = 0`)} y escribe la mayor solución.`,
+    sol: `Cambio ${M('t = 2^x')}: ${M(`t^2 - ${S}t + ${Pr} = 0 \\Rightarrow t = ${Math.max(t1, t2)},\\ t = ${Math.min(t1, t2)}`)}. ${M(`2^x = ${Math.max(t1, t2)} \\Rightarrow x = ${mx}`)}.`, ...num(mx, `x = ${mx}`) }; };
+
+/* ---------- Catálogo ---------- */
+const CURSOS = { 0: '6.º Primaria (repaso)', 1: '1.º ESO', 2: '2.º ESO', 3: '3.º ESO', 4: '4.º ESO' };
+const TEMAS = {
+  p6_dec: [0, 'Operaciones con decimales'], p6_frac: [0, 'Problemas de fracciones'] , p6_porc: [0, 'Porcentajes y descuentos'],
+  c1_div: [1, 'Divisibilidad: problemas de m.c.d. y m.c.m.'], c1_ent: [1, 'Números enteros: operaciones combinadas'], c1_frac: [1, 'Operaciones combinadas con fracciones'],
+  c1_pot: [1, 'Potencias y raíces cuadradas'], c1_prop: [1, 'Proporcionalidad directa'], c1_ecu: [1, 'Ecuaciones de primer grado'],
+  c1_geo: [1, 'Perímetros y áreas'], c1_est: [1, 'Estadística: problemas de media'],
+  c2_frac: [2, 'Operaciones combinadas con fracciones'], c2_pot: [2, 'Propiedades de las potencias'], c2_porc: [2, 'Aumentos y disminuciones porcentuales'],
+  c2_inv: [2, 'Proporcionalidad inversa'], c2_pol: [2, 'Operaciones con polinomios'], c2_ident: [2, 'Identidades notables: factorizar'],
+  c2_ecu2: [2, 'Ecuaciones de segundo grado'], c2_sist: [2, 'Sistemas de ecuaciones'], c2_pita: [2, 'Teorema de Pitágoras'], c2_func: [2, 'Rectas: punto de corte'],
+  c3_gen: [3, 'Números racionales: fracción generatriz'], c3_pot: [3, 'Potencias de exponente negativo'], c3_cien: [3, 'Notación científica'],
+  c3_rad: [3, 'Radicales: extraer factores y sumar'], c3_pol: [3, 'Polinomios: teorema del resto y divisibilidad'], c3_ecu: [3, 'Ecuaciones con denominadores'],
+  c3_suc: [3, 'Progresiones aritméticas y geométricas'], c3_rect: [3, 'Rectas paralelas y perpendiculares'], c3_tales: [3, 'Semejanza y teorema de Tales'], c3_prob: [3, 'Probabilidad: regla de Laplace'],
+  c4_racio: [4, 'Racionalización con conjugado'], c4_log: [4, 'Logaritmos'], c4_fact: [4, 'Factorización de polinomios'], c4_bicu: [4, 'Ecuaciones bicuadradas e irracionales'],
+  c4_ineq: [4, 'Inecuaciones de segundo grado y racionales'], c4_trig: [4, 'Razones trigonométricas'], c4_vec: [4, 'Distancia entre dos puntos'],
+  c4_comb: [4, 'Combinatoria'], c4_prob: [4, 'Probabilidad compuesta y total'], c4_exp: [4, 'Ecuaciones exponenciales']
+};
+function generar(id) { const q = G[id](); q.tema = id; q.temaNombre = TEMAS[id][1]; return q; }
+function temasDe(curso) { return Object.keys(TEMAS).filter(id => TEMAS[id][0] === curso); }
+function temasAnteriores(curso) { return Object.keys(TEMAS).filter(id => TEMAS[id][0] < curso && (curso === 1 || TEMAS[id][0] > 0)); }
+
+/* Lee la respuesta escrita por la alumna: enteros, decimales con coma o punto y fracciones a/b */
+function leerNumero(txt) {
+  let s = String(txt || '').trim().replace(/\s+/g, '').replace(/^x=|^n=/i, '').replace(/−/g, '-').replace(',', '.');
+  if (!s) return null;
+  const m = s.match(/^(-?\d+(?:\.\d+)?)\/(-?\d+(?:\.\d+)?)$/);
+  if (m) { const d = parseFloat(m[2]); return d === 0 ? null : parseFloat(m[1]) / d; }
+  if (/^-?\d+(\.\d+)?$/.test(s) || /^-?\.\d+$/.test(s)) return parseFloat(s);
+  return null;
+}
+function esCorrecta(q, valor) {
+  if (q.tipo === 'opc') return valor === q.correcta;
+  const v = leerNumero(valor); if (v === null) return false;
+  return Math.abs(v - q.resp) <= Math.max(q.tol, 1e-9 * Math.abs(q.resp));
+}
+if (typeof module !== 'undefined') module.exports = { G, TEMAS, CURSOS, generar, temasDe, temasAnteriores, leerNumero, esCorrecta };
+
+/* ============================================================
+   BLOQUES POR CURSO · cada bloque tiene tres tipos de ejercicio:
+   teo (teoría), sin (aplicación sin calculadora), con (aplicación con calculadora)
+   ============================================================ */
+const TIPOS = { 1: 'Teoría', 2: 'Sin calculadora', 3: 'Con calculadora' };
+const B = {};            // id -> { curso, tema, nombre, teo, sin, con }
+const TEMARIO = {};      // curso -> [{ num, nombre, bloques: [ids] }]
+function tema(curso, num, nombre, bloques) {
+  (TEMARIO[curso] = TEMARIO[curso] || []).push({ num, nombre, bloques: bloques.map(b => b[0]) });
+  bloques.forEach(([id, nom, g]) => { B[id] = Object.assign({ curso, tema: num, temaNombre: nombre, nombre: nom }, g); });
+}
+/* número redondeado: dec = cifras decimales pedidas */
+const rnd = (x, d) => Math.round(x * 10 ** d) / 10 ** d;
+function numR(v, dec) { const r = rnd(v, dec); return { tipo: 'num', resp: r, respTex: ft(r), formato: 'red' + dec, tol: 1.01 * 10 ** -dec }; }
+const fx = (x, d = 2) => ft(rnd(x, d));                       // número con coma para TeX
+const fxP = (x, d = 2) => x < 0 ? `(${fx(x, d)})` : fx(x, d);   // con paréntesis si es negativo
+const fxt = (x, d = 2) => String(rnd(x, d)).replace('.', ','); // número con coma para texto
+
+/* Teoría 1: ¿en qué paso está el error? pasos = [html], err = índice del paso con error o -1 */
+function errorEn(intro, pasos, err, explica) {
+  const opciones = pasos.map((_, i) => 'Paso ' + (i + 1)).concat(['No hay ningún error']);
+  return { tipo: 'opc', enun: intro + '<ol class="pasosEj">' + pasos.map(p => '<li>' + p + '</li>').join('') + '</ol>¿En qué paso está el error?',
+    opciones, correcta: err < 0 ? pasos.length : err, respTex: err < 0 ? 'No hay ningún error' : 'Paso ' + (err + 1), sol: explica, fijo: true };
+}
+/* Teoría 2: elegir la afirmación verdadera o la falsa. pool = funciones que devuelven { t, v, e } */
+function afirmaciones(pool, contexto) {
+  const busca = falsa => { for (let k = 0; k < 200; k++) { const xs = shuffle(pool.slice()).slice(0, 4).map(f => f());
+    const obj = xs.filter(x => x.v !== falsa); if (obj.length === 1 && new Set(xs.map(x => x.t)).size === 4) return xs; } return null; };
+  let falsa = ri(0, 1) === 1, xs = busca(falsa); if (!xs) { falsa = !falsa; xs = busca(falsa); }
+  const c = xs.find(x => x.v !== falsa);
+  return { tipo: 'opc', enun: (contexto ? contexto + ' ' : '') + '¿Cuál de estas afirmaciones es <b>' + (falsa ? 'falsa' : 'verdadera') + '</b>?',
+    opciones: xs.map(x => x.t), correcta: xs.indexOf(c), respTex: c.t, sol: c.e, largo: true };
+}
+/* afirmación que a veces es verdadera y a veces falsa */
+const af = (tv, tf, ev, ef) => () => ri(0, 1) ? { t: tv, v: true, e: ev } : { t: tf, v: false, e: ef };
+const afV = (t, e) => () => ({ t, v: true, e });
+const afF = (t, e) => () => ({ t, v: false, e });
+
+/* ======================= 3.º ESO ======================= */
+
+/* ---------- Tema 1 · Los números racionales ---------- */
+tema(3, 1, 'Los números racionales', [
+ ['b3_1_1', 'Operaciones combinadas con fracciones', {
+  teo: () => { const [a, b] = fi(5, 2, 6), [c, d] = fi(4, 2, 5), [e, f] = fi(4, 2, 6), err = ri(-1, 2);
+    const P = fr(c * e, d * f), Pm = fr(c * f, d * e), S = fr(a * P[1] + P[0] * b, b * P[1]);
+    const L = lcm(b, P[1]);
+    let p1 = M(`\\frac{${c}}{${d}} \\cdot \\frac{${e}}{${f}} = ${texFr(P)}`), p2 = M(`\\frac{${a}}{${b}} + ${texFr(P)} = \\frac{${a * L / b}}{${L}} + \\frac{${P[0] * L / P[1]}}{${L}}`), p3 = M(`= ${texFr(S)}`), exp;
+    if (err === 0) { if (Pm[0] === P[0] && Pm[1] === P[1]) return B.b3_1_1.teo(); const S2 = fr(a * Pm[1] + Pm[0] * b, b * Pm[1]), L2 = lcm(b, Pm[1]);
+      p1 = M(`\\frac{${c}}{${d}} \\cdot \\frac{${e}}{${f}} = ${texFr(Pm)}`); p2 = M(`\\frac{${a}}{${b}} + ${texFr(Pm)} = \\frac{${a * L2 / b}}{${L2}} + \\frac{${Pm[0] * L2 / Pm[1]}}{${L2}}`); p3 = M(`= ${texFr(S2)}`);
+      exp = `En el paso 1 se han multiplicado en cruz. El producto de fracciones es numerador por numerador y denominador por denominador: ${M(`${texFr(P)}`)}. El resultado correcto es ${M(texFr(S))}.`; }
+    else if (err === 1) { const W = fr(a + P[0], b + P[1]); p2 = M(`\\frac{${a}}{${b}} + ${texFr(P)} = \\frac{${a} + ${P[0]}}{${b} + ${P[1]}}`); p3 = M(`= ${texFr(W)}`);
+      exp = `En el paso 2 se han sumado numeradores y denominadores. Para sumar fracciones hay que reducir a común denominador: el resultado correcto es ${M(texFr(S))}.`; }
+    else if (err === 2) { const W = fr(S[0] + (S[0] > 0 ? 1 : -1), S[1]); if (W[0] === S[0] && W[1] === S[1]) return B.b3_1_1.teo(); p3 = M(`= ${texFr(W)}`);
+      exp = `En el paso 3 la suma de numeradores está mal hecha: ${M(`${a * L / b} + ${P[0] * L / P[1]} = ${a * L / b + P[0] * L / P[1]}`)}, así que el resultado es ${M(texFr(S))}.`; }
+    else exp = `Todos los pasos son correctos: primero el producto y después la suma con común denominador. Resultado: ${M(texFr(S))}.`;
+    return errorEn(`Una compañera ha calculado ${M(`\\frac{${a}}{${b}} + \\frac{${c}}{${d}} \\cdot \\frac{${e}}{${f}}`)} así:`, [p1, p2, p3], err, exp); },
+  sin: () => { const [a, b] = fi(5, 2, 6), [c, d] = fi(3, 2, 4), [e, f] = fi(4, 2, 6), [g, h] = fi(4, 2, 6), s1 = pick([1, -1]);
+    const cu = fr(c * c, d * d), t1 = fr(s1 * a * cu[1] - cu[0] * b, b * cu[1]), t2 = fr(e * h - g * f, f * h);
+    if (t1[0] === 0 || t2[0] === 0) return B.b3_1_1.sin(); const r = fr(t1[0] * t2[1], t1[1] * t2[0]);
+    return { enun: `Calcula y simplifica ${M(`\\left[${s1 < 0 ? '-' : ''}\\frac{${a}}{${b}} - \\left(-\\frac{${c}}{${d}}\\right)^2\\right] : \\left(\\frac{${e}}{${f}} - \\frac{${g}}{${h}}\\right)`)}.`,
+      sol: `Corchete: ${M(`${s1 < 0 ? '-' : ''}\\frac{${a}}{${b}} - ${texFr(cu)} = ${texFr(t1)}`)} (el cuadrado de un número negativo es positivo). Paréntesis: ${M(`\\frac{${e}}{${f}} - \\frac{${g}}{${h}} = ${texFr(t2)}`)}. División: ${M(`${texFr(t1)} : ${t2[0] < 0 ? '\\left(' + texFr(t2) + '\\right)' : texFr(t2)} = ${texFr(r)}`)}.`, ...fracR(r) }; },
+  con: () => { const V = ri(18, 60) * 100 + pick([0, 25, 50, 75]), [a, b] = pick([[2, 5], [3, 8], [1, 3], [2, 7], [3, 5]]), [c, d] = pick([[3, 4], [2, 9], [4, 7], [5, 6], [1, 4]]), x = rnd(pick([1.25, 1.35, 1.48, 0.95, 1.12, 1.6]), 2);
+    const g1 = V * a / b, q1 = V - g1, g2 = q1 * c / d, q2 = q1 - g2, euros = q2 * x;
+    return { enun: `Un depósito contiene ${V} litros de aceite. Se vende ${M(`\\frac{${a}}{${b}}`)} del total y después ${M(`\\frac{${c}}{${d}}`)} de lo que quedaba. El aceite restante se vende a ${fxt(x)} €/L. ¿Cuántos euros se obtienen por el aceite restante? Redondea a los céntimos.`,
+      sol: `Queda ${M(`${V} \\cdot \\frac{${b - a}}{${b}} = ${fx(q1)}`)} L y después ${M(`${fx(q1)} \\cdot \\frac{${d - c}}{${d}} = ${fx(q2)}`)} L. Importe: ${M(`${fx(q2)} \\cdot ${fx(x)} = ${fx(euros)}`)} €.`, ...numR(euros, 2) }; } }],
+ ['b3_1_2', 'Decimales y fracción generatriz', {
+  teo: () => { if (ri(0, 1)) { const e = ri(0, 3), p = ri(1, 9); let q = ri(1, 8); while (q === p) q = ri(1, 8);
+      const N = 100 * e + 10 * p + q, n = 10 * e + p, ok = fr(N - n, 90), err = pick([-1, 1, 2]);
+      const p1 = M(`x = ${e}{,}${p}\\overline{${q}} \\Rightarrow 100x = ${N}{,}\\overline{${q}},\\quad 10x = ${n}{,}\\overline{${q}}`);
+      const p2 = err === 1 ? M(`100x - x = ${N} - ${e} \\Rightarrow 99x = ${N - e}`) : M(`100x - 10x = ${N} - ${n} \\Rightarrow 90x = ${N - n}`);
+      const p3 = err === 1 ? M(`x = ${texFr(fr(N - e, 99))}`) : err === 2 ? M(`x = \\frac{${N - n}}{90} = ${texFr(fr(N - n + 9, 90))}`) : M(`x = \\frac{${N - n}}{90}${ok[1] !== 90 ? ' = ' + texFr(ok) : ''}`);
+      if (err === 2 && fr(N - n + 9, 90)[0] === ok[0]) return B.b3_1_2.teo();
+      return errorEn(`Una compañera ha calculado la fracción generatriz de ${M(`${e}{,}${p}\\overline{${q}}`)}:`, [p1, p2, p3], err,
+        err === 1 ? `En el paso 2 se ha restado ${M('x')}, pero ${M(`${e}{,}${p}\\overline{${q}}`)} y ${M(`${N}{,}\\overline{${q}}`)} no tienen la misma parte decimal. Hay que restar ${M('100x - 10x')}: ${M(`x = ${texFr(ok)}`)}.`
+        : err === 2 ? `En el paso 3 la fracción está mal simplificada: ${M(`\\frac{${N - n}}{90} = ${texFr(ok)}`)}.` : `Todos los pasos son correctos: ${M(`x = ${texFr(ok)}`)}.`); }
+    const a = ri(2, 9);
+    return afirmaciones([
+      af(`Todo número decimal periódico es racional.`, `Algunos números decimales periódicos no son racionales.`, `Todo decimal periódico tiene fracción generatriz, así que es racional.`, `Es falso: todo decimal periódico tiene fracción generatriz y por tanto es racional.`),
+      af(`${M('0{,}\\overline{9} = 1')}`, `${M('0{,}\\overline{9}')} es menor que 1.`, `Su fracción generatriz es ${M('\\frac{9}{9} = 1')}.`, `Es falso: ${M('0{,}\\overline{9} = \\frac{9}{9} = 1')}.`),
+      af(`${M(`\\sqrt{${a * a}}`)} es un número racional.`, `${M(`\\sqrt{${a * a + 1}}`)} es un número racional.`, `${M(`\\sqrt{${a * a}} = ${a}`)}, que es entero y por tanto racional.`, `${a * a + 1} no es un cuadrado perfecto, así que ${M(`\\sqrt{${a * a + 1}}`)} es irracional.`),
+      af(`La fracción ${M(`\\frac{${pick([1, 3, 7, 9, 11, 13])}}{${pick([8, 20, 40, 25, 16])}}`)} da un decimal exacto.`, `La fracción ${M(`\\frac{1}{${pick([3, 6, 7, 9, 11])}}`)} da un decimal exacto.`, `Su denominador solo tiene los factores 2 y 5, así que da un decimal exacto.`, `Su denominador tiene factores distintos de 2 y 5, así que da un decimal periódico.`),
+      afF(`El producto de dos números irracionales siempre es irracional.`, `Es falso: por ejemplo, ${M('\\sqrt{2} \\cdot \\sqrt{2} = 2')}, que es racional.`),
+      afV(`Entre dos números racionales distintos siempre hay otro número racional.`, `Es verdadero: por ejemplo, su media aritmética.`)]); },
+  sin: () => G.c3_gen(),
+  con: () => { const e = ri(1, 9), a = ri(0, 9); let per = ri(100, 998); while (per % 111 === 0) per = ri(100, 998);
+    const full = Number(`${e}${a}${per}`), ant = Number(`${e}${a}`), f = fr(full - ant, 9990);
+    return { enun: `Halla la fracción generatriz irreducible de ${M(`${e}{,}${a}\\overline{${per}}`)}.`,
+      sol: `Anteperíodo de 1 cifra y período de 3: ${M(`x = \\frac{${full} - ${ant}}{9990} = \\frac{${full - ant}}{9990}${f[1] !== 9990 ? ' = ' + texFr(f) : ''}`)}.`, ...fracR(f) }; } }],
+ ['b3_1_3', 'Aproximaciones y errores', {
+  teo: () => { const x = ri(10000, 99999) / 10000, r2 = rnd(x, 2), t2 = Math.floor(x * 100) / 100;
+    return afirmaciones([
+      af(`Al redondear ${M(fx(x, 4))} a las centésimas se obtiene ${M(fx(r2))}.`, `Al redondear ${M(fx(x, 4))} a las centésimas se obtiene ${M(fx(r2 === t2 ? r2 + 0.01 : t2))}.`, `La cifra de las milésimas decide: ${M(fx(x, 4))} se redondea a ${M(fx(r2))}.`, `Es falso: el redondeo correcto es ${M(fx(r2))}.`),
+      afV(`El error relativo no tiene unidades.`, `Es verdadero: es un cociente entre dos cantidades con las mismas unidades.`),
+      afF(`Truncar y redondear un número siempre dan el mismo resultado.`, `Es falso: por ejemplo, ${M('2{,}67')} truncado a las décimas es ${M('2{,}6')} y redondeado es ${M('2{,}7')}.`),
+      afV(`Una aproximación por defecto es menor que el valor exacto.`, `Es verdadero: por defecto significa por debajo del valor exacto.`),
+      afF(`El error absoluto puede ser negativo.`, `Es falso: el error absoluto es un valor absoluto, así que nunca es negativo.`),
+      afV(`Cuanto menor es el error relativo, mejor es la aproximación.`, `Es verdadero: el error relativo mide el error en proporción al valor exacto.`)]); },
+  sin: () => { const q = pick([3, 6, 7, 9, 11, 12]); let p = ri(1, q - 1); while (gcd(p, q) !== 1) p = ri(1, q - 1);
+    const d = rnd(p / q, 2), E = fr(Math.abs(Math.round(d * 100) * q - 100 * p), 100 * q);
+    return { enun: `Calcula, como fracción, el error absoluto que se comete al aproximar ${M(`\\frac{${p}}{${q}}`)} por ${M(fx(d))}.`,
+      sol: M(`E_a = \\left|${fx(d)} - \\frac{${p}}{${q}}\\right| = \\left|\\frac{${Math.round(d * 100)}}{100} - \\frac{${p}}{${q}}\\right| = \\left|\\frac{${Math.round(d * 100) * q} - ${100 * p}}{${100 * q}}\\right| = ${texFr(E)}`), ...fracR(E) }; },
+  con: () => { let n = ri(2, 60); while (Number.isInteger(Math.sqrt(n))) n = ri(2, 60); const v = Math.sqrt(n), a = Math.floor(v * 100) / 100, er = Math.abs(v - a) / v * 100;
+    return { enun: `Se aproxima ${M(`\\sqrt{${n}}`)} truncando a las centésimas. Calcula el error relativo en porcentaje. Redondea a las milésimas.`,
+      sol: `${M(`\\sqrt{${n}} = ${fx(v, 6)}\\ldots \\approx ${fx(a)}`)}. ${M(`E_r = \\frac{|${fx(v, 6)} - ${fx(a)}|}{${fx(v, 6)}} \\cdot 100 = ${fx(er, 3)}`)} %.`, ...numR(er, 3) }; } }]
+]);
+
+/* ---------- Tema 2 · Las potencias y los radicales ---------- */
+tema(3, 2, 'Las potencias y los radicales', [
+ ['b3_2_1', 'Potencias de exponente entero', {
+  teo: () => { const a = ri(2, 5), n = ri(2, 3), m = ri(2, 4), k = ri(2, 3);
+    return afirmaciones([
+      af(`${M(`(-${a})^{-2} = \\frac{1}{${a * a}}`)}`, `${M(`(-${a})^{-2} = -\\frac{1}{${a * a}}`)}`, `El exponente negativo invierte la base y el exponente par hace el resultado positivo.`, `Es falso: ${M(`(-${a})^{-2} = \\frac{1}{(-${a})^2} = \\frac{1}{${a * a}}`)}, que es positivo.`),
+      af(`${M(`\\left(${a}^{${m}}\\right)^{${k}} = ${a}^{${m * k}}`)}`, `${M(`\\left(${a}^{${m}}\\right)^{${k}} = ${a}^{${m + k}}`)}`, `Potencia de una potencia: se multiplican los exponentes.`, `Es falso: en una potencia de una potencia se multiplican los exponentes, ${M(`${a}^{${m * k}}`)}.`),
+      af(`${M(`-${a}^{2} = -${a * a}`)}`, `${M(`-${a}^{2} = ${a * a}`)}`, `Sin paréntesis, el exponente solo afecta al ${a}.`, `Es falso: sin paréntesis, ${M(`-${a}^2 = -${a * a}`)}.`),
+      afF(`${M('(a + b)^2 = a^2 + b^2')}`, `Es falso: ${M('(a+b)^2 = a^2 + 2ab + b^2')}.`),
+      afV(`${M('a^0 = 1')} para cualquier ${M('a \\neq 0')}.`, `Es verdadero: ${M('a^0 = a^{n-n} = \\frac{a^n}{a^n} = 1')}.`),
+      af(`${M(`${a}^{-${n}} = \\frac{1}{${a ** n}}`)}`, `${M(`${a}^{-${n}} = -${a ** n}`)}`, `Un exponente negativo indica el inverso: ${M(`\\frac{1}{${a}^{${n}}}`)}.`, `Es falso: el exponente negativo no cambia el signo, indica el inverso: ${M(`\\frac{1}{${a ** n}}`)}.`)]); },
+  sin: () => { if (ri(0, 1)) return G.c3_pot(); const a = ri(1, 3), b = ri(1, 3), c = ri(1, 3), e2 = -2 * a + b + c, e3 = -a + 2 * b + c;
+    if (Math.abs(e2) > 6 || Math.abs(e3) > 4) return B.b3_2_1.sin();
+    const v = fr((2 ** Math.max(e2, 0)) * (3 ** Math.max(e3, 0)), (2 ** Math.max(-e2, 0)) * (3 ** Math.max(-e3, 0)));
+    return { enun: `Simplifica y da el resultado como fracción: ${M(`\\frac{12^{-${a}} \\cdot ${pw(18, b)}}{6^{-${c}}}`)}`,
+      sol: `Descomponemos: ${M('12 = 2^2 \\cdot 3,\\ 18 = 2 \\cdot 3^2,\\ 6 = 2 \\cdot 3')}. Exponente de 2: ${M(`-${2 * a} + ${b} + ${c} = ${e2}`)}; de 3: ${M(`-${a} + ${2 * b} + ${c} = ${e3}`)}. Resultado: ${M(`2^{${e2}} \\cdot 3^{${e3}} = ${texFr(v)}`)}.`, ...fracR(v) }; },
+  con: () => { const C = ri(20, 90) * 100, r = pick([1.75, 2.25, 2.5, 3.1, 3.4, 4.2]), n = ri(4, 9), atras = ri(0, 1) === 1;
+    if (atras) { const v = C / (1 + r / 100) ** n;
+      return { enun: `Hoy una cuenta tiene ${C} € después de ${n} años al ${fxt(r)} % de interés compuesto anual. ¿Qué capital se ingresó al principio? Redondea a los céntimos.`,
+        sol: `${M(`C_0 = ${C} \\cdot (1 + ${fx(r / 100, 4)})^{-${n}} = ${fx(v)}`)} €.`, ...numR(v, 2) }; }
+    const v = C * (1 + r / 100) ** n;
+    return { enun: `Se depositan ${C} € al ${fxt(r)} % de interés compuesto anual. ¿Qué capital habrá dentro de ${n} años? Redondea a los céntimos.`,
+      sol: `${M(`C = ${C} \\cdot (1 + ${fx(r / 100, 4)})^{${n}} = ${fx(v)}`)} €.`, ...numR(v, 2) }; } }],
+ ['b3_2_2', 'Notación científica', {
+  teo: () => { const m = ri(11, 99) / 10, e = ri(3, 7), s = `${'0,'}${'0'.repeat(e - 1)}${String(m).replace('.', '')}`;
+    return afirmaciones([
+      af(`${M(`${fx(m)} \\cdot 10^{-${e}}`)} es igual a ${M(s.replace(',', '{,}'))}.`, `${M(`${fx(m)} \\cdot 10^{-${e}}`)} es igual a ${M(`0{,}${'0'.repeat(e)}${String(m).replace('.', '')}`)}.`, `Se desplaza la coma ${e} lugares a la izquierda.`, `Es falso: se desplaza la coma ${e} lugares a la izquierda, ${M(s.replace(',', '{,}'))}.`),
+      afF(`${M(`${ri(11, 99)} \\cdot 10^{${ri(2, 8)}}`)} está escrito en notación científica.`, `Es falso: la parte entera de la mantisa debe tener una sola cifra distinta de cero.`),
+      afV(`En notación científica, la mantisa ${M('m')} cumple ${M('1 \\leq m < 10')}.`, `Es verdadero: esa es la condición de la notación científica.`),
+      afF(`${M(`2 \\cdot 10^{5} + 3 \\cdot 10^{4} = 5 \\cdot 10^{9}`)}`, `Es falso: para sumar hay que igualar exponentes: ${M('20 \\cdot 10^4 + 3 \\cdot 10^4 = 2{,}3 \\cdot 10^5')}.`),
+      afV(`Para multiplicar dos números en notación científica se multiplican las mantisas y se suman los exponentes.`, `Es verdadero, y después se ajusta la mantisa si hace falta.`)]); },
+  sin: () => G.c3_cien(),
+  con: () => { const C = pick([['la masa de la Tierra', 5.97, 24, 'la masa de la Luna', 7.35, 22, 'kg'], ['el radio del Sol', 6.96, 8, 'el radio de la Tierra', 6.37, 6, 'm'], ['la distancia Tierra–Sol', 1.496, 11, 'la distancia Tierra–Luna', 3.84, 8, 'm'], ['la masa de un protón', 1.673, -27, 'la masa de un electrón', 9.109, -31, 'kg']]);
+    const v = (C[1] * 10 ** C[2]) / (C[4] * 10 ** C[5]);
+    return { enun: `${C[0][0].toUpperCase() + C[0].slice(1)} es ${M(`${fx(C[1], 3)} \\cdot 10^{${C[2]}}`)} ${C[6]} y ${C[3]} es ${M(`${fx(C[4], 3)} \\cdot 10^{${C[5]}}`)} ${C[6]}. ¿Cuántas veces es mayor la primera cantidad que la segunda? Redondea a las décimas.`,
+      sol: M(`\\frac{${fx(C[1], 3)} \\cdot 10^{${C[2]}}}{${fx(C[4], 3)} \\cdot 10^{${C[5]}}} = ${fx(C[1] / C[4], 4)} \\cdot 10^{${C[2] - C[5]}} \\approx ${fx(v, 1)}`), ...numR(v, 1) }; } }],
+ ['b3_2_3', 'Radicales: simplificar, extraer y operar', {
+  teo: () => { const m = pick([2, 3, 5]), k = ri(2, 4), n = ri(2, 4), err = ri(-1, 2), A = k * k * m, Bv = n * n * m, s = k + n;
+    const p1 = M(`\\sqrt{${A}} = ${err === 0 ? `${k * k}\\sqrt{${m}}` : `${k}\\sqrt{${m}}`}`), p2 = M(`\\sqrt{${Bv}} = ${n}\\sqrt{${m}}`);
+    const p3 = err === 2 ? M(`${k}\\sqrt{${m}} + ${n}\\sqrt{${m}} = ${s}\\sqrt{${2 * m}}`) : M(`${err === 0 ? k * k : k}\\sqrt{${m}} + ${n}\\sqrt{${m}} = ${(err === 0 ? k * k : k) + n}\\sqrt{${m}}`);
+    const pasos = err === 1 ? [M(`\\sqrt{${A}} + \\sqrt{${Bv}} = \\sqrt{${A + Bv}}`), M(`\\sqrt{${A + Bv}} \\approx ${fx(Math.sqrt(A + Bv))}`)] : [p1, p2, p3];
+    return errorEn(`Una compañera ha calculado ${M(`\\sqrt{${A}} + \\sqrt{${Bv}}`)}:`, pasos, err === 1 ? 0 : err,
+      err === 0 ? `En el paso 1 el factor ${M(`${k}^2`)} sale de la raíz como ${M(k)}, no como ${M(k * k)}. Resultado: ${M(`${s}\\sqrt{${m}}`)}.`
+      : err === 1 ? `En el paso 1 se ha sumado dentro de la raíz: ${M('\\sqrt{a} + \\sqrt{b} \\neq \\sqrt{a + b}')}. Hay que extraer factores: ${M(`${k}\\sqrt{${m}} + ${n}\\sqrt{${m}} = ${s}\\sqrt{${m}}`)}.`
+      : err === 2 ? `En el paso 3, al sumar radicales semejantes el radicando no cambia: ${M(`${s}\\sqrt{${m}}`)}.` : `Todos los pasos son correctos: ${M(`${s}\\sqrt{${m}}`)}.`); },
+  sin: () => { if (ri(0, 1)) return G.c3_rad(); const [a, b, c] = pick([[6, 15, 10], [10, 14, 35], [6, 21, 14], [15, 35, 21], [12, 18, 6], [20, 45, 4]]), v = Math.sqrt(a * b / c);
+    if (!Number.isInteger(v)) return B.b3_2_3.sin();
+    return { enun: `Calcula ${M(`\\frac{\\sqrt{${a}} \\cdot \\sqrt{${b}}}{\\sqrt{${c}}}`)}.`, sol: M(`\\sqrt{\\frac{${a} \\cdot ${b}}{${c}}} = \\sqrt{${a * b / c}} = ${v}`), ...num(v, `${v}`) }; },
+  con: () => { const V = ri(50, 900) + pick([0, 0.5]), a = Math.cbrt(V), d = a * Math.sqrt(3);
+    return { enun: `Un cubo tiene un volumen de ${fxt(V, 1)} cm³. Calcula la longitud de su diagonal (en cm). Redondea a las centésimas.`,
+      sol: `Arista: ${M(`a = \\sqrt[3]{${fx(V, 1)}} = ${fx(a, 4)}`)} cm. Diagonal: ${M(`D = a\\sqrt{3} = ${fx(d)}`)} cm.`, ...numR(d, 2) }; } }]
+]);
+
+/* ---------- Tema 3 · Las sucesiones numéricas ---------- */
+tema(3, 3, 'Las sucesiones numéricas', [
+ ['b3_3_1', 'Término general', {
+  teo: () => { const a = ri(2, 6), b = ri(1, 9), k = ri(5, 15), term = a * k - b, cand = ri(20, 99);
+    return afirmaciones([
+      af(`En la sucesión ${M(`a_n = ${a}n - ${b}`)}, el término ${M(`a_{${k}}`)} vale ${term}.`, `En la sucesión ${M(`a_n = ${a}n - ${b}`)}, el término ${M(`a_{${k}}`)} vale ${term + a}.`, M(`a_{${k}} = ${a} \\cdot ${k} - ${b} = ${term}`), `Es falso: ${M(`a_{${k}} = ${a} \\cdot ${k} - ${b} = ${term}`)}.`),
+      af(`${(cand + b) % a === 0 ? cand : cand + (a - (cand + b) % a)} es un término de la sucesión ${M(`a_n = ${a}n - ${b}`)}.`, `${(cand + b) % a === 0 ? cand + 1 : cand} es un término de la sucesión ${M(`a_n = ${a}n - ${b}`)}.`, `Al despejar ${M('n')} en ${M(`${a}n - ${b} = x`)} se obtiene un número natural.`, `Es falso: al despejar ${M('n')} no se obtiene un número natural.`),
+      afF(`Toda sucesión tiene un término general.`, `Es falso: por ejemplo, la sucesión de los números primos no tiene una fórmula sencilla para su término general.`),
+      afV(`La sucesión ${M('a_n = (-1)^n \\cdot n')} alterna signos.`, `Es verdadero: ${M('(-1)^n')} vale ${M('-1')} para ${M('n')} impar y ${M('1')} para ${M('n')} par.`),
+      afF(`La sucesión ${M('a_n = \\frac{1}{n}')} es creciente.`, `Es falso: cada término es menor que el anterior, así que es decreciente.`)]); },
+  sin: () => { if (ri(0, 1)) { const a = ri(3, 9), b = ri(-9, 9), n = ri(20, 60), v = a * n + b;
+      return { enun: `¿Qué lugar ocupa el término que vale ${v} en la sucesión ${M(`a_n = ${poly([a, b], 'n')}`)}?`, sol: M(`${poly([a, b], 'n')} = ${v} \\Rightarrow ${a}n = ${v - b} \\Rightarrow n = ${n}`), ...num(n, `${n}`) }; }
+    const c = ri(-6, 6), n = ri(6, 14), v = n * n + c * n;
+    return { enun: `En la sucesión ${M(`a_n = n^2 ${c ? sg(c) + 'n' : ''}`)}, ¿qué término vale ${v}?`, sol: `Resolvemos ${M(`n^2 ${c ? sg(c) + 'n' : ''} - ${v} = 0`)}; la solución natural es ${M(`n = ${n}`)}.`, ...num(n, `${n}`) }; },
+  con: () => { const a1 = ri(10, 99) / 10, k = pick([1.2, 0.8, 1.5, 0.6, 1.1]), c = ri(-30, 30) / 10, n = ri(5, 7); let x = a1;
+    for (let i = 1; i < n; i++) x = k * x + c;
+    return { enun: `Una sucesión cumple ${M(`a_1 = ${fx(a1, 1)}`)} y ${M(`a_{n+1} = ${fx(k, 1)} \\cdot a_n ${sg(rnd(c, 1)).replace('.', '{,}')}`)}. Calcula ${M(`a_{${n}}`)}. Redondea a las centésimas.`,
+      sol: `Aplicamos la fórmula ${n - 1} veces partiendo de ${M(`a_1 = ${fx(a1, 1)}`)}: ${M(`a_{${n}} \\approx ${fx(x)}`)}.`, ...numR(x, 2) }; } }],
+ ['b3_3_2', 'Progresiones aritméticas', {
+  teo: () => { const a1 = ri(-5, 12), d = riNZ(-4, 6), n = ri(10, 25), an = a1 + (n - 1) * d, S = (a1 + an) * n / 2, err = ri(-1, 2);
+    const p1 = err === 0 ? M(`a_{${n}} = ${a1} + ${n} \\cdot ${P(d)} = ${a1 + n * d}`) : M(`a_{${n}} = ${a1} + ${n - 1} \\cdot ${P(d)} = ${an}`), an2 = err === 0 ? a1 + n * d : an;
+    const p2 = err === 1 ? M(`S_{${n}} = (${a1} + ${P(an2)}) \\cdot ${n} = ${(a1 + an2) * n}`) : M(`S_{${n}} = \\frac{(${a1} + ${P(an2)}) \\cdot ${n}}{2} = ${ft((a1 + an2) * n / 2)}`);
+    const pasos = err === 2 ? [p1, M(`S_{${n}} = \\frac{(${a1} + ${P(an)}) \\cdot ${n}}{2} = ${S + pick([n, -n, 2 * d])}`)] : [p1, p2];
+    if (err === 2) return errorEn(`Una compañera ha calculado la suma de los ${n} primeros términos de la progresión aritmética con ${M(`a_1 = ${a1}`)} y ${M(`d = ${d}`)}:`, pasos, 1, `En el paso 2 la operación está mal hecha: ${M(`\\frac{${a1 + an} \\cdot ${n}}{2} = ${S}`)}.`);
+    return errorEn(`Una compañera ha calculado la suma de los ${n} primeros términos de la progresión aritmética con ${M(`a_1 = ${a1}`)} y ${M(`d = ${d}`)}:`, [p1, p2], err,
+      err === 0 ? `En el paso 1 la fórmula es ${M('a_n = a_1 + (n-1)d')}: ${M(`a_{${n}} = ${an}`)} y ${M(`S_{${n}} = ${S}`)}.` : err === 1 ? `En el paso 2 falta dividir entre 2: ${M(`S_{${n}} = \\frac{(a_1 + a_n) \\cdot n}{2} = ${S}`)}.` : `Todos los pasos son correctos: ${M(`S_{${n}} = ${S}`)}.`); },
+  sin: () => { if (ri(0, 1)) return G.c3_suc(); const a1 = ri(-10, 10), d = riNZ(-5, 5), k = ri(30, 120), n = Math.floor((k - a1) / d) + 1; if (d < 0 || n < 5) return B.b3_3_2.sin();
+    const v = a1 + (n - 1) * d;
+    return { enun: `En la progresión aritmética ${M(`${a1},\\ ${a1 + d},\\ ${a1 + 2 * d},\\ \\ldots`)}, ¿cuántos términos son menores o iguales que ${k}?`, sol: M(`a_n = ${a1} + (n-1) \\cdot ${d} \\leq ${k} \\Rightarrow n \\leq ${fx((k - a1) / d + 1, 3)} \\Rightarrow n = ${n}`) + ` (el último es ${v}).`, ...num(n, `${n}`) }; },
+  con: () => { const a1 = ri(25, 60) / 10, d = ri(15, 45) / 100, n = ri(20, 40), an = a1 + (n - 1) * d, S = (a1 + an) * n / 2;
+    return { enun: `Una alumna entrena ${fxt(a1, 1)} km el primer día y cada día recorre ${fxt(d)} km más que el anterior. ¿Cuántos kilómetros habrá recorrido en total en ${n} días? Redondea a las centésimas.`,
+      sol: `${M(`a_{${n}} = ${fx(a1, 1)} + ${n - 1} \\cdot ${fx(d)} = ${fx(an)}`)}. ${M(`S_{${n}} = \\frac{(${fx(a1, 1)} + ${fx(an)}) \\cdot ${n}}{2} = ${fx(S)}`)} km.`, ...numR(S, 2) }; } }],
+ ['b3_3_3', 'Progresiones geométricas', {
+  teo: () => { const a1 = ri(1, 5), r = pick([2, 3, -2, -3]);
+    return afirmaciones([
+      af(`La progresión geométrica de razón ${M(r)} y ${M(`a_1 = ${a1}`)} es ${r > 0 ? 'creciente' : 'alternada (ni creciente ni decreciente)'}.`, `La progresión geométrica de razón ${M(r)} y ${M(`a_1 = ${a1}`)} es ${r > 0 ? 'decreciente' : 'creciente'}.`, r > 0 ? `Con ${M('a_1 > 0')} y ${M('r > 1')} cada término es mayor que el anterior.` : `Con razón negativa los signos se alternan.`, r > 0 ? `Es falso: con ${M('a_1 > 0')} y ${M('r > 1')} es creciente.` : `Es falso: con razón negativa los signos se alternan.`),
+      afV(`En una progresión geométrica, la razón se obtiene dividiendo un término entre el anterior.`, `Es verdadero: ${M('r = \\frac{a_{n+1}}{a_n}')}.`),
+      afF(`${M('1,\\ 4,\\ 9,\\ 16,\\ \\ldots')} es una progresión geométrica.`, `Es falso: ${M('\\frac{4}{1} \\neq \\frac{9}{4}')}; son los cuadrados de los números naturales.`),
+      af(`En una progresión geométrica, ${M('a_n = a_1 \\cdot r^{n-1}')}.`, `En una progresión geométrica, ${M('a_n = a_1 \\cdot r^{n}')}.`, `El primer término no se multiplica por la razón, así que el exponente es ${M('n-1')}.`, `Es falso: la fórmula es ${M('a_n = a_1 \\cdot r^{n-1}')}.`),
+      afV(`Una progresión geométrica de razón ${M('\\frac{1}{2}')} y primer término positivo es decreciente.`, `Es verdadero: cada término es la mitad del anterior.`)]); },
+  sin: () => { if (ri(0, 1)) { const a1 = pick([1, 2, 3, -1]), r = pick([2, 3, -2]), n = ri(4, 6), S = a1 * (r ** n - 1) / (r - 1);
+      return { enun: `Calcula la suma de los ${n} primeros términos de la progresión geométrica ${M(`${a1},\\ ${a1 * r},\\ ${a1 * r * r},\\ \\ldots`)}`, sol: M(`S_{${n}} = \\frac{a_1(r^{${n}} - 1)}{r - 1} = \\frac{${a1}(${P(r)}^{${n}} - 1)}{${r} - 1} = ${S}`), ...num(S, `${S}`) }; }
+    const r = pick([2, 3, -2]), a1 = pick([1, 2, 3, -1, -2]), a2 = a1 * r, a5 = a1 * r ** 4, a6 = a1 * r ** 5;
+    return { enun: `En una progresión geométrica, ${M(`a_2 = ${a2}`)} y ${M(`a_5 = ${a5}`)}. Calcula ${M('a_6')}.`, sol: `${M(`r^3 = \\frac{${a5}}{${a2}} = ${r ** 3} \\Rightarrow r = ${r}`)}. ${M(`a_6 = a_5 \\cdot r = ${a5} \\cdot ${P(r)} = ${a6}`)}.`, ...num(a6, `${a6}`) }; },
+  con: () => { const N = ri(15, 60) * 100, k = pick([1.25, 1.35, 1.4, 1.15, 0.85, 0.9]), h = ri(5, 10), v = N * k ** h;
+    return { enun: `Un cultivo tiene ${N} bacterias y cada hora su número se multiplica por ${fxt(k)}. ¿Cuántas bacterias habrá al cabo de ${h} horas? Redondea a las unidades.`,
+      sol: M(`a = ${N} \\cdot ${fx(k)}^{${h}} \\approx ${Math.round(v)}`), ...numR(v, 0) }; } }]
+]);
+
+/* ---------- Tema 4 · Los polinomios y las ecuaciones ---------- */
+tema(3, 4, 'Los polinomios y las ecuaciones', [
+ ['b3_4_1', 'Operaciones con polinomios', {
+  teo: () => { const a = ri(2, 5), b = riNZ(-6, 6), c = riNZ(-6, 6), d = ri(2, 4), e = riNZ(-5, 5), f = riNZ(-7, 7), err = ri(-1, 1);
+    const Pt = poly([a, b, c]), Qt = poly([d, e, f]), ok = [a - d, b - e, c - f];
+    const p1 = err === 0 ? M(`${Pt} - ${d}x^{2} ${sg(e)}x ${sg(f)}`) : M(`${Pt} - ${d}x^{2} ${sg(-e)}x ${sg(-f)}`);
+    const w = err === 0 ? [a - d, b + e, c + f] : ok, p2 = err === 1 ? M(poly([a - d, b - e + pick([2, -2]), c - f])) : M(poly(w));
+    if (err === 0 && e === 0 && f === 0) return B.b3_4_1.teo();
+    return errorEn(`Una compañera ha calculado ${M(`(${Pt}) - (${Qt})`)}:`, [p1, p2], err,
+      err === 0 ? `En el paso 1, el signo menos delante del paréntesis cambia el signo de todos los términos, no solo del primero. Resultado: ${M(poly(ok))}.`
+      : err === 1 ? `En el paso 2 los términos en ${M('x')} están mal agrupados: ${M(`${b}x ${sg(-e)}x = ${b - e}x`)}. Resultado: ${M(poly(ok))}.` : `Todos los pasos son correctos: ${M(poly(ok))}.`); },
+  sin: () => G.c2_pol(),
+  con: () => { const cs = [riNZ(-3, 3), ri(-6, 6), ri(-9, 9), ri(-9, 9)], x = rnd(ri(-250, 250) / 100, 2), v = cs[0] * x ** 3 + cs[1] * x * x + cs[2] * x + cs[3];
+    return { enun: `Calcula el valor numérico de ${M(`P(x) = ${poly(cs)}`)} para ${M(`x = ${fx(x)}`)}. Redondea a las centésimas.`, sol: M(`P(${fx(x)}) = ${fx(v, 4)} \\approx ${fx(v)}`), ...numR(v, 2) }; } }],
+ ['b3_4_2', 'Identidades notables y factorización', {
+  teo: () => { const a = ri(2, 9), k = ri(2, 4);
+    return afirmaciones([
+      af(`${M(`(x - ${a})^2 = x^2 - ${2 * a}x + ${a * a}`)}`, `${M(`(x - ${a})^2 = x^2 - ${a * a}`)}`, `Cuadrado de una diferencia: ${M('a^2 - 2ab + b^2')}.`, `Es falso: falta el doble producto: ${M(`x^2 - ${2 * a}x + ${a * a}`)}.`),
+      af(`${M(`(${k}x + ${a})^2 = ${k * k}x^2 + ${2 * k * a}x + ${a * a}`)}`, `${M(`(${k}x + ${a})^2 = ${k * k}x^2 + ${k * a}x + ${a * a}`)}`, `El doble producto es ${M(`2 \\cdot ${k}x \\cdot ${a} = ${2 * k * a}x`)}.`, `Es falso: el doble producto es ${M(`2 \\cdot ${k}x \\cdot ${a} = ${2 * k * a}x`)}.`),
+      af(`${M(`x^2 - ${a * a} = (x + ${a})(x - ${a})`)}`, `${M(`x^2 + ${a * a} = (x + ${a})(x - ${a})`)}`, `Diferencia de cuadrados: suma por diferencia.`, `Es falso: ${M(`(x + ${a})(x - ${a}) = x^2 - ${a * a}`)}; ${M(`x^2 + ${a * a}`)} no se puede factorizar con números reales.`),
+      afV(`${M(`${k}x^3 - ${k * a * a}x = ${k}x(x + ${a})(x - ${a})`)}`, `Es verdadero: se saca factor común ${M(`${k}x`)} y después se aplica la diferencia de cuadrados.`),
+      afF(`${M(`x^2 + ${2 * a}x + ${a * a + 1}`)} es el cuadrado de un binomio.`, `Es falso: el cuadrado de ${M(`(x + ${a})`)} es ${M(`x^2 + ${2 * a}x + ${a * a}`)}.`)]); },
+  sin: () => { if (ri(0, 1)) return G.c2_ident(); const k = ri(2, 5), a = ri(1, 6), c = M(`${k}x(x + ${a})(x - ${a})`);
+    return { enun: `Factoriza ${M(`${k}x^3 - ${k * a * a}x`)}.`, sol: `Factor común ${M(`${k}x`)}: ${M(`${k}x(x^2 - ${a * a})`)}; diferencia de cuadrados: ${c}.`,
+      ...opc(c, [M(`${k}x(x - ${a})^2`), M(`${k}x(x^2 - ${a})`), M(`${k}(x + ${a})(x - ${a})`), M(`x(${k}x + ${a})(${k}x - ${a})`)]) }; },
+  con: () => { const a = ri(15, 60) / 10, x = ri(20, 90) / 10 + ri(1, 9) / 100, A = rnd((x + a) ** 2, 2), xr = Math.sqrt(A) - a;
+    return { enun: `El área de un cuadrado de lado ${M(`x + ${fx(a, 1)}`)} cm es ${fxt(A)} cm². Halla ${M('x')} (en cm). Redondea a las centésimas.`,
+      sol: M(`(x + ${fx(a, 1)})^2 = ${fx(A)} \\Rightarrow x + ${fx(a, 1)} = \\sqrt{${fx(A)}} \\Rightarrow x = ${fx(xr, 4)} \\approx ${fx(xr)}`) + ' cm (la solución negativa no vale para una longitud).', ...numR(xr, 2) }; } }],
+ ['b3_4_3', 'Regla de Ruffini y teorema del resto', {
+  teo: () => { const r = riNZ(-5, 5), d = pick([6, 8, 10, 12, 15]);
+    return afirmaciones([
+      af(`El resto de dividir ${M('P(x)')} entre ${M(xMenos(r).replace(/[()]/g, ''))} es ${M(`P(${r})`)}.`, `El resto de dividir ${M('P(x)')} entre ${M(xMenos(r).replace(/[()]/g, ''))} es ${M(`P(${-r})`)}.`, `Teorema del resto: el resto de dividir entre ${M('x - a')} es ${M('P(a)')}; aquí ${M(`a = ${r}`)}.`, `Es falso: ${M(xMenos(r).replace(/[()]/g, ''))} es ${M(`x - (${r})`)}, así que el resto es ${M(`P(${r})`)}.`),
+      afV(`Si ${M(`P(${r}) = 0`)}, entonces ${M(xMenos(r).replace(/[()]/g, ''))} es un factor de ${M('P(x)')}.`, `Es verdadero: si el resto es 0, la división es exacta.`),
+      af(`Las posibles raíces enteras de ${M(`x^3 + 2x^2 - x ${sg(-d)}`)} son divisores de ${d}.`, `Las posibles raíces enteras de ${M(`x^3 + 2x^2 - x ${sg(-d)}`)} son divisores de 2.`, `Las raíces enteras de un polinomio con coeficientes enteros dividen al término independiente.`, `Es falso: las raíces enteras son divisores del término independiente, ${d}.`),
+      afF(`Un polinomio de grado 3 puede tener 4 raíces distintas.`, `Es falso: un polinomio de grado ${M('n')} tiene como mucho ${M('n')} raíces.`),
+      afV(`Al dividir un polinomio de grado 4 entre ${M('x - a')}, el cociente tiene grado 3.`, `Es verdadero: el grado baja una unidad.`)]); },
+  sin: () => { if (ri(0, 1)) return G.c3_pol(); const cs = [1, ri(-4, 4), ri(-6, 6), ri(-9, 9)], r = riNZ(-3, 3), R = cs[0] * r ** 3 + cs[1] * r * r + cs[2] * r + cs[3];
+    return { enun: `Calcula el resto de la división ${M(`(${poly(cs)}) : (${xMenos(r).replace(/[()]/g, '')})`)}.`, sol: `Teorema del resto: ${M(`R = P(${r}) = ${R}`)}.`, ...num(R, `${R}`) }; },
+  con: () => { const cs = [riNZ(-3, 3), ri(-5, 5), ri(-8, 8), ri(-9, 9)], r = pick([1.5, -1.5, 2.5, 0.5, -0.5, 1.2, -2.4]), R = cs[0] * r ** 3 + cs[1] * r * r + cs[2] * r + cs[3];
+    return { enun: `Calcula el resto de dividir ${M(poly(cs))} entre ${M(`x ${sg(-r).replace('.', '{,}')}`)}. Redondea a las milésimas si hace falta.`, sol: `Teorema del resto: ${M(`R = P(${fx(r, 1)}) = ${fx(R, 3)}`)}.`, ...numR(R, 3) }; } }],
+ ['b3_4_4', 'Ecuaciones de segundo grado', {
+  teo: () => { const t = ri(0, 2);
+    if (t === 0) { const a = ri(2, 6), k = riNZ(-9, 9), err = ri(0, 1) ? 0 : -1;
+      const pasos = err === 0 ? [M(`${a}x^2 = ${a * k}x \\Rightarrow ${a}x = ${a * k}`), M(`x = ${k}`)] : [M(`${a}x^2 - ${a * k}x = 0 \\Rightarrow ${a}x(x ${sg(-k)}) = 0`), M(`x = 0 \\ \\text{o} \\ x = ${k}`)];
+      return errorEn(`Una compañera ha resuelto ${M(`${a}x^2 = ${a * k}x`)}:`, pasos, err, err === 0 ? `En el paso 1 se ha dividido entre ${M('x')}, y así se pierde la solución ${M('x = 0')}. Hay que sacar factor común: ${M(`x = 0`)} o ${M(`x = ${k}`)}.` : `Todos los pasos son correctos: las soluciones son ${M('x = 0')} y ${M(`x = ${k}`)}.`); }
+    if (t === 1) { const a = pick([1, 2, 3]), r = ri(2, 7), c = a * r * r, err = ri(0, 1) ? 1 : -1;
+      return errorEn(`Una compañera ha resuelto ${M(`${a === 1 ? '' : a}x^2 - ${c} = 0`)}:`, [M(`${a === 1 ? '' : a}x^2 = ${c} \\Rightarrow x^2 = ${r * r}`), err === 1 ? M(`x = ${r}`) : M(`x = \\pm ${r}`)], err,
+        err === 1 ? `En el paso 2 falta la solución negativa: ${M(`x = \\pm ${r}`)}.` : `Todos los pasos son correctos: ${M(`x = ${r}`)} y ${M(`x = -${r}`)}.`); }
+    let r1 = riNZ(-6, 6), r2 = riNZ(-6, 6); while (r2 === r1 || r1 * r2 > 0) { r1 = riNZ(-6, 6); r2 = riNZ(-6, 6); } const b = -(r1 + r2), c = r1 * r2, D = b * b - 4 * c, err = ri(0, 1) ? 0 : -1, Dw = b * b + 4 * c;
+    const pasos = err === 0 ? [M(`\\Delta = ${P(b)}^2 - 4 \\cdot 1 \\cdot ${P(c)} = ${Dw}`), M(`x = \\frac{${-b} \\pm \\sqrt{${Dw}}}{2}`)] : [M(`\\Delta = ${P(b)}^2 - 4 \\cdot 1 \\cdot ${P(c)} = ${D}`), M(`x = \\frac{${-b} \\pm ${Math.sqrt(D)}}{2} \\Rightarrow x = ${Math.max(r1, r2)},\\ x = ${Math.min(r1, r2)}`)];
+    if (Dw === D) return B.b3_4_4.teo();
+    return errorEn(`Una compañera ha resuelto ${M(`${poly([1, b, c])} = 0`)}:`, pasos, err, err === 0 ? `En el paso 1 hay un error de signos: como ${M(`c = ${c}`)} es negativo, ${M(`-4 \\cdot ${P(c)} = ${-4 * c}`)} y ${M(`\\Delta = ${D}`)}. Soluciones: ${M(`x = ${Math.max(r1, r2)},\\ x = ${Math.min(r1, r2)}`)}.` : `Todos los pasos son correctos.`); },
+  sin: () => G.c2_ecu2(),
+  con: () => { if (ri(0, 1)) { const Pm = ri(30, 80), A = ri(Math.ceil(Pm * Pm / 40), Math.floor(Pm * Pm / 17)), s = Pm / 2, x = (s + Math.sqrt(s * s - 4 * A)) / 2; if (s * s - 4 * A <= 0) return B.b3_4_4.con();
+      return { enun: `Un rectángulo tiene ${Pm} m de perímetro y ${A} m² de área. ¿Cuánto mide su lado mayor (en m)? Redondea a las centésimas.`,
+        sol: `Si un lado es ${M('x')}, el otro es ${M(`${fx(s, 1)} - x`)}: ${M(`x(${fx(s, 1)} - x) = ${A} \\Rightarrow x^2 - ${fx(s, 1)}x + ${A} = 0 \\Rightarrow x = ${fx(x, 4)}`)}. Lado mayor ${M(`\\approx ${fx(x)}`)} m.`, ...numR(x, 2) }; }
+    const a = ri(2, 5), b = ri(-9, 9), c = -ri(1, 12), D = b * b - 4 * a * c, x = (-b + Math.sqrt(D)) / (2 * a); if (Number.isInteger(Math.sqrt(D))) return B.b3_4_4.con();
+    return { enun: `Resuelve ${M(`${poly([a, b, c])} = 0`)} y escribe la solución mayor. Redondea a las centésimas.`, sol: M(`x = \\frac{${-b} \\pm \\sqrt{${D}}}{${2 * a}} \\Rightarrow x_1 \\approx ${fx(x)}`), ...numR(x, 2) }; } }],
+ ['b3_4_5', 'Sistemas de ecuaciones', {
+  teo: () => { const a = riNZ(-4, 4), b = riNZ(-4, 4), x0 = ri(-4, 4), y0 = ri(-4, 4), c = a * x0 + b * y0, k = ri(2, 3);
+    return afirmaciones([
+      afF(`Un sistema de dos ecuaciones lineales con dos incógnitas puede tener exactamente dos soluciones.`, `Es falso: puede tener una solución, ninguna o infinitas.`),
+      afV(`Si las rectas que representan las dos ecuaciones son paralelas, el sistema no tiene solución.`, `Es verdadero: las rectas paralelas no se cortan, así que el sistema es incompatible.`),
+      af(`El sistema ${M(`\\begin{cases} ${lin2(a, b)} = ${c} \\\\ ${lin2(k * a, k * b)} = ${k * c} \\end{cases}`)} tiene infinitas soluciones.`, `El sistema ${M(`\\begin{cases} ${lin2(a, b)} = ${c} \\\\ ${lin2(k * a, k * b)} = ${k * c + 1} \\end{cases}`)} tiene infinitas soluciones.`, `La segunda ecuación es la primera multiplicada por ${k}: son la misma recta.`, `Es falso: los coeficientes son proporcionales pero los términos independientes no, así que no tiene solución.`),
+      af(`${M(`(${x0}, ${y0})`)} es solución de ${M(`${lin2(a, b)} = ${c}`)}.`, `${M(`(${x0 + 1}, ${y0})`)} es solución de ${M(`${lin2(a, b)} = ${c}`)}.`, `Al sustituir: ${M(`${a} \\cdot ${P(x0)} + ${P(b)} \\cdot ${P(y0)} = ${c}`)}.`, `Es falso: al sustituir se obtiene ${M(`${a * (x0 + 1) + b * y0} \\neq ${c}`)}.`)]); },
+  sin: () => G.c2_sist(),
+  con: () => { const pc = ri(120, 380) / 100, pb = ri(45, 160) / 100, a = ri(2, 5), b = ri(1, 4), c = ri(1, 4), d = ri(2, 6); if (a * d === b * c) return B.b3_4_5.con();
+    const T1 = rnd(a * pc + b * pb, 2), T2 = rnd(c * pc + d * pb, 2), q = ri(0, 1);
+    return { enun: `${a} cuadernos y ${b} bolígrafo${b > 1 ? 's' : ''} cuestan ${fxt(T1)} €; ${c} cuaderno${c > 1 ? 's' : ''} y ${d} bolígrafos cuestan ${fxt(T2)} €. ¿Cuánto cuesta ${q ? 'un cuaderno' : 'un bolígrafo'} (en €)?`,
+      sol: `${M(`\\begin{cases} ${a}x + ${b}y = ${fx(T1)} \\\\ ${c}x + ${d}y = ${fx(T2)} \\end{cases}`)} ${M(`\\Rightarrow x = ${fx(pc)},\\ y = ${fx(pb)}`)}. Un cuaderno cuesta ${fxt(pc)} € y un bolígrafo ${fxt(pb)} €.`, ...numR(q ? pc : pb, 2) }; } }]
+]);
+
+/* ---------- Tema 5 · Las transformaciones geométricas ---------- */
+const rot = (x, y, cx, cy, g) => { const dx = x - cx, dy = y - cy; return g === 90 ? [cx - dy, cy + dx] : g === 180 ? [cx - dx, cy - dy] : [cx + dy, cy - dx]; };
+tema(3, 5, 'Las transformaciones geométricas', [
+ ['b3_5_1', 'Vectores y traslaciones', {
+  teo: () => { const A = [ri(-5, 5), ri(-5, 5)], Bp = [ri(-5, 5), ri(-5, 5)], v = [Bp[0] - A[0], Bp[1] - A[1]];
+    return afirmaciones([
+      af(`El vector ${M('\\overrightarrow{AB}')} con ${M(`A(${A[0]}, ${A[1]})`)} y ${M(`B(${Bp[0]}, ${Bp[1]})`)} es ${M(`(${v[0]}, ${v[1]})`)}.`, `El vector ${M('\\overrightarrow{AB}')} con ${M(`A(${A[0]}, ${A[1]})`)} y ${M(`B(${Bp[0]}, ${Bp[1]})`)} es ${M(`(${-v[0]}, ${-v[1]})`)}.`, `Se resta extremo menos origen: ${M(`B - A = (${v[0]}, ${v[1]})`)}.`, `Es falso: se resta extremo menos origen, ${M(`B - A = (${v[0]}, ${v[1]})`)}.`),
+      afV(`Una traslación conserva la forma, el tamaño y la orientación de las figuras.`, `Es verdadero: es un movimiento directo.`),
+      afV(`Aplicar dos traslaciones seguidas equivale a una traslación de vector la suma de los dos vectores.`, `Es verdadero: ${M('\\vec{u} + \\vec{v}')}.`),
+      afF(`Una traslación de vector no nulo deja algún punto fijo.`, `Es falso: todos los puntos se desplazan según el vector.`),
+      af(`El módulo de ${M('(6, 8)')} es 10.`, `El módulo de ${M('(6, 8)')} es 14.`, M('\\sqrt{6^2 + 8^2} = \\sqrt{100} = 10'), `Es falso: ${M('\\sqrt{6^2 + 8^2} = 10')}.`)]); },
+  sin: () => { const u = [riNZ(-6, 6), riNZ(-6, 6)], v = [riNZ(-6, 6), riNZ(-6, 6)], Pp = [ri(-8, 8), ri(-8, 8)], Po = [Pp[0] - u[0] - v[0], Pp[1] - u[1] - v[1]], q = ri(0, 1);
+    return { enun: `Un punto ${M('P')} se traslada con el vector ${M(`\\vec{u} = (${u[0]}, ${u[1]})`)} y después con ${M(`\\vec{v} = (${v[0]}, ${v[1]})`)}, y se obtiene ${M(`P'(${Pp[0]}, ${Pp[1]})`)}. ¿Cuál es la coordenada ${M(q ? 'x' : 'y')} de ${M('P')}?`,
+      sol: `Las dos traslaciones equivalen a ${M(`\\vec{u} + \\vec{v} = (${u[0] + v[0]}, ${u[1] + v[1]})`)}. ${M(`P = P' - (\\vec{u} + \\vec{v}) = (${Po[0]}, ${Po[1]})`)}.`, ...num(q ? Po[0] : Po[1], `${q ? Po[0] : Po[1]}`) }; },
+  con: () => { const A = [ri(-60, 60) / 10, ri(-60, 60) / 10], Bp = [ri(-60, 60) / 10, ri(-60, 60) / 10], m = Math.hypot(Bp[0] - A[0], Bp[1] - A[1]); if (m < 1) return B.b3_5_1.con();
+    return { enun: `Calcula el módulo del vector ${M('\\overrightarrow{AB}')} con ${M(`A(${fx(A[0], 1)};\\ ${fx(A[1], 1)})`)} y ${M(`B(${fx(Bp[0], 1)};\\ ${fx(Bp[1], 1)})`)}. Redondea a las centésimas.`,
+      sol: `${M(`\\overrightarrow{AB} = (${fx(Bp[0] - A[0], 1)};\\ ${fx(Bp[1] - A[1], 1)})`)}, ${M(`|\\overrightarrow{AB}| = \\sqrt{${fxP(Bp[0] - A[0], 1)}^2 + ${fxP(Bp[1] - A[1], 1)}^2} \\approx ${fx(m)}`)}.`, ...numR(m, 2) }; } }],
+ ['b3_5_2', 'Giros', {
+  teo: () => { const a = riNZ(-6, 6), b = riNZ(-6, 6);
+    return afirmaciones([
+      afV(`Un giro de 180° con centro ${M('O')} equivale a una simetría central de centro ${M('O')}.`, `Es verdadero: cada punto va al punto opuesto respecto de ${M('O')}.`),
+      af(`Al girar ${M(`P(${a}, ${b})`)} 90° en sentido antihorario con centro en el origen se obtiene ${M(`(${-b}, ${a})`)}.`, `Al girar ${M(`P(${a}, ${b})`)} 90° en sentido antihorario con centro en el origen se obtiene ${M(`(${b}, ${-a})`)}.`, `Un giro de 90° antihorario transforma ${M('(x, y)')} en ${M('(-y, x)')}.`, `Es falso: ${M(`(${b}, ${-a})`)} es el giro de 90° en sentido horario; en sentido antihorario se obtiene ${M(`(${-b}, ${a})`)}.`),
+      afV(`Un giro conserva las distancias y los ángulos.`, `Es verdadero: es un movimiento.`),
+      afF(`En un giro, el centro de giro también se desplaza.`, `Es falso: el centro es el único punto fijo de un giro (de ángulo distinto de 0° y de 360°).`),
+      afV(`Un giro de 360° deja todos los puntos en su sitio.`, `Es verdadero: da una vuelta completa.`)]); },
+  sin: () => { const g = pick([90, 180, 270]), C = [ri(-3, 3), ri(-3, 3)], Pp = [ri(-6, 6), ri(-6, 6)], R = rot(Pp[0], Pp[1], C[0], C[1], g), q = ri(0, 1);
+    return { enun: `Gira el punto ${M(`P(${Pp[0]}, ${Pp[1]})`)} ${g}° en sentido antihorario con centro ${M(`C(${C[0]}, ${C[1]})`)}. ¿Cuál es la coordenada ${M(q ? 'x' : 'y')} del punto obtenido?`,
+      sol: `Vector ${M(`\\overrightarrow{CP} = (${Pp[0] - C[0]}, ${Pp[1] - C[1]})`)}; girado ${g}°: ${M(`(${R[0] - C[0]}, ${R[1] - C[1]})`)}. Punto: ${M(`P' = (${R[0]}, ${R[1]})`)}.`, ...num(q ? R[0] : R[1], `${q ? R[0] : R[1]}`) }; },
+  con: () => { const Pp = [ri(-80, 80) / 10, ri(-80, 80) / 10], g = pick([30, 45, 60, 75, 120, 135, 150]), r = Math.hypot(Pp[0], Pp[1]), L = 2 * Math.PI * r * g / 360; if (r < 1) return B.b3_5_2.con();
+    return { enun: `El punto ${M(`P(${fx(Pp[0], 1)};\\ ${fx(Pp[1], 1)})`)} gira ${g}° alrededor del origen. ¿Qué longitud tiene el arco que recorre? Redondea a las centésimas.`,
+      sol: `Radio: ${M(`r = \\sqrt{${fxP(Pp[0], 1)}^2 + ${fxP(Pp[1], 1)}^2} \\approx ${fx(r, 4)}`)}. Arco: ${M(`L = \\frac{2\\pi r \\cdot ${g}}{360} \\approx ${fx(L)}`)}.`, ...numR(L, 2) }; } }],
+ ['b3_5_3', 'Simetrías', {
+  teo: () => afirmaciones([
+      af(`Un rectángulo que no es un cuadrado tiene 2 ejes de simetría.`, `Un rectángulo que no es un cuadrado tiene 4 ejes de simetría.`, `Sus ejes son las dos mediatrices de los lados.`, `Es falso: las diagonales no son ejes de simetría de un rectángulo; tiene solo 2.`),
+      af(`Un hexágono regular tiene 6 ejes de simetría.`, `Un hexágono regular tiene 3 ejes de simetría.`, `Tiene 3 ejes que pasan por vértices opuestos y 3 por los puntos medios de lados opuestos.`, `Es falso: tiene 6 ejes.`),
+      afV(`La simetría axial cambia la orientación de las figuras.`, `Es verdadero: es un movimiento inverso, como un espejo.`),
+      afF(`Un triángulo isósceles no equilátero tiene 3 ejes de simetría.`, `Es falso: tiene un solo eje, la altura sobre el lado desigual.`),
+      af(`El simétrico de ${M('(3, -2)')} respecto del eje ${M('X')} es ${M('(3, 2)')}.`, `El simétrico de ${M('(3, -2)')} respecto del eje ${M('X')} es ${M('(-3, -2)')}.`, `Respecto del eje ${M('X')} cambia de signo la segunda coordenada.`, `Es falso: respecto del eje ${M('X')} cambia de signo la segunda coordenada: ${M('(3, 2)')}.`)]),
+  sin: () => { const Pp = [ri(-7, 7), ri(-7, 7)], k = riNZ(-4, 4), t = ri(0, 3); let R, desc;
+    if (t === 0) { R = [2 * k - Pp[0], Pp[1]]; desc = `la recta ${M(`x = ${k}`)}`; } else if (t === 1) { R = [Pp[0], 2 * k - Pp[1]]; desc = `la recta ${M(`y = ${k}`)}`; }
+    else if (t === 2) { R = [Pp[1], Pp[0]]; desc = `la recta ${M('y = x')}`; } else { R = [2 * k - Pp[0], 2 * k - Pp[1]]; desc = `el punto ${M(`C(${k}, ${k})`)}`; }
+    const q = R[0] !== Pp[0] ? 0 : 1;
+    return { enun: `Halla el simétrico de ${M(`P(${Pp[0]}, ${Pp[1]})`)} respecto ${desc.startsWith('el punto') ? 'del ' + desc.slice(3) : 'de ' + desc}. Escribe su coordenada ${M(q === 0 ? 'x' : 'y')}.`, sol: `${M(`P' = (${R[0]}, ${R[1]})`)}.`, ...num(R[q], `${R[q]}`) }; },
+  con: () => { const x = ri(-60, 60) / 10, a = ri(-40, 40) / 10, b = ri(-40, 40) / 10, r = x + 2 * (b - a); if (Math.abs(a - b) < 0.5) return B.b3_5_3.con();
+    return { enun: `El punto ${M(`P(${fx(x, 1)};\\ 2)`)} se refleja respecto de la recta ${M(`x = ${fx(a, 1)}`)} y el punto obtenido se refleja respecto de ${M(`x = ${fx(b, 1)}`)}. ¿Cuál es la coordenada ${M('x')} del punto final?`,
+      sol: `Primera simetría: ${M(`x' = 2 \\cdot ${P(rnd(a, 1)).replace('.', '{,}')} - ${P(rnd(x, 1)).replace('.', '{,}')} = ${fx(2 * a - x, 1)}`)}. Segunda: ${M(`x'' = 2 \\cdot ${P(rnd(b, 1)).replace('.', '{,}')} - ${P(rnd(2 * a - x, 1)).replace('.', '{,}')} = ${fx(r, 1)}`)}. (Dos simetrías de ejes paralelos equivalen a una traslación.)`, ...numR(r, 1) }; } }]
+]);
+
+/* ---------- Tema 6 · Los cuerpos geométricos ---------- */
+tema(3, 6, 'Los cuerpos geométricos', [
+ ['b3_6_1', 'Áreas de cuerpos geométricos', {
+  teo: () => { const r = ri(2, 7), h = ri(3, 12), err = ri(-1, 2), Al = 2 * r * h, Ab = r * r, At = Al + 2 * Ab;
+    const pasos = [M(`A_{lateral} = 2\\pi r h = ${err === 0 ? 4 * r * h : Al}\\pi`), M(`A_{base} = ${err === 1 ? `2\\pi r = ${2 * r}` : `\\pi r^2 = ${Ab}`}\\pi`), M(`A_{total} = ${err === 2 ? `${Al}\\pi + ${Ab}\\pi = ${Al + Ab}` : `${err === 0 ? 4 * r * h : Al}\\pi + 2 \\cdot ${err === 1 ? 2 * r : Ab}\\pi = ${(err === 0 ? 4 * r * h : Al) + 2 * (err === 1 ? 2 * r : Ab)}`}\\pi`)];
+    return errorEn(`Una compañera ha calculado el área total de un cilindro de radio ${r} cm y altura ${h} cm (en función de ${M('\\pi')}):`, pasos, err,
+      err === 0 ? `En el paso 1 se ha usado el diámetro en lugar del radio. ${M(`A_{total} = ${At}\\pi`)} cm².` : err === 1 ? `En el paso 2 se ha calculado la longitud de la circunferencia, no el área del círculo. ${M(`A_{total} = ${At}\\pi`)} cm².`
+      : err === 2 ? `En el paso 3 falta una base: el cilindro tiene dos. ${M(`A_{total} = ${At}\\pi`)} cm².` : `Todos los pasos son correctos: ${M(`A_{total} = ${At}\\pi`)} cm².`); },
+  sin: () => { const [a, h, ap] = pick([[3, 4, 5], [6, 8, 10], [5, 12, 13], [8, 15, 17], [4, 3, 5], [9, 12, 15]]), l = 2 * a, A = l * l + 4 * l * ap / 2;
+    return { enun: `Calcula el área total de una pirámide cuadrangular regular de arista básica ${l} cm y altura ${h} cm (en cm²).`,
+      sol: `Apotema de la pirámide: ${M(`\\sqrt{${h}^2 + ${a}^2} = ${ap}`)} cm. ${M(`A = ${l}^2 + 4 \\cdot \\frac{${l} \\cdot ${ap}}{2} = ${l * l} + ${4 * l * ap / 2} = ${A}`)} cm².`, ...num(A, `${A}`) }; },
+  con: () => { const r = ri(15, 80) / 10, h = ri(30, 150) / 10, g = Math.hypot(r, h), A = Math.PI * r * (r + g);
+    return { enun: `Calcula el área total de un cono de radio ${fxt(r, 1)} cm y altura ${fxt(h, 1)} cm (en cm²). Redondea a las centésimas.`,
+      sol: `Generatriz: ${M(`g = \\sqrt{${fx(r, 1)}^2 + ${fx(h, 1)}^2} \\approx ${fx(g, 4)}`)}. ${M(`A = \\pi r (r + g) \\approx ${fx(A)}`)} cm².`, ...numR(A, 2) }; } }],
+ ['b3_6_2', 'Volúmenes', {
+  teo: () => { const k = pick([2, 3]);
+    return afirmaciones([
+      af(`Si se multiplica por ${k} la arista de un cubo, su volumen se multiplica por ${k ** 3}.`, `Si se multiplica por ${k} la arista de un cubo, su volumen se multiplica por ${k}.`, M(`(${k}a)^3 = ${k ** 3}a^3`), `Es falso: ${M(`(${k}a)^3 = ${k ** 3}a^3`)}.`),
+      afV(`El volumen de una pirámide es la tercera parte del volumen del prisma de igual base y altura.`, `Es verdadero: ${M('V = \\frac{1}{3} A_{base} \\cdot h')}.`),
+      afF(`El volumen de un cono es la mitad del volumen del cilindro de igual base y altura.`, `Es falso: es la tercera parte.`),
+      af(`${M('1 \\text{ dm}^3')} equivale a 1 litro.`, `${M('1 \\text{ m}^3')} equivale a 100 litros.`, `Es la equivalencia entre volumen y capacidad.`, `Es falso: ${M('1 \\text{ m}^3 = 1000 \\text{ dm}^3 = 1000')} litros.`)]); },
+  sin: () => { if (ri(0, 1)) { const a = ri(2, 9), b = ri(2, 9), h = 3 * ri(1, 6), V = a * b * h / 3;
+      return { enun: `Calcula el volumen de una pirámide de base rectangular de ${a} cm × ${b} cm y altura ${h} cm (en cm³).`, sol: M(`V = \\frac{${a} \\cdot ${b} \\cdot ${h}}{3} = ${V}`) + ' cm³.', ...num(V, `${V}`) }; }
+    const l = pick([2, 2.5, 3, 1.5, 4]), w = pick([1, 1.5, 2, 0.5]), p = pick([0.8, 1, 1.2, 0.5, 2]), V = Math.round(l * w * p * 1000);
+    return { enun: `¿Cuántos litros caben en un depósito con forma de ortoedro de ${fxt(l, 1)} m × ${fxt(w, 1)} m × ${fxt(p, 1)} m?`, sol: `${M(`V = ${fx(l, 1)} \\cdot ${fx(w, 1)} \\cdot ${fx(p, 1)} = ${fx(l * w * p, 3)}`)} m³ = ${V} dm³ = ${V} L.`, ...num(V, `${V}`) }; },
+  con: () => { const r = ri(30, 150) / 100, h = ri(100, 400) / 100, cono = ri(0, 1) === 1, V = (cono ? 1 / 3 : 1) * Math.PI * r * r * h * 1000;
+    return { enun: `Un depósito con forma de ${cono ? 'cono' : 'cilindro'} tiene ${fxt(r)} m de radio y ${fxt(h)} m de altura. ¿Cuántos litros caben? Redondea a las unidades.`,
+      sol: `${M(`V = ${cono ? '\\frac{1}{3}' : ''}\\pi \\cdot ${fx(r)}^2 \\cdot ${fx(h)} \\approx ${fx(V / 1000, 4)}`)} m³ ${M(`\\approx ${Math.round(V)}`)} L.`, ...numR(V, 0) }; } }],
+ ['b3_6_3', 'La esfera', {
+  teo: () => { const k = pick([2, 3, 4]);
+    return afirmaciones([
+      af(`Si el radio de una esfera se multiplica por ${k}, su superficie se multiplica por ${k * k}.`, `Si el radio de una esfera se multiplica por ${k}, su superficie se multiplica por ${k ** 3}.`, `La superficie depende de ${M('r^2')}.`, `Es falso: la superficie depende de ${M('r^2')}, así que se multiplica por ${k * k}.`),
+      af(`Si el radio de una esfera se multiplica por ${k}, su volumen se multiplica por ${k ** 3}.`, `Si el radio de una esfera se multiplica por ${k}, su volumen se multiplica por ${k * k}.`, `El volumen depende de ${M('r^3')}.`, `Es falso: el volumen depende de ${M('r^3')}, así que se multiplica por ${k ** 3}.`),
+      af(`La superficie de una esfera es ${M('4\\pi r^2')}.`, `La superficie de una esfera es ${M('\\pi r^2')}.`, `Es la fórmula de la superficie esférica.`, `Es falso: ${M('\\pi r^2')} es el área de un círculo máximo; la superficie es ${M('4\\pi r^2')}.`),
+      afF(`El volumen de una esfera es ${M('4\\pi r^3')}.`, `Es falso: es ${M('\\frac{4}{3}\\pi r^3')}.`),
+      afV(`La esfera es un cuerpo de revolución.`, `Es verdadero: se obtiene al girar un semicírculo alrededor de su diámetro.`)]); },
+  sin: () => { if (ri(0, 1)) { const r = 3 * ri(1, 3), V = 4 * r ** 3 / 3;
+      return { enun: `El volumen de una esfera de radio ${r} cm es ${M('k\\pi')} cm³. ¿Cuánto vale ${M('k')}?`, sol: M(`V = \\frac{4}{3}\\pi \\cdot ${r}^3 = ${V}\\pi`), ...num(V, `${V}`) }; }
+    const k = pick([2, 3, 4, 5]), cual = ri(0, 1), v = cual ? k ** 3 : k * k;
+    return { enun: `Si el radio de una esfera se multiplica por ${k}, ¿por cuánto se multiplica su ${cual ? 'volumen' : 'superficie'}?`, sol: `${cual ? 'El volumen depende de ' + M('r^3') : 'La superficie depende de ' + M('r^2')}: se multiplica por ${M(cual ? `${k}^3 = ${v}` : `${k}^2 = ${v}`)}.`, ...num(v, `${v}`) }; },
+  con: () => { const d = ri(150, 300) / 10, V = 4 / 3 * Math.PI * (d / 2) ** 3 / 1000;
+    return { enun: `Un balón tiene ${fxt(d, 1)} cm de diámetro. ¿Cuántos litros de aire caben en su interior? Redondea a las centésimas.`,
+      sol: `Radio ${fxt(d / 2, 2)} cm. ${M(`V = \\frac{4}{3}\\pi \\cdot ${fx(d / 2)}^3 \\approx ${fx(V * 1000)}`)} cm³ ${M(`\\approx ${fx(V)}`)} L.`, ...numR(V, 2) }; } }]
+]);
+
+/* ---------- Tema 7 · Las funciones ---------- */
+tema(3, 7, 'Las funciones', [
+ ['b3_7_1', 'Características de una función', {
+  teo: () => { const a = riNZ(-6, 6);
+    return afirmaciones([
+      afF(`Una recta vertical es la gráfica de una función.`, `Es falso: a un mismo valor de ${M('x')} le corresponderían infinitos valores de ${M('y')}.`),
+      afV(`En una función, a cada valor de ${M('x')} del dominio le corresponde un único valor de ${M('y')}.`, `Es verdadero: es la definición de función.`),
+      af(`El dominio de ${M(`f(x) = \\frac{1}{${xMenos(a).replace(/[()]/g, '')}}`)} es ${M(`\\mathbb{R} - \\{${a}\\}`)}.`, `El dominio de ${M(`f(x) = \\frac{1}{${xMenos(a).replace(/[()]/g, '')}}`)} es ${M(`\\mathbb{R} - \\{${-a}\\}`)}.`, `El denominador se anula en ${M(`x = ${a}`)}.`, `Es falso: el denominador se anula en ${M(`x = ${a}`)}, así que el dominio es ${M(`\\mathbb{R} - \\{${a}\\}`)}.`),
+      afF(`Si ${M('f(2) = f(5)')}, entonces ${M('f')} no es una función.`, `Es falso: dos valores distintos de ${M('x')} pueden tener la misma imagen.`),
+      afV(`Una función tiene un máximo relativo en un punto si pasa de ser creciente a ser decreciente.`, `Es verdadero: a su alrededor los valores son menores.`)]); },
+  sin: () => { if (ri(0, 1)) { const a = riNZ(-4, 4), b = ri(-8, 8), c = riNZ(-5, 5), k = ri(-5, 5); if (k === c) return B.b3_7_1.sin(); const v = fr(a * k + b, k - c);
+      return { enun: `Dada ${M(`f(x) = \\frac{${poly([a, b])}}{${xMenos(c).replace(/[()]/g, '')}}`)}, calcula ${M(`f(${k})`)}.`, sol: M(`f(${k}) = \\frac{${a} \\cdot ${P(k)} ${sg(b)}}{${k} ${sg(-c)}} = \\frac{${a * k + b}}{${k - c}}${v[1] !== k - c || v[0] !== a * k + b ? ' = ' + texFr(v) : ''}`), ...fracR(v) }; }
+    const a = pick([1, 2, 3, -1, -2]), b = ri(-9, 9), x0 = fr(-b, a), I = a > 0 ? `[${texFr(x0)},\\ +\\infty)` : `(-\\infty,\\ ${texFr(x0)}]`;
+    return { enun: `Halla el dominio de ${M(`f(x) = \\sqrt{${poly([a, b])}}`)}.`, sol: `El radicando debe ser mayor o igual que 0: ${M(`${poly([a, b])} \\geq 0`)} ${a < 0 ? '(al dividir entre un número negativo cambia el sentido)' : ''} ${M(`\\Rightarrow ${I}`)}.`,
+      ...opc(M(I), [M(a > 0 ? `(${texFr(x0)},\\ +\\infty)` : `(-\\infty,\\ ${texFr(x0)})`), M(a > 0 ? `(-\\infty,\\ ${texFr(x0)}]` : `[${texFr(x0)},\\ +\\infty)`), M(`[${texFr(fr(b, a))},\\ +\\infty)`), M(`\\mathbb{R}`)]) }; },
+  con: () => { const a = riNZ(-3, 3) / 2, b = ri(-5, 5), c = ri(-9, 9), x1 = ri(-30, 30) / 10, x2 = x1 + ri(5, 30) / 10, f = x => a * x * x + b * x + c, t = (f(x2) - f(x1)) / (x2 - x1);
+    return { enun: `Calcula la tasa de variación media de ${M(`f(x) = ${fx(a, 1)}x^2 ${sg(b)}x ${sg(c)}`)} en el intervalo ${M(`[${fx(x1, 1)};\\ ${fx(x2, 1)}]`)}. Redondea a las centésimas.`,
+      sol: M(`TVM = \\frac{f(${fx(x2, 1)}) - f(${fx(x1, 1)})}{${fx(x2, 1)} - ${P(rnd(x1, 1)).replace('.', '{,}')}} = \\frac{${fx(f(x2), 3)} - ${P(rnd(f(x1), 3)).replace('.', '{,}')}}{${fx(x2 - x1, 1)}} \\approx ${fx(t)}`), ...numR(t, 2) }; } }],
+ ['b3_7_2', 'Función lineal y afín', {
+  teo: () => { const m = riNZ(-5, 5), n = riNZ(-9, 9);
+    return afirmaciones([
+      af(`${M(`y = ${m}x`)} es una función lineal.`, `${M(`y = ${n}`)} es una función lineal.`, `Es de la forma ${M('y = mx')}.`, `Es falso: ${M(`y = ${n}`)} es una función constante (su gráfica es una recta horizontal).`),
+      af(`La pendiente de ${M(`y = ${poly([m, n])}`)} es ${M(m)}.`, `La pendiente de ${M(`y = ${poly([m, n])}`)} es ${M(n)}.`, `La pendiente es el coeficiente de ${M('x')}.`, `Es falso: ${n} es la ordenada en el origen; la pendiente es ${m}.`),
+      afV(`Dos rectas con la misma pendiente y distinta ordenada en el origen son paralelas.`, `Es verdadero: tienen la misma inclinación y no coinciden.`),
+      af(`La recta ${M(`y = ${poly([m, n])}`)} corta al eje ${M('Y')} en ${M(`(0, ${n})`)}.`, `La recta ${M(`y = ${poly([m, n])}`)} corta al eje ${M('Y')} en ${M(`(${n}, 0)`)}.`, `Para ${M('x = 0')}, ${M(`y = ${n}`)}.`, `Es falso: el corte con el eje ${M('Y')} tiene ${M('x = 0')}, es ${M(`(0, ${n})`)}.`),
+      afF(`Si la pendiente es negativa, la función es creciente.`, `Es falso: con pendiente negativa la función es decreciente.`)]); },
+  sin: () => ri(0, 1) ? G.c2_func() : G.c3_rect(),
+  con: () => { const f = ri(250, 450) / 100, p = ri(85, 160) / 100, km = ri(30, 250) / 10, T = rnd(f + p * km, 2), k2 = (T - f) / p;
+    return { enun: `Un taxi cobra ${fxt(f)} € de bajada de bandera y ${fxt(p)} € por kilómetro. Si un trayecto ha costado ${fxt(T)} €, ¿cuántos kilómetros se han recorrido? Redondea a las centésimas.`,
+      sol: `${M(`${fx(T)} = ${fx(f)} + ${fx(p)}x \\Rightarrow x = \\frac{${fx(T)} - ${fx(f)}}{${fx(p)}} \\approx ${fx(k2)}`)} km.`, ...numR(k2, 2) }; } }],
+ ['b3_7_3', 'Función cuadrática', {
+  teo: () => { const a = riNZ(-3, 3), h = ri(-5, 5), k = ri(-6, 6), b = -2 * a * h, c = a * h * h + k, D = b * b - 4 * a * c, cortes = D > 0 ? 2 : D === 0 ? 1 : 0;
+    return afirmaciones([
+      af(`La parábola ${M(`y = ${poly([a, b, c])}`)} tiene un ${a < 0 ? 'máximo' : 'mínimo'}.`, `La parábola ${M(`y = ${poly([a, b, c])}`)} tiene un ${a < 0 ? 'mínimo' : 'máximo'}.`, `Si ${M('a')} es ${a < 0 ? 'negativo' : 'positivo'}, las ramas van hacia ${a < 0 ? 'abajo' : 'arriba'}.`, `Es falso: como ${M(`a = ${a}`)}, las ramas van hacia ${a < 0 ? 'abajo y tiene un máximo' : 'arriba y tiene un mínimo'}.`),
+      af(`El vértice de ${M(`y = ${poly([a, b, c])}`)} tiene abscisa ${M(`x = ${h}`)}.`, `El vértice de ${M(`y = ${poly([a, b, c])}`)} tiene abscisa ${M(`x = ${h + pick([1, -1])}`)}.`, M(`x_v = -\\frac{b}{2a} = ${h}`), `Es falso: ${M(`x_v = -\\frac{b}{2a} = ${h}`)}.`),
+      af(`La parábola ${M(`y = ${poly([a, b, c])}`)} ${cortes ? 'corta al eje ' + M('X') + ' en ' + (cortes === 1 ? 'un punto' : '2 puntos') : 'no corta al eje ' + M('X')}.`, `La parábola ${M(`y = ${poly([a, b, c])}`)} ${cortes === 2 ? 'corta al eje ' + M('X') + ' en un punto' : 'corta al eje ' + M('X') + ' en 2 puntos'}.`, `El discriminante es ${M(`\\Delta = ${D}`)}.`, `Es falso: el discriminante es ${M(`\\Delta = ${D}`)}, así que ${cortes === 0 ? 'no corta al eje' : cortes === 1 ? 'corta en un punto' : 'corta en 2 puntos'}.`),
+      afV(`El eje de simetría de ${M(`y = (x ${sg(-h)})^2`)} es la recta ${M(`x = ${h}`)}.`, `Es verdadero: el vértice es ${M(`(${h}, 0)`)}.`)]); },
+  sin: () => { const a = pick([1, -1, 2, -2]), h = ri(-5, 5), k = ri(-8, 8), b = -2 * a * h, c = a * h * h + k, q = ri(0, 1);
+    return { enun: `Halla el vértice de la parábola ${M(`y = ${poly([a, b, c])}`)}. Escribe su coordenada ${M(q ? 'x' : 'y')}.`, sol: `${M(`x_v = -\\frac{${b}}{${2 * a}} = ${h}`)}; ${M(`y_v = ${a} \\cdot ${P(h)}^2 ${sg(b)} \\cdot ${P(h)} ${sg(c)} = ${k}`)}. Vértice ${M(`(${h}, ${k})`)}.`, ...num(q ? h : k, `${q ? h : k}`) }; },
+  con: () => { const v0 = ri(80, 250) / 10, h0 = ri(0, 30) / 10, q = ri(0, 1), tm = v0 / 9.8, hm = h0 + v0 * v0 / 19.6, tf = (v0 + Math.sqrt(v0 * v0 + 19.6 * h0)) / 9.8;
+    return { enun: `La altura (en m) de una pelota lanzada hacia arriba es ${M(`h(t) = -4{,}9t^2 + ${fx(v0, 1)}t ${h0 ? '+ ' + fx(h0, 1) : ''}`)}, con ${M('t')} en segundos. ${q ? '¿Cuál es la altura máxima (en m)?' : '¿En qué instante llega al suelo (en s)?'} Redondea a las centésimas.`,
+      sol: q ? `Vértice: ${M(`t_v = \\frac{${fx(v0, 1)}}{9{,}8} \\approx ${fx(tm, 3)}`)}; ${M(`h(t_v) \\approx ${fx(hm)}`)} m.` : `Resolvemos ${M('h(t) = 0')} y tomamos la solución positiva: ${M(`t \\approx ${fx(tf)}`)} s.`, ...numR(q ? hm : tf, 2) }; } }]
+]);
+
+/* ---------- Tema 8 · La estadística ---------- */
+tema(3, 8, 'La estadística', [
+ ['b3_8_1', 'Tablas de frecuencias y gráficos', {
+  teo: () => afirmaciones([
+      afV(`En un diagrama de sectores, el ángulo de cada sector es proporcional a su frecuencia.`, `Es verdadero: ${M('\\alpha = 360° \\cdot f_r')}.`),
+      afF(`La frecuencia relativa de un dato puede ser mayor que 1.`, `Es falso: es un cociente entre una parte y el total, así que está entre 0 y 1.`),
+      afV(`La suma de todas las frecuencias relativas es 1.`, `Es verdadero: es el total dividido entre el total.`),
+      afV(`La última frecuencia absoluta acumulada coincide con el número total de datos.`, `Es verdadero: acumula todas las frecuencias.`),
+      afF(`Los histogramas se usan para representar variables cualitativas.`, `Es falso: se usan para variables cuantitativas agrupadas en intervalos.`)]),
+  sin: () => { const N = pick([20, 24, 30, 36, 40, 45, 60, 72, 90]), u = 360 / N, f = ri(1, N - 1), a = f * u; if (!Number.isInteger(a)) return B.b3_8_1.sin();
+    return { enun: `En una encuesta a ${N} alumnas, ${f} eligen el baloncesto. ¿Qué ángulo (en grados) le corresponde en un diagrama de sectores?`, sol: M(`\\alpha = \\frac{${f}}{${N}} \\cdot 360° = ${a}°`), ...num(a, `${a}`) }; },
+  con: () => { const N = ri(130, 480), f = ri(15, Math.floor(N * 0.6)), a = f / N * 360;
+    return { enun: `En una encuesta a ${N} personas, ${f} prefieren viajar en tren. ¿Qué ángulo (en grados) le corresponde en un diagrama de sectores? Redondea a las décimas.`, sol: M(`\\alpha = \\frac{${f}}{${N}} \\cdot 360° \\approx ${fx(a, 1)}°`), ...numR(a, 1) }; } }],
+ ['b3_8_2', 'Medidas de centralización', {
+  teo: () => { if (ri(0, 1)) { const d = shuffle(Array.from({ length: 7 }, () => ri(1, 20))), s = d.slice().sort((x, y) => x - y); if (d[3] === s[3]) return B.b3_8_2.teo();
+      const err = ri(0, 1) ? 0 : -1;
+      return errorEn(`Una compañera ha calculado la mediana de los datos ${d.join(', ')}:`, err === 0 ? [`Hay 7 datos, así que la mediana es el 4.º dato.`, `La mediana es ${M(d[3])}.`] : [`Ordenamos: ${s.join(', ')}. Hay 7 datos, así que la mediana es el 4.º dato.`, `La mediana es ${M(s[3])}.`], err === 0 ? 0 : -1,
+        err === 0 ? `En el paso 1 no se han ordenado los datos. Ordenados: ${s.join(', ')}; la mediana es ${M(s[3])}.` : `Todos los pasos son correctos: la mediana es ${M(s[3])}.`); }
+    const k = ri(2, 9);
+    return afirmaciones([
+      afF(`La media siempre coincide con alguno de los datos.`, `Es falso: por ejemplo, la media de 1 y 2 es 1,5.`),
+      afV(`Una distribución puede tener más de una moda.`, `Es verdadero: si varios valores tienen la frecuencia máxima.`),
+      afV(`La mediana se ve menos afectada que la media por los valores extremos.`, `Es verdadero: solo depende de la posición central.`),
+      af(`Si se suma ${k} a todos los datos, la media aumenta en ${k}.`, `Si se suma ${k} a todos los datos, la media no cambia.`, `Cada dato aumenta ${k}, así que su media también.`, `Es falso: la media aumenta en ${k}.`),
+      afF(`Si se multiplican por 2 todos los datos, la mediana no cambia.`, `Es falso: la mediana también se multiplica por 2.`)]); },
+  sin: () => { const N = pick([10, 20, 25]), xs = [0, 1, 2, 3, 4]; let fs; do { fs = Array.from({ length: 4 }, () => ri(1, 8)); fs.push(N - fs.reduce((s, x) => s + x, 0)); } while (fs[4] < 1);
+    const S = xs.reduce((s, x, i) => s + x * fs[i], 0), m = S / N;
+    return { enun: `Se pregunta a ${N} alumnas cuántas mascotas tienen. Con 0 mascotas hay ${fs[0]}, con 1 hay ${fs[1]}, con 2 hay ${fs[2]}, con 3 hay ${fs[3]} y con 4 hay ${fs[4]}. Calcula la media.`,
+      sol: M(`\\bar{x} = \\frac{${xs.map((x, i) => `${x} \\cdot ${fs[i]}`).join(' + ')}}{${N}} = \\frac{${S}}{${N}} = ${ft(m)}`), ...num(m, ft(m), Number.isInteger(m) ? 'entero' : 'decimal') }; },
+  con: () => { const L = [[0, 10], [10, 20], [20, 30], [30, 40], [40, 50]], fs = L.map(() => ri(3, 25)), N = fs.reduce((s, x) => s + x, 0), S = L.reduce((s, l, i) => s + (l[0] + l[1]) / 2 * fs[i], 0), m = S / N;
+    return { enun: `Los tiempos (en minutos) que tardan ${N} alumnas en llegar al colegio están agrupados así: ${L.map((l, i) => `${M(`[${l[0]}, ${l[1]})`)}: ${fs[i]}`).join('; ')}. Calcula la media usando las marcas de clase. Redondea a las centésimas.`,
+      sol: `Marcas de clase: 5, 15, 25, 35, 45. ${M(`\\bar{x} = \\frac{${S}}{${N}} \\approx ${fx(m)}`)} min.`, ...numR(m, 2) }; } }],
+ ['b3_8_3', 'Medidas de dispersión', {
+  teo: () => afirmaciones([
+      afV(`El rango (o recorrido) es la diferencia entre el dato mayor y el menor.`, `Es verdadero: es la medida de dispersión más sencilla.`),
+      afF(`La desviación típica puede ser negativa.`, `Es falso: es la raíz cuadrada positiva de la varianza.`),
+      afV(`Si se suma el mismo número a todos los datos, la desviación típica no cambia.`, `Es verdadero: los datos se desplazan pero su dispersión es la misma.`),
+      af(`Si se multiplican por 2 todos los datos, la desviación típica se multiplica por 2.`, `Si se multiplican por 2 todos los datos, la desviación típica se multiplica por 4.`, `Las distancias a la media se duplican.`, `Es falso: la desviación típica se multiplica por 2; la que se multiplica por 4 es la varianza.`),
+      afV(`El coeficiente de variación permite comparar la dispersión de datos con medias distintas.`, `Es verdadero: ${M('CV = \\frac{\\sigma}{\\bar{x}}')} no depende de las unidades.`)]),
+  sin: () => { const [dev, v] = pick([[[-2, -1, 0, 1, 2], 2], [[-3, -1, 0, 1, 3], 4], [[-4, -2, 0, 2, 4], 8], [[-1, -1, 1, 1], 1], [[-2, 0, 0, 2], 2], [[-3, -3, 3, 3], 9], [[-5, -1, 1, 5], 13], [[-4, 0, 0, 0, 4], 6.4]]), m = ri(4, 15), d = shuffle(dev.map(x => x + m));
+    return { enun: `Calcula la varianza de los datos ${d.join(', ')}.`, sol: `Media ${M(`\\bar{x} = ${m}`)}. ${M(`\\sigma^2 = \\frac{${dev.map(x => `${P(x)}^2`).join(' + ')}}{${dev.length}} = ${ft(v)}`)}.`, ...num(v, ft(v), Number.isInteger(v) ? 'entero' : 'decimal') }; },
+  con: () => { const d = Array.from({ length: 6 }, () => ri(120, 195) / 10), m = d.reduce((s, x) => s + x, 0) / 6, sd = Math.sqrt(d.reduce((s, x) => s + (x - m) ** 2, 0) / 6), q = ri(0, 1);
+    return { enun: `Las temperaturas máximas (en °C) de seis días fueron ${d.map(x => fxt(x, 1)).join('; ')}. Calcula ${q ? 'la desviación típica' : 'el coeficiente de variación en porcentaje'}. Redondea a las centésimas.`,
+      sol: `${M(`\\bar{x} \\approx ${fx(m, 4)}`)}, ${M(`\\sigma \\approx ${fx(sd, 4)}`)}${q ? '' : `, ${M(`CV = \\frac{\\sigma}{\\bar{x}} \\cdot 100 \\approx ${fx(sd / m * 100)}`)} %`}.`, ...numR(q ? sd : sd / m * 100, 2) }; } }]
+]);
+
+/* ---------- Tema 9 · La probabilidad ---------- */
+tema(3, 9, 'La probabilidad', [
+ ['b3_9_1', 'Experimentos y sucesos', {
+  teo: () => afirmaciones([
+      afV(`Un suceso y su contrario son incompatibles.`, `Es verdadero: no pueden ocurrir a la vez.`),
+      afF(`Dos sucesos incompatibles pueden ocurrir a la vez.`, `Es falso: incompatibles significa que no pueden ocurrir a la vez.`),
+      afV(`${M("P(A) + P(\\overline{A}) = 1")}`, `Es verdadero: un suceso y su contrario cubren todos los resultados.`),
+      afF(`El suceso seguro tiene probabilidad 0.`, `Es falso: el suceso seguro tiene probabilidad 1; el imposible, 0.`),
+      afV(`Si el suceso ${M('A')} está contenido en ${M('B')}, entonces ${M('P(A) \\leq P(B)')}.`, `Es verdadero: siempre que ocurre ${M('A')} ocurre ${M('B')}.`)]),
+  sin: () => { const N = pick([20, 24, 30, 36, 40]), a = pick([2, 3, 4]), b = pick([3, 5, 6]); if (a === b) return B.b3_9_1.sin(); const L = lcm(a, b), nA = Math.floor(N / a), nB = Math.floor(N / b), nAB = Math.floor(N / L), t = ri(0, 2);
+    const v = t === 0 ? nA + nB - nAB : t === 1 ? nAB : N - (nA + nB - nAB);
+    return { enun: `En una urna hay ${N} bolas numeradas del 1 al ${N}. Sea ${M('A')} = «múltiplo de ${a}» y ${M('B')} = «múltiplo de ${b}». ¿Cuántos resultados tiene el suceso ${M(t === 0 ? 'A \\cup B' : t === 1 ? 'A \\cap B' : '\\overline{A \\cup B}')}?`,
+      sol: `${M(`|A| = ${nA}`)}, ${M(`|B| = ${nB}`)}, ${M(`|A \\cap B| = ${nAB}`)} (múltiplos de ${L}). ${t === 1 ? '' : M(`|A \\cup B| = ${nA} + ${nB} - ${nAB} = ${nA + nB - nAB}`)}${t === 2 ? `; el contrario tiene ${M(`${N} - ${nA + nB - nAB} = ${v}`)}` : ''}. Respuesta: ${v}.`, ...num(v, `${v}`) }; },
+  con: () => { const N = ri(600, 2500), k = ri(Math.floor(N * 0.25), Math.floor(N * 0.7)), p = 1 - k / N;
+    return { enun: `Se ha lanzado una chincheta ${N} veces y ha caído con la punta hacia arriba ${k} veces. Estima la probabilidad de que caiga de lado. Redondea a las milésimas.`, sol: M(`P \\approx 1 - \\frac{${k}}{${N}} = \\frac{${N - k}}{${N}} \\approx ${fx(p, 3)}`), ...numR(p, 3) }; } }],
+ ['b3_9_2', 'Regla de Laplace', {
+  teo: () => { if (ri(0, 1)) { const s = ri(3, 11), n = 6 - Math.abs(7 - s), ok = fr(n, 36), err = ri(0, 1) ? 0 : -1;
+      return errorEn(`Una compañera ha calculado la probabilidad de que la suma de dos dados sea ${s}:`, err === 0 ? [`Las sumas posibles son 2, 3, …, 12: hay 11 casos posibles.`, `Solo una de ellas es ${s}, así que ${M('P = \\frac{1}{11}')}.`] : [`Hay ${M('6 \\cdot 6 = 36')} casos posibles, todos igual de probables.`, `Hay ${n} casos favorables, así que ${M(`P = \\frac{${n}}{36}${ok[1] !== 36 ? ' = ' + texFr(ok) : ''}`)}.`], err,
+        err === 0 ? `En el paso 1 las sumas no son igual de probables, así que no se puede aplicar la regla de Laplace sobre ellas. Hay 36 casos equiprobables y ${n} favorables: ${M(`P = ${texFr(ok)}`)}.` : `Todos los pasos son correctos.`); }
+    return afirmaciones([
+      afV(`La regla de Laplace solo se puede aplicar si todos los resultados son igual de probables.`, `Es verdadero: es la condición para usarla.`),
+      af(`Al lanzar dos monedas, la probabilidad de obtener una cara y una cruz es ${M('\\frac{1}{2}')}.`, `Al lanzar dos monedas, la probabilidad de obtener una cara y una cruz es ${M('\\frac{1}{3}')}.`, `Los casos son CC, CX, XC y XX: 2 de 4.`, `Es falso: los casos equiprobables son CC, CX, XC y XX, así que ${M('P = \\frac{2}{4} = \\frac{1}{2}')}.`),
+      afF(`La probabilidad de un suceso puede ser ${M('\\frac{5}{4}')}.`, `Es falso: una probabilidad está entre 0 y 1.`),
+      afV(`Al sacar una carta de una baraja española de 40 cartas, la probabilidad de sacar un as es ${M('\\frac{1}{10}')}.`, `Es verdadero: hay 4 ases entre 40 cartas.`)]); },
+  sin: () => G.c3_prob(),
+  con: () => { const N = ri(320, 980), a = ri(80, Math.floor(N * 0.45)), b = ri(60, Math.floor(N * 0.4)), c = ri(10, Math.min(a, b) - 5), p = (N - (a + b - c)) / N * 100; if (a + b - c >= N) return B.b3_9_2.con();
+    return { enun: `En un colegio hay ${N} alumnas: ${a} juegan al baloncesto, ${b} al voleibol y ${c} practican los dos deportes. Se elige una alumna al azar. ¿Cuál es la probabilidad, en porcentaje, de que no practique ninguno de los dos? Redondea a las centésimas.`,
+      sol: `Practican alguno: ${M(`${a} + ${b} - ${c} = ${a + b - c}`)}. Ninguno: ${M(`${N - (a + b - c)}`)}. ${M(`P = \\frac{${N - (a + b - c)}}{${N}} \\cdot 100 \\approx ${fx(p)}`)} %.`, ...numR(p, 2) }; } }],
+ ['b3_9_3', 'Experimentos compuestos', {
+  teo: () => { const r = ri(3, 7), b = ri(2, 6), N = r + b, ok = fr(r * (r - 1), N * (N - 1)), err = ri(-1, 1);
+    const pasos = [M(`P(\\text{1.ª roja}) = \\frac{${r}}{${N}}`), err === 0 ? M(`P(\\text{2.ª roja} \\mid \\text{1.ª roja}) = \\frac{${r}}{${N}}`) : M(`P(\\text{2.ª roja} \\mid \\text{1.ª roja}) = \\frac{${r - 1}}{${N - 1}}`),
+      err === 1 ? M(`P = \\frac{${r}}{${N}} + \\frac{${r - 1}}{${N - 1}}`) : err === 0 ? M(`P = \\frac{${r}}{${N}} \\cdot \\frac{${r}}{${N}} = ${texFr(fr(r * r, N * N))}`) : M(`P = \\frac{${r}}{${N}} \\cdot \\frac{${r - 1}}{${N - 1}} = ${texFr(ok)}`)];
+    return errorEn(`Una urna tiene ${r} bolas rojas y ${b} azules. Se sacan dos bolas <b>sin devolver</b> la primera. Una compañera ha calculado la probabilidad de que las dos sean rojas:`, pasos, err === -1 ? -1 : err + 1,
+      err === 0 ? `En el paso 2, al no devolver la bola, queda una roja menos y una bola menos: ${M(`\\frac{${r - 1}}{${N - 1}}`)}. Resultado: ${M(texFr(ok))}.` : err === 1 ? `En el paso 3 las probabilidades del árbol se multiplican, no se suman. Resultado: ${M(texFr(ok))}.` : `Todos los pasos son correctos: ${M(texFr(ok))}.`); },
+  sin: () => { const r = ri(2, 6), b = ri(2, 6), N = r + b, t = ri(0, 1), p = t ? fr(2 * r * b, N * (N - 1)) : fr(r * (r - 1) + b * (b - 1), N * (N - 1));
+    return { enun: `Una urna tiene ${r} bolas rojas y ${b} azules. Se sacan dos bolas sin devolución. ¿Cuál es la probabilidad de que ${t ? 'sean de distinto color' : 'sean del mismo color'}?`,
+      sol: t ? M(`P = \\frac{${r}}{${N}} \\cdot \\frac{${b}}{${N - 1}} + \\frac{${b}}{${N}} \\cdot \\frac{${r}}{${N - 1}} = ${texFr(p)}`) : M(`P = \\frac{${r}}{${N}} \\cdot \\frac{${r - 1}}{${N - 1}} + \\frac{${b}}{${N}} \\cdot \\frac{${b - 1}}{${N - 1}} = ${texFr(p)}`), ...fracR(p) }; },
+  con: () => { const p = ri(55, 92) / 100, n = ri(3, 5), t = ri(0, 1), v = (t ? 1 - (1 - p) ** n : p ** n) * 100;
+    return { enun: `Una jugadora marca un penalti con probabilidad ${fxt(p)}. Si lanza ${n} penaltis (de forma independiente), ¿cuál es la probabilidad, en porcentaje, de que marque ${t ? 'al menos uno' : 'todos'}? Redondea a las centésimas.`,
+      sol: t ? M(`P = 1 - (1 - ${fx(p)})^{${n}} = 1 - ${fx(1 - p)}^{${n}} \\approx ${fx(v / 100, 6)}`) + ` → ${fxt(v)} %.` : M(`P = ${fx(p)}^{${n}} \\approx ${fx(v / 100, 6)}`) + ` → ${fxt(v)} %.`, ...numR(v, 2) }; } }]
+]);
+
+/* Cursos que todavía no tienen sus bloques definitivos: se usan los ejercicios anteriores
+   (solo de aplicación sin calculadora) agrupados como «temas provisionales». */
+const PROVISIONAL = {};
+[0, 1, 2, 4].forEach(c => {
+  if (TEMARIO[c]) return;
+  const ids = temasDe(c); if (!ids.length) return;
+  PROVISIONAL[c] = true;
+  TEMARIO[c] = [{ num: 1, nombre: 'Temas provisionales', bloques: ids }];
+  ids.forEach(id => { B[id] = { curso: c, tema: 1, temaNombre: 'Temas provisionales', nombre: TEMAS[id][1], sin: () => generar(id) }; });
+});
+
+
+</script>
+<script>
+/* ===================== CONEXIÓN CON APPS SCRIPT (mismo sistema que el panel de 2.º Bach) ===================== */
+const SCRIPT_URL = window.SCRIPT_URL_FLASH || '';
+const CONECTADO = SCRIPT_URL.indexOf('http') === 0;
+let DURACION = 420;   // segundos (cambia según el formato del día)
+const FORMATOS = {
+  corto: { nombre: 'Cálculo', tipos: [1, 2], min: 7, desc: 'Teoría + sin calculadora · 7 min' },
+  calc: { nombre: 'Calculadora', tipos: [3], min: 7, desc: 'Un problema con calculadora · 7 min' },
+  completo: { nombre: 'Completo', tipos: [1, 2, 3], min: 15, desc: 'Teoría + sin calculadora + con calculadora · 15 min' } };
+let GRUPOS = [1, 2, 3, 4].flatMap(c => ['A', 'B'].map(l => ({ grupo: c + '.º ESO ' + l, curso: c })));
+const NIVELES = TIPOS;
+
+function api(params) {
+  return new Promise((resolve, reject) => {
+    if (!CONECTADO) { reject(new Error('Modo prueba: falta pegar la URL de Apps Script en index.html.')); return; }
+    const cb = 'cb' + Date.now() + Math.floor(Math.random() * 1e6);
+    const s = document.createElement('script');
+    const t = setTimeout(() => { limpiar(); reject(new Error('El servidor tarda demasiado. Inténtalo de nuevo.')); }, 45000);
+    function limpiar() { clearTimeout(t); delete window[cb]; s.remove(); }
+    window[cb] = d => { limpiar(); d && d.ok ? resolve(d) : reject(new Error((d && d.error) || 'Error desconocido')); };
+    s.onerror = () => { limpiar(); reject(new Error('No se ha podido conectar con el servidor.')); };
+    s.src = SCRIPT_URL + '?' + new URLSearchParams(Object.assign({}, params, { callback: cb })).toString();
+    document.body.appendChild(s);
+  });
+}
+const $ = id => document.getElementById(id);
+function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
+function aviso(el, txt, tipo) { el.innerHTML = txt ? '<div class="aviso ' + (tipo || '') + '">' + esc(txt) + '</div>' : ''; }
+function tipografiar(el) {
+  if (window.MathJax && MathJax.typesetPromise) { MathJax.typesetClear && MathJax.typesetClear([el]); return MathJax.typesetPromise([el]).catch(() => {}); }
+  setTimeout(() => tipografiar(el), 300);
+}
+const guardarLocal = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} };
+const leerLocal = k => { try { return JSON.parse(localStorage.getItem(k)); } catch (e) { return null; } };
+const cursoDe = g => { const x = GRUPOS.find(o => o.grupo === g); return x ? Number(x.curso) : 1; };
+
+/* ===================== NAVEGACIÓN ===================== */
+function ver(cual) {
+  ['Inicio', 'Alumna', 'Profe'].forEach(n => { $('v' + n).classList.toggle('oculto', n !== cual); $('b' + n).setAttribute('aria-pressed', n === cual); });
+  const h = { Inicio: '', Alumna: '#flashback', Profe: '#profesora' }[cual];
+  if (location.hash !== h) history.replaceState(null, '', h || location.pathname);
+  window.scrollTo(0, 0);
+}
+$('bInicio').onclick = () => ver('Inicio'); $('bAlumna').onclick = () => ver('Alumna'); $('bProfe').onclick = () => ver('Profe'); $('irFlash').onclick = () => ver('Alumna');
+
+$('indiceCursos').innerHTML = [1, 2, 3, 4].map(c => '<details class="curso"><summary>' + CURSOS[c] + (PROVISIONAL[c] ? ' · en preparación' : ' · ' + TEMARIO[c].length + ' temas') + '</summary>' +
+  TEMARIO[c].map(t => '<p style="margin:10px 0 2px;font-weight:800;color:var(--azul)">' + (PROVISIONAL[c] ? '' : 'Tema ' + t.num + ' · ') + esc(t.nombre) + '</p><div class="chips" style="margin-top:4px">' + t.bloques.map(b => '<span>' + esc(B[b].nombre) + '</span>').join('') + '</div>').join('') + '</details>').join('');
+
+function rellenarGrupos() {
+  const op = GRUPOS.map(g => '<option>' + esc(g.grupo) + '</option>').join('');
+  $('aGrupo').innerHTML = '<option value="">Elige un grupo</option>' + op;
+  $('rGrupo').innerHTML = '<option value="">Elige tu grupo</option>' + op;
+}
+async function cargarGrupos() {
+  rellenarGrupos(); if (!CONECTADO) return;
+  try { const d = await api({ accion: 'grupos' }); if (d.grupos && d.grupos.length) { GRUPOS = d.grupos; rellenarGrupos(); } $('campoCodigo').classList.toggle('oculto', !d.codigo); } catch (e) {}
+}
+
+/* ===================== ALUMNA ===================== */
+let YO = null, QS = [], INTENTO = 0, T0 = 0, RELOJ = null, ENTREGADO = false;
+const elegir = (lista, evitar) => { const l = lista.filter(t => TEMAS[t] && t !== evitar); return pick(l.length ? l : lista.filter(t => TEMAS[t])); };
+
+function mostrarAcceso(cual) {
+  ['formAcceso', 'formRegistro', 'formPrueba', 'portada', 'sesion', 'resultado'].forEach(id => $(id).classList.toggle('oculto', id !== cual));
+  window.scrollTo(0, 0);
+}
+function guardarSesion(recordar) {
+  try { sessionStorage.setItem('flash5_ses', JSON.stringify(YO)); } catch (e) {}
+  if (recordar) guardarLocal('flash5_ses', YO); else { try { localStorage.removeItem('flash5_ses'); } catch (e) {} }
+}
+function leerSesion() { try { return JSON.parse(sessionStorage.getItem('flash5_ses')) || leerLocal('flash5_ses'); } catch (e) { return leerLocal('flash5_ses'); } }
+function verPortada() {
+  $('portadaHola').textContent = 'Hola, ' + YO.nombre; $('portadaGrupo').textContent = YO.grupo + ' · pulsa «Empezar» cuando te lo diga tu profesora.';
+  aviso($('msgPortada'), ''); mostrarAcceso('portada');
+}
+function cerrarSesion() {
+  YO = null; clearInterval(RELOJ);
+  try { sessionStorage.removeItem('flash5_ses'); localStorage.removeItem('flash5_ses'); } catch (e) {}
+  $('aClave').value = ''; mostrarAcceso(CONECTADO ? 'formAcceso' : 'formPrueba');
+}
+$('formAcceso').addEventListener('submit', async ev => {
+  ev.preventDefault();
+  const ap = $('aApellidos').value.trim(), no = $('aNombre').value.trim(), cl = $('aClave').value;
+  if (!ap || !no || !cl) { aviso($('msgAcceso'), 'Escribe tus apellidos, tu nombre y tu contraseña.', 'error'); return; }
+  aviso($('msgAcceso'), 'Comprobando…');
+  try {
+    const d = await api({ accion: 'login', apellidos: ap, nombre: no, clave: cl });
+    YO = { apellidos: ap, nombre: d.nombre, alumna: d.alumna, grupo: d.grupo, clave: cl };
+    guardarSesion($('aRecordar').checked); aviso($('msgAcceso'), ''); verPortada();
+  } catch (e) { aviso($('msgAcceso'), e.message + (/incorrecta|intentos/.test(e.message) ? ' Si no la recuerdas, pide a tu profesora que te la diga.' : ''), 'error'); }
+});
+$('irRegistro').onclick = e => { e.preventDefault(); aviso($('msgRegistro'), ''); mostrarAcceso('formRegistro'); $('rNombre').focus(); };
+$('volverLogin').onclick = e => { e.preventDefault(); mostrarAcceso('formAcceso'); };
+$('formRegistro').addEventListener('submit', async ev => {
+  ev.preventDefault();
+  const no = $('rNombre').value.trim(), ap = $('rApellidos').value.trim(), gr = $('rGrupo').value, c1 = $('rClave').value, c2 = $('rClave2').value;
+  if (!no || !ap || !gr) { aviso($('msgRegistro'), 'Escribe tu nombre, tus apellidos y elige tu grupo.', 'error'); return; }
+  if (c1.length < 4) { aviso($('msgRegistro'), 'La contraseña tiene que tener al menos 4 caracteres.', 'error'); return; }
+  if (c1 !== c2) { aviso($('msgRegistro'), 'Las dos contraseñas no coinciden.', 'error'); return; }
+  aviso($('msgRegistro'), 'Creando tu cuenta…');
+  try {
+    const d = await api({ accion: 'registro', nombre: no, apellidos: ap, grupo: gr, clave: c1, codigo: $('rCodigo').value.trim() });
+    YO = { apellidos: ap, nombre: d.nombre, alumna: d.alumna, grupo: d.grupo, clave: c1 };
+    guardarSesion(false); verPortada();
+    aviso($('msgPortada'), 'Cuenta creada. A partir de ahora entra con tu nombre y tu contraseña.', 'ok');
+  } catch (e) { aviso($('msgRegistro'), e.message, 'error'); }
+});
+$('formPrueba').addEventListener('submit', async ev => {
+  ev.preventDefault(); const gr = $('aGrupo').value; if (!gr) return;
+  YO = { apellidos: 'Prueba', nombre: 'alumna de prueba', alumna: 'Prueba', grupo: gr, clave: '' }; await empezar();
+});
+$('btnEmpezar').onclick = () => empezar();
+$('btnSalir').onclick = e => { e.preventDefault(); cerrarSesion(); };
+
+/* Tres ejercicios: 1 teoría, 2 sin calculadora, 3 con calculadora, de los bloques elegidos (sin repetir bloque si se puede) */
+function armarFlash(ids, formato) {
+  const usados = [], clave = { 1: 'teo', 2: 'sin', 3: 'con' };
+  return (FORMATOS[formato] || FORMATOS.completo).tipos.map(k => {
+    let tipo = k, cand = ids.filter(id => B[id] && B[id][clave[k]]);
+    if (!cand.length) { tipo = 2; cand = ids.filter(id => B[id] && B[id].sin); }
+    const libres = cand.filter(id => !usados.includes(id)), id = pick(libres.length ? libres : cand); usados.push(id);
+    const q = B[id][clave[tipo]]();
+    return Object.assign(q, { tema: id, temaNombre: B[id].nombre, temaSub: PROVISIONAL[B[id].curso] ? CURSOS[B[id].curso] : 'Tema ' + B[id].tema + ' · ' + B[id].temaNombre, nivel: tipo });
+  });
+}
+async function empezar() {
+  const curso = cursoDe(YO.grupo); let ids, formato = pick(['corto', 'calc']);
+  if (CONECTADO) {
+    let d;
+    try { d = await api({ accion: 'config', grupo: YO.grupo }); }
+    catch (e) { verPortada(); aviso($('msgPortada'), 'No se ha podido cargar el Flashback: ' + e.message, 'error'); return; }
+    ids = d.plan ? d.plan.b.filter(id => B[id]) : []; formato = d.plan && FORMATOS[d.plan.f] ? d.plan.f : 'corto';
+    if (!ids.length) { verPortada(); aviso($('msgPortada'), 'Tu profesora todavía no ha preparado el Flashback de hoy. Espera a que te avise y vuelve a pulsar «Empezar».', 'ambar'); return; }
+  } else ids = TEMARIO[curso].flatMap(t => t.bloques);   // modo prueba: todo el curso
+  QS = armarFlash(ids, formato); DURACION = FORMATOS[formato].min * 60;
+  INTENTO = Date.now(); ENTREGADO = false;
+  mostrarAcceso('sesion');
+  $('hola').textContent = 'Hola, ' + YO.nombre + ' · ' + YO.grupo;
+  pintarEjercicios(); arrancarReloj(); window.scrollTo(0, 0);
+}
+
+function formatoTxt(q) { return { entero: 'Escribe un número entero.', decimal: 'Puedes usar coma decimal, por ejemplo 2,5.', fraccion: 'Escribe la fracción simplificada con barra, por ejemplo 3/4 o -5/2.', red0: 'Redondea a las unidades.', red1: 'Redondea a las décimas. Usa coma decimal, por ejemplo 12,5.', red2: 'Redondea a las centésimas. Usa coma decimal, por ejemplo 12,57.', red3: 'Redondea a las milésimas. Usa coma decimal, por ejemplo 0,125.' }[q.formato] || ''; }
+function pintarEjercicios() {
+  $('ejercicios').innerHTML = QS.map((q, i) => {
+    const entrada = q.tipo === 'opc'
+      ? '<div class="opciones' + (q.largo ? ' largo' : '') + '" role="radiogroup" aria-label="Opciones">' + q.opciones.map((o, k) => '<label><input type="radio" name="q' + i + '" value="' + k + '"><span>' + o + '</span></label>').join('') + '</div>'
+      : '<input class="resp" id="r' + i + '" inputmode="text" autocomplete="off" spellcheck="false" aria-label="Tu respuesta" placeholder="Tu respuesta"><span class="formato">' + formatoTxt(q) + '</span>';
+    return '<article class="ej n' + q.nivel + '"><div class="cab"><span class="badge">' + q.nivel + ' · ' + NIVELES[q.nivel] + '</span><span class="tema">' + esc(q.temaNombre) + ' <span class="sub">' + esc(q.temaSub || '') + '</span></span></div>' +
+      '<div class="enun">' + q.enun + '</div>' + entrada + '</article>';
+  }).join('');
+  tipografiar($('ejercicios'));
+}
+function arrancarReloj() {
+  clearInterval(RELOJ); T0 = Date.now(); actualizarReloj();
+  RELOJ = setInterval(actualizarReloj, 1000);
+}
+function actualizarReloj() {
+  const quedan = Math.max(0, DURACION - Math.floor((Date.now() - T0) / 1000)), m = Math.floor(quedan / 60), s = quedan % 60;
+  $('reloj').textContent = m + ':' + String(s).padStart(2, '0');
+  $('reloj').className = 'reloj' + (quedan === 0 ? ' fin' : quedan <= 60 ? ' poco' : '');
+  $('progreso').style.width = (100 * quedan / DURACION) + '%';
+  if (quedan === 0) entregar(true);
+}
+$('btnEntregar').onclick = () => entregar(false);
+
+function leerRespuesta(q, i) {
+  if (q.tipo === 'opc') { const r = document.querySelector('input[name="q' + i + '"]:checked'); return r ? Number(r.value) : -1; }
+  return ($('r' + i).value || '').trim();
+}
+function entregar(porTiempo) {
+  if (ENTREGADO) return; ENTREGADO = true; clearInterval(RELOJ);
+  const seg = Math.min(DURACION, Math.round((Date.now() - T0) / 1000));
+  QS.forEach((q, i) => { q.dada = leerRespuesta(q, i); q.ok = esCorrecta(q, q.dada); });
+  const aciertos = QS.filter(q => q.ok).length;
+  mostrarAcceso('resultado');
+  const N = QS.length; $('resNota').textContent = aciertos + ' / ' + N;
+  const frase = aciertos === N ? '¡Lo tienes muy presente!' : aciertos === N - 1 && N > 1 ? 'Muy bien. Fíjate en el que has fallado: lo repasamos ahora.' : 'Para esto sirve el Flashback: ahora lo corregimos juntas y la próxima vez lo recordarás mejor.';
+  $('resTexto').innerHTML = (porTiempo ? '<b>Se ha acabado el tiempo.</b> ' : '') + 'Has acertado <b>' + aciertos + ' de ' + N + '</b>. ' + frase + ' <br>No cuenta para la nota.';
+  $('resEjercicios').innerHTML = QS.map(q => {
+    const tuya = q.tipo === 'opc' ? (q.dada >= 0 ? q.opciones[q.dada] : 'sin responder') : (q.dada ? esc(q.dada) : 'sin responder');
+    const correcta = q.tipo === 'opc' ? q.respTex : '\\(' + q.respTex + '\\)';
+    return '<article class="ej n' + q.nivel + ' ' + (q.ok ? 'bien' : 'mal') + '"><div class="cab"><span class="badge">' + q.nivel + ' · ' + NIVELES[q.nivel] + '</span><span class="tema">' + esc(q.temaNombre) + ' <span class="sub">' + esc(q.temaSub || '') + '</span></span></div>' +
+      '<div class="enun">' + q.enun + '</div><div class="veredicto">' + (q.ok ? '✓ Correcto' : '✗ Tu respuesta: ' + tuya) + '</div>' +
+      '<div class="solucion"><b>Respuesta:</b> ' + correcta + '<br><b>Cómo se resuelve:</b> ' + q.sol + '</div></article>';
+  }).join('');
+  tipografiar($('resEjercicios')); window.scrollTo(0, 0);
+  enviar(seg);
+}
+async function enviar(seg) {
+  if (!CONECTADO) { aviso($('msgEnvio'), 'Modo prueba: las respuestas no se guardan porque la web aún no está conectada a Google Sheets.', 'ambar'); return; }
+  aviso($('msgEnvio'), 'Guardando tus respuestas…');
+  const plano = s => String(s).replace(/<\/?(b|i)>/g, '').replace(/<[^>]+>/g, ' ').replace(/\\\(|\\\)/g, '').replace(/\s+/g, ' ').trim().slice(0, 160);
+  const datos = QS.map(q => ({ n: q.nivel, t: q.tema, e: plano(q.enun), r: q.tipo === 'opc' ? (q.dada >= 0 ? plano(q.opciones[q.dada]) : '') : String(q.dada).slice(0, 30), c: q.ok ? 1 : 0 }));
+  try {
+    await api({ accion: 'enviar', apellidos: YO.apellidos, nombre: YO.nombre, clave: YO.clave, intento: INTENTO, segundos: seg, datos: JSON.stringify(datos) });
+    aviso($('msgEnvio'), 'Respuestas guardadas para tu profesora.', 'ok');
+  } catch (e) { aviso($('msgEnvio'), 'No se han podido guardar las respuestas: ' + e.message, 'error'); }
+}
+$('btnOtro').onclick = () => empezar();
+$('btnCambiar').onclick = () => cerrarSesion();
+
+/* ===================== PROFESORA ===================== */
+let CLAVE = '', PLANES = [], HOY = '', FILAS = [];
+$('formProfe').addEventListener('submit', async ev => {
+  ev.preventDefault();
+  if (!CONECTADO) { aviso($('msgProfe'), 'La web está en modo prueba. Pega la URL de Apps Script en index.html para usar el panel de la profesora.', 'ambar'); return; }
+  aviso($('msgProfe'), 'Comprobando…');
+  try {
+    CLAVE = $('pClave').value; const d = await api({ accion: 'prof', clave: CLAVE, dias: $('pDias').value });
+    $('pGrupo').innerHTML = (d.grupos || []).map(g => '<option>' + esc(g.grupo) + '</option>').join(''); $('pGrupo').value = d.grupo;
+    $('profNombre').textContent = d.profesora || '';
+    try { sessionStorage.setItem('flash5_prof', CLAVE); } catch (e) {}
+    $('formProfe').classList.add('oculto'); $('panelProfe').classList.remove('oculto');
+    PLANES = d.planes || []; HOY = d.hoy || hoyLocal(); FILAS = d.filas || []; $('plFecha').value = HOY; pintarPrep(); pintarResultados();
+  } catch (e) { aviso($('msgProfe'), e.message, 'error'); }
+});
+function seccion(cual) {
+  [['tPrep', 'secPrep', 'prep'], ['tRes', 'secRes', 'res'], ['tAlu', 'secAlu', 'alu']].forEach(([b, s, k]) => { $(b).setAttribute('aria-pressed', cual === k); $(s).classList.toggle('oculto', cual !== k); });
+  if (cual === 'alu') cargarAlumnas();
+}
+$('tPrep').onclick = () => seccion('prep'); $('tRes').onclick = () => seccion('res'); $('tAlu').onclick = () => seccion('alu');
+const fechaCorta = ms => ms ? new Date(ms).toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit' }) : '—';
+async function cargarAlumnas(msg) {
+  $('listaAlumnas').innerHTML = '<div class="aviso">Cargando…</div>';
+  try {
+    const L = (await api({ accion: 'profAlumnas', clave: CLAVE, grupo: $('pGrupo').value })).alumnas || [];
+    if (!L.length) { $('listaAlumnas').innerHTML = '<div class="aviso">Todavía no se ha registrado ninguna alumna en ' + esc($('pGrupo').value) + '.</div>'; return; }
+    $('listaAlumnas').innerHTML = '<table class="datos"><thead><tr><th>Alumna</th><th>Contraseña</th><th class="num">Flashbacks</th><th>Último</th><th></th></tr></thead><tbody>' +
+      L.map((a, i) => '<tr><td>' + esc(a.alumna) + (a.bloqueada ? ' <span class="pill n2">Bloqueada unos minutos</span>' : '') + '</td><td><code style="font-size:15px;font-weight:700">' + (a.clave ? esc(a.clave) : '<span style="color:var(--gris)">— ponle una nueva</span>') + '</code></td><td class="num">' + a.flash + '</td><td>' + fechaCorta(a.ult) +
+        '</td><td style="text-align:right;white-space:nowrap"><button class="mini inf" data-i="' + i + '">Informe</button> <button class="mini" data-i="' + i + '">Cambiar</button></td></tr>').join('') + '</tbody></table><div id="msgAlumnas"></div>';
+    if (msg) aviso($('msgAlumnas'), msg, 'ok');
+    $('listaAlumnas').querySelectorAll('button.inf').forEach(b => b.onclick = () => { seccion('res'); abrirInforme(L[Number(b.dataset.i)].alumna); });
+    $('listaAlumnas').querySelectorAll('button.mini:not(.inf)').forEach(b => b.onclick = async () => {
+      const a = L[Number(b.dataset.i)], nueva = prompt('Nueva contraseña para ' + a.alumna + ' (mínimo 4 caracteres):');
+      if (nueva === null) return;
+      if (nueva.trim().length < 4) { aviso($('msgAlumnas'), 'La contraseña tiene que tener al menos 4 caracteres.', 'error'); return; }
+      try { await api({ accion: 'profClave', clave: CLAVE, alumna: a.alumna, nueva: nueva.trim() }); cargarAlumnas('Contraseña cambiada para ' + a.alumna + ': ' + nueva.trim().toLowerCase() + '. Díselo a la alumna.'); }
+      catch (e) { aviso($('msgAlumnas'), e.message, 'error'); }
+    });
+  } catch (e) { $('listaAlumnas').innerHTML = '<div class="aviso error">' + esc(e.message) + '</div>'; }
+}
+async function recargar() {
+  try { const d = await api({ accion: 'prof', clave: CLAVE, grupo: $('pGrupo').value, dias: $('pDias').value }); PLANES = d.planes || []; HOY = d.hoy || HOY; FILAS = d.filas || []; pintarPrep(); pintarResultados(); }
+  catch (e) { $('resultadosProfe').innerHTML = '<div class="aviso error">' + esc(e.message) + '</div>'; }
+}
+$('profSalir').onclick = e => { e.preventDefault(); CLAVE = ''; try { sessionStorage.removeItem('flash5_prof'); } catch (x) {} $('pClave').value = ''; aviso($('msgProfe'), ''); $('panelProfe').classList.add('oculto'); $('formProfe').classList.remove('oculto'); };
+$('pGrupo').onchange = () => { recargar(); if ($('tAlu').getAttribute('aria-pressed') === 'true') cargarAlumnas(); }; $('pDias').onchange = recargar; $('btnRefrescar').onclick = recargar;
+
+const hoyLocal = () => { const d = new Date(); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); };
+const fechaBonita = f => { const t = new Date(f + 'T12:00:00').toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long' }); return t.charAt(0).toUpperCase() + t.slice(1); };
+const nomB = id => B[id] ? B[id].nombre : (TEMAS[id] ? TEMAS[id][1] : id);
+function bloqueHTML(id) { return '<label><input type="checkbox" data-b="' + id + '">' + esc(B[id].nombre) + '</label>'; }
+function temaHTML(c, t) { return '<div class="temaP"><label><input type="checkbox" data-t="' + c + '_' + t.num + '">' + (PROVISIONAL[c] ? '' : 'Tema ' + t.num + ' · ') + esc(t.nombre) + '</label><div class="bls">' + t.bloques.map(bloqueHTML).join('') + '</div></div>'; }
+function pintarArbol() {
+  const c = cursoDe($('pGrupo').value), previos = [4, 3, 2, 1, 0].filter(k => k < c && TEMARIO[k] && (k > 0 || c === 1));
+  $('arbol').innerHTML = '<div class="arbol">' + TEMARIO[c].map(t => temaHTML(c, t)).join('') + '</div>' +
+    previos.map(k => '<details class="repaso"><summary>Repaso de ' + CURSOS[k] + (PROVISIONAL[k] ? ' (temas provisionales)' : '') + '</summary><div class="arbol">' + TEMARIO[k].map(t => temaHTML(k, t)).join('') + '</div></details>').join('');
+  $('arbol').querySelectorAll('input[data-t]').forEach(x => x.onchange = () => { x.closest('.temaP').querySelectorAll('input[data-b]').forEach(b => { b.checked = x.checked; }); contar(); });
+  $('arbol').querySelectorAll('input[data-b]').forEach(x => x.onchange = contar);
+}
+function marcados() { return [...$('arbol').querySelectorAll('input[data-b]:checked')].map(x => x.dataset.b); }
+function contar() {
+  $('arbol').querySelectorAll('.temaP').forEach(tp => { const bs = [...tp.querySelectorAll('input[data-b]')], n = bs.filter(b => b.checked).length, t = tp.querySelector('input[data-t]');
+    t.checked = n === bs.length; t.indeterminate = n > 0 && n < bs.length; });
+  const n = marcados().length; $('plCuenta').textContent = n ? n + (n === 1 ? ' bloque marcado' : ' bloques marcados') : 'Ningún bloque marcado';
+}
+function resumenPlan(ids) {
+  const g = {}; ids.filter(id => B[id]).forEach(id => { const k = B[id].curso + '_' + B[id].tema; g[k] = g[k] || { b: B[id], n: 0 }; g[k].n++; });
+  return Object.values(g).map(x => (PROVISIONAL[x.b.curso] ? CURSOS[x.b.curso] : (x.b.curso !== cursoDe($('pGrupo').value) ? CURSOS[x.b.curso] + ' · ' : '') + 'Tema ' + x.b.tema + ' · ' + x.b.temaNombre) + ' (' + x.n + ')').join('; ');
+}
+function formatoSel() { const r = document.querySelector('input[name="plF"]:checked'); return r ? r.value : 'corto'; }
+function pintarPrep() {
+  $('plFormato').innerHTML = Object.entries(FORMATOS).map(([k, f]) => '<label><input type="radio" name="plF" value="' + k + '"' + (k === 'corto' ? ' checked' : '') + '>' + f.nombre + ' <small>' + f.desc + '</small></label>').join('');
+  pintarArbol();
+  if (!$('plFecha').value) $('plFecha').value = HOY || hoyLocal();
+  cargarDia(); pintarPlanes(); $('ejemplo').innerHTML = '';
+}
+function cargarDia() {
+  const f = $('plFecha').value, p = PLANES.find(x => x.fecha === f), sel = p ? p.b : [];
+  $('arbol').querySelectorAll('input[data-b]').forEach(x => { x.checked = sel.includes(x.dataset.b); });
+  $('arbol').querySelectorAll('details.repaso').forEach(d => { if (d.querySelector('input[data-b]:checked')) d.open = true; });
+  const fz = p && FORMATOS[p.f] ? p.f : (() => { const ant = PLANES.filter(x => x.fecha < f).pop(); return ant && ant.f === 'corto' ? 'calc' : 'corto'; })();
+  document.querySelectorAll('input[name="plF"]').forEach(r => { r.checked = r.value === fz; });
+  contar();
+  $('plEstado').textContent = p ? '✓ Este día ya tiene Flashback' : 'Este día todavía no tiene Flashback';
+  $('plEstado').style.color = p ? 'var(--verde)' : 'var(--gris)';
+  $('btnBorrar').classList.toggle('oculto', !p); aviso($('msgGuardar'), ''); $('ejemplo').innerHTML = '';
+}
+$('plFecha').onchange = cargarDia;
+$('btnLimpiar').onclick = () => { $('arbol').querySelectorAll('input').forEach(x => { x.checked = false; x.indeterminate = false; }); contar(); };
+function pintarPlanes() {
+  if (!PLANES.length) { $('listaPlanes').innerHTML = '<div class="aviso">Todavía no hay Flashbacks programados para ' + esc($('pGrupo').value) + '.</div>'; return; }
+  $('listaPlanes').innerHTML = '<table class="datos"><thead><tr><th>Día</th><th>Formato</th><th>Temas (número de bloques)</th><th></th></tr></thead><tbody>' +
+    PLANES.map((p, i) => '<tr class="' + (p.fecha === HOY ? 'hoy' : p.fecha < HOY ? 'pasado' : '') + '"><td style="white-space:nowrap"><b>' + (p.fecha === HOY ? 'Hoy' : '') + '</b> ' + fechaBonita(p.fecha) + '</td><td style="white-space:nowrap"><span class="pill ' + ({ corto: 'n2', calc: 'n3', completo: 'n1' }[p.f] || 'n2') + '">' + (FORMATOS[p.f] || FORMATOS.corto).nombre + '</span></td>' +
+      '<td style="font-size:14px">' + esc(resumenPlan(p.b)) + '</td><td style="text-align:right"><button class="mini" data-i="' + i + '">Editar</button></td></tr>').join('') + '</tbody></table>';
+  $('listaPlanes').querySelectorAll('button.mini').forEach(b => b.onclick = () => { $('plFecha').value = PLANES[Number(b.dataset.i)].fecha; cargarDia(); window.scrollTo(0, 0); });
+}
+$('btnGuardar').onclick = async () => {
+  const f = $('plFecha').value, ids = marcados();
+  if (!f) { aviso($('msgGuardar'), 'Elige un día.', 'error'); return; }
+  if (!ids.length) { aviso($('msgGuardar'), 'Marca al menos un bloque.', 'error'); return; }
+  aviso($('msgGuardar'), 'Guardando…');
+  try {
+    const d = await api({ accion: 'profGuardar', clave: CLAVE, grupo: $('pGrupo').value, fecha: f, b: ids.join(','), f: formatoSel() });
+    PLANES = d.planes || PLANES; pintarPlanes(); cargarDia();
+    aviso($('msgGuardar'), 'Guardado. ' + $('pGrupo').value + ' hará este Flashback el ' + fechaBonita(f).toLowerCase() + ': formato ' + FORMATOS[formatoSel()].nombre + ', ' + ids.length + (ids.length === 1 ? ' bloque' : ' bloques') + '.', 'ok');
+  } catch (e) { aviso($('msgGuardar'), e.message, 'error'); }
+};
+$('btnBorrar').onclick = async () => {
+  const f = $('plFecha').value; if (!confirm('¿Borrar el Flashback del ' + fechaBonita(f).toLowerCase() + '?')) return;
+  try { const d = await api({ accion: 'profBorrar', clave: CLAVE, grupo: $('pGrupo').value, fecha: f }); PLANES = d.planes || []; pintarPlanes(); cargarDia(); aviso($('msgGuardar'), 'Flashback borrado.', 'ok'); }
+  catch (e) { aviso($('msgGuardar'), e.message, 'error'); }
+};
+$('btnEjemplo').onclick = () => {
+  const ids = marcados();
+  if (!ids.length) { aviso($('msgGuardar'), 'Marca primero algún bloque para ver un ejemplo.', 'error'); return; }
+  $('ejemplo').innerHTML = '<p style="color:var(--gris);margin:0 0 10px">Así podría verlo una alumna (a cada una le salen otros bloques y otros números). Pulsa otra vez para ver otro ejemplo.</p>' +
+    armarFlash(ids, formatoSel()).map(q => { const r = q.tipo === 'opc' ? q.respTex : '\\(' + q.respTex + '\\)';
+      return '<article class="ej n' + q.nivel + '"><div class="cab"><span class="badge">' + q.nivel + ' · ' + NIVELES[q.nivel] + '</span><span class="tema">' + esc(q.temaNombre) + ' <span class="sub">' + esc(q.temaSub) + '</span></span></div><div class="enun">' + q.enun + '</div>' +
+        (q.tipo === 'opc' ? '<div class="opciones' + (q.largo ? ' largo' : '') + '">' + q.opciones.map(o => '<label><span>' + o + '</span></label>').join('') + '</div>' : (formatoTxt(q) ? '<span class="formato">' + formatoTxt(q) + '</span>' : '')) +
+        '<div class="solucion"><b>Respuesta:</b> ' + r + '<br><b>Cómo se resuelve:</b> ' + q.sol + '</div></article>'; }).join('');
+  tipografiar($('ejemplo'));
+};
+
+const color = p => p < 50 ? 'var(--rojo)' : p < 75 ? 'var(--ambar)' : 'var(--verde)';
+const pct = (a, n) => n ? Math.round(100 * a / n) : null;
+const barra = p => p === null ? '<span style="color:var(--gris)">—</span>' : '<div class="barra"><div class="b"><div style="width:' + p + '%;background:' + color(p) + '"></div></div><span>' + p + ' %</span></div>';
+/* fila = [fecha (ms), intento, alumna, ejercicio (1-3), tema, correcta (1/0), segundos] */
+const PERIODO = () => $('pDias').options[$('pDias').selectedIndex].text.toLowerCase();
+const nomT = t => nomB(t);
+const subT = t => B[t] ? (PROVISIONAL[B[t].curso] ? CURSOS[B[t].curso] : (B[t].curso !== cursoDe($('pGrupo').value) ? CURSOS[B[t].curso] + ' · ' : '') + 'Tema ' + B[t].tema) : (TEMAS[t] ? CURSOS[TEMAS[t][0]] : '');
+const ORDEN = {}; [4, 3, 2, 1, 0].forEach(c => (TEMARIO[c] || []).forEach(t => t.bloques.forEach(b => { ORDEN[b] = Object.keys(ORDEN).length; })));
+const ordenTemas = ts => ts.sort((x, y) => ((ORDEN[x] === undefined ? 1e9 : ORDEN[x]) - (ORDEN[y] === undefined ? 1e9 : ORDEN[y])) || nomT(x).localeCompare(nomT(y), 'es'));
+const claseC = p => p === null ? 'x' : p < 50 ? 'r' : p < 75 ? 'a' : 'g';
+/* Estado de una alumna en un tema a partir de sus resultados en orden cronológico */
+function estadoTema(res) {
+  const n = res.length, a = res.filter(Boolean).length, p = pct(a, n), ult2 = res.slice(-2);
+  if (n === 1) return { k: 'poc', t: 'Pocos datos', o: 2 };
+  if (p < 50 || (ult2.length === 2 && !ult2[0] && !ult2[1])) return { k: 'lag', t: 'Laguna', o: 0 };
+  if (p >= 75 && res[n - 1]) return { k: 'dom', t: 'Dominado', o: 3 };
+  return { k: 'pro', t: 'En progreso', o: 1 };
+}
+function porAlumnaTema(F) {
+  const m = {}; [...F].sort((x, y) => x[0] - y[0]).forEach(f => { const k = f[2]; m[k] = m[k] || {}; (m[k][f[4]] = m[k][f[4]] || []).push(f[5] == 1); });
+  return m;
+}
+function pintarResultados() {
+  $('informe').classList.add('oculto'); $('resultadosProfe').classList.remove('oculto');
+  const F = FILAS;
+  if (!F.length) { $('resultadosProfe').innerHTML = '<div class="aviso">Todavía no hay Flashbacks de ' + esc($('pGrupo').value) + ' en este periodo.</div>'; return; }
+  const intentos = new Set(F.map(f => f[1])), ok = F.filter(f => f[5] == 1).length;
+  const porNivel = n => { const x = F.filter(f => f[3] == n); return pct(x.filter(f => f[5] == 1).length, x.length); };
+  const MAT = porAlumnaTema(F), alumnas = Object.keys(MAT).sort((x, y) => x.localeCompare(y, 'es')), temas = ordenTemas([...new Set(F.map(f => f[4]))]);
+  const lagunasDe = al => Object.values(MAT[al]).filter(r => estadoTema(r).k === 'lag').length;
+  const celda = r => { if (!r) return '<td class="c x">·</td>'; const a = r.filter(Boolean).length, p = pct(a, r.length); return '<td class="c ' + claseC(p) + '" title="' + a + ' de ' + r.length + ' bien">' + a + '/' + r.length + '</td>'; };
+  const resumen = temas.map(t => { const fs = F.filter(f => f[4] === t), a = fs.filter(f => f[5] == 1).length, lag = alumnas.filter(al => MAT[al][t] && estadoTema(MAT[al][t]).k === 'lag');
+    return { t, n: fs.length, p: pct(a, fs.length), lag }; }).sort((x, y) => x.p - y.p || y.lag.length - x.lag.length);
+  $('resultadosProfe').innerHTML =
+    '<div class="kpis"><div class="kpi"><div class="v">' + intentos.size + '</div><div class="l">Flashbacks hechos</div></div>' +
+    '<div class="kpi"><div class="v">' + alumnas.length + '</div><div class="l">Alumnas</div></div>' +
+    '<div class="kpi"><div class="v">' + pct(ok, F.length) + ' %</div><div class="l">Acierto global</div></div>' +
+    [1, 2, 3].map(n => '<div class="kpi"><div class="v" style="color:' + (porNivel(n) === null ? 'var(--gris)' : color(porNivel(n))) + '">' + (porNivel(n) === null ? '—' : porNivel(n) + ' %') + '</div><div class="l">' + n + ' · ' + NIVELES[n] + '</div></div>').join('') + '</div>' +
+    '<h4 class="titulo">Mapa de bloques por alumna</h4><p style="color:var(--gris);margin:-4px 0 8px;font-size:14px">Cada casilla dice cuántos ejercicios de ese tema ha acertado del total que ha hecho. Cada columna es un bloque. Pulsa el nombre de una alumna para ver su informe.</p>' +
+    '<div class="leyenda"><span><b style="background:var(--rojo-cl);border:1px solid var(--rojo)"></b>Menos del 50 %</span><span><b style="background:var(--ambar-cl);border:1px solid var(--ambar)"></b>50–74 %</span><span><b style="background:var(--verde-cl);border:1px solid var(--verde)"></b>75 % o más</span><span>· sin hacer</span></div>' +
+    '<div class="mapa"><table><thead><tr><th class="nom" style="vertical-align:bottom">Alumna</th>' + temas.map(t => '<th class="v">' + esc(nomT(t)) + ' <small>' + esc(subT(t)) + '</small>' + '</th>').join('') +
+    '<th class="v">Acierto global</th><th class="v">Lagunas</th></tr></thead><tbody>' +
+    alumnas.map((al, i) => { const fs = F.filter(f => f[2] === al), g = pct(fs.filter(f => f[5] == 1).length, fs.length), lg = lagunasDe(al);
+      return '<tr><td class="nom"><a href="#" data-i="' + i + '">' + esc(al) + '</a></td>' + temas.map(t => celda(MAT[al][t])).join('') +
+        '<td class="c ' + claseC(g) + '">' + g + ' %</td><td class="c" style="color:' + (lg ? 'var(--rojo)' : 'var(--verde)') + '">' + lg + '</td></tr>'; }).join('') + '</tbody></table></div>' +
+    '<h4 class="titulo">Lo que más se olvida en el grupo</h4><table class="datos"><thead><tr><th>Tema</th><th class="num">Ejercicios</th><th>Acierto</th><th>Alumnas con laguna</th></tr></thead><tbody>' +
+    resumen.map(r => '<tr><td>' + esc(nomT(r.t)) + '<br><span style="font-size:12.5px;color:var(--gris)">' + esc(subT(r.t)) + '</span></td><td class="num">' + r.n + '</td><td>' + barra(r.p) + '</td><td style="font-size:13.5px">' +
+      (r.lag.length ? '<b style="color:var(--rojo)">' + r.lag.length + '</b> · ' + r.lag.map(x => esc(x.split(',')[1] ? x.split(',')[1].trim() + ' ' + x.split(',')[0].split(' ')[0] : x)).join(', ') : '<span style="color:var(--verde)">Ninguna</span>') + '</td></tr>').join('') + '</tbody></table>';
+  $('resultadosProfe').querySelectorAll('.nom a[data-i]').forEach(l => l.onclick = e => { e.preventDefault(); abrirInforme(alumnas[Number(l.dataset.i)]); });
+}
+
+function abrirInforme(al) {
+  const F = FILAS.filter(f => f[2] === al);
+  $('resultadosProfe').classList.add('oculto'); $('informe').classList.remove('oculto'); window.scrollTo(0, 0);
+  const cab = '<div class="acciones noimp" style="margin:0 0 14px"><button class="btn sec" id="volverGrupo">← Volver al grupo</button><button class="btn" id="imprimir">Imprimir o guardar en PDF</button></div>' +
+    '<h3 style="margin:0 0 2px">Informe de ' + esc(al) + '</h3><p style="color:var(--gris);margin:0 0 16px">' + esc($('pGrupo').value) + ' · Flashback 5 · ' + PERIODO() + ' · ' + new Date().toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' }) + '</p>';
+  if (!F.length) { $('informe').innerHTML = cab + '<div class="aviso">Esta alumna todavía no ha hecho ningún Flashback en este periodo.</div>'; enlazarInforme(); return; }
+  const MAT = porAlumnaTema(F)[al], porNivel = n => { const x = F.filter(f => f[3] == n); return pct(x.filter(f => f[5] == 1).length, x.length); };
+  const filas = Object.entries(MAT).map(([t, r]) => ({ t, r, a: r.filter(Boolean).length, e: estadoTema(r) })).sort((x, y) => x.e.o - y.e.o || pct(x.a, x.r.length) - pct(y.a, y.r.length));
+  const lag = filas.filter(f => f.e.k === 'lag'), g = pct(F.filter(f => f[5] == 1).length, F.length);
+  $('informe').innerHTML = cab +
+    '<div class="kpis"><div class="kpi"><div class="v">' + new Set(F.map(f => f[1])).size + '</div><div class="l">Flashbacks hechos</div></div>' +
+    '<div class="kpi"><div class="v" style="color:' + color(g) + '">' + g + ' %</div><div class="l">Acierto global</div></div>' +
+    [1, 2, 3].map(n => '<div class="kpi"><div class="v" style="color:' + (porNivel(n) === null ? 'var(--gris)' : color(porNivel(n))) + '">' + (porNivel(n) === null ? '—' : porNivel(n) + ' %') + '</div><div class="l">' + n + ' · ' + NIVELES[n] + '</div></div>').join('') + '</div>' +
+    (lag.length ? '<div class="lagunas"><b>Posibles lagunas (' + lag.length + ')</b>Bloques con menos del 50 % de acierto o con los dos últimos intentos fallados:<ul>' + lag.map(f => '<li>' + esc(nomT(f.t)) + ' <span style="color:var(--gris)">(' + esc(subT(f.t)) + ') · ' + f.a + ' de ' + f.r.length + '</span></li>').join('') + '</ul></div>'
+      : '<div class="lagunas no"><b>No se detectan lagunas</b>Con los datos de este periodo, ningún bloque está por debajo del 50 % ni tiene los dos últimos intentos fallados.</div>') +
+    '<h4 class="titulo">Progreso por bloques</h4><table class="datos"><thead><tr><th>Tema</th><th class="num">Aciertos</th><th>Evolución (del más antiguo al más reciente)</th><th>Estado</th></tr></thead><tbody>' +
+    filas.map(f => '<tr><td>' + esc(nomT(f.t)) + '<br><span style="font-size:12.5px;color:var(--gris)">' + esc(subT(f.t)) + '</span></td><td class="num">' + f.a + ' de ' + f.r.length + '</td>' +
+      '<td><span class="evo">' + f.r.map(x => '<i class="' + (x ? 's' : 'n') + '" title="' + (x ? 'Bien' : 'Mal') + '"></i>').join('') + '</span></td><td><span class="estado ' + f.e.k + '">' + f.e.t + '</span></td></tr>').join('') + '</tbody></table>' +
+    '<p style="color:var(--gris);font-size:13px;line-height:1.5">Laguna: menos del 50 % o los dos últimos intentos fallados. Dominado: 75 % o más y el último intento bien. Pocos datos: solo un intento.</p>';
+  enlazarInforme();
+}
+function enlazarInforme() {
+  $('volverGrupo').onclick = () => { $('informe').classList.add('oculto'); $('resultadosProfe').classList.remove('oculto'); };
+  $('imprimir').onclick = () => window.print();
+}
+
+/* ===================== ARRANQUE ===================== */
+cargarGrupos();
+try { const c = sessionStorage.getItem('flash5_prof'); if (c) $('pClave').value = c; } catch (e) {}
+ver(location.hash === '#profesora' ? 'Profe' : location.hash === '#flashback' ? 'Alumna' : 'Inicio');
+YO = CONECTADO ? leerSesion() : null;
+if (YO && YO.clave) verPortada(); else mostrarAcceso(CONECTADO ? 'formAcceso' : 'formPrueba');
+if (!CONECTADO) document.querySelector('.bienvenida .lead').insertAdjacentHTML('afterend', '<p style="color:#ffd166;font-weight:800;margin:-8px 0 20px">Modo prueba: la web todavía no está conectada a Google Sheets.</p>');
+</script>
+</body>
+</html>
